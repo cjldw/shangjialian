@@ -49,9 +49,9 @@
         @include("backend.layouts.footer")
     </div>
 </div>
+<script> var app = {!!json_encode($be)!!}; </script>
 @include("backend.layouts.commonjs");
 @yield("js")
-<script> var app = {!!json_encode($be)!!}; </script>
 
 </body>
 </html>

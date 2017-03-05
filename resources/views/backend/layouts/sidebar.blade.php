@@ -5,20 +5,20 @@
         <ul class="nav side-menu">
             <li><a><i class="fa fa-home"></i> 活动 <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="/activity/industry">行业管理</a></li>
-                    <li><a href="/activity/general">通用活动</a></li>
-                    <li><a href="/activity/bargain">砍价活动</a></li>
-                    <li><a href="/activity/manage">活动管理</a></li>
+                    <li><a href="{{$be['endpoint']}}/activity">活动管理</a></li>
+                    <li><a href="{{$be['endpoint']}}/activity/industry">行业管理</a></li>
+                    <li><a href="{{$be['endpoint']}}/activity/common">通用活动</a></li>
+                    <li><a href="{{$be['endpoint']}}/activity/bargain">砍价活动</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-user"></i> 用户 <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="/consumer">商家用户</a></li>
+                    <li><a href="{{$be['endpoint']}}/merchant">商家用户</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-mobile"></i> C端 <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="/mobile/skeleton">首页搭建</a></li>
+                    <li><a href="{{$be['endpoint']}}/mobile">首页搭建</a></li>
                 </ul>
             </li>
         </ul>

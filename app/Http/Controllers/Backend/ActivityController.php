@@ -9,12 +9,36 @@
 namespace App\Http\Controllers\Backend;
 
 
+use Illuminate\Http\Request;
+
 class ActivityController extends BaseController
 {
 
-    public function index()
-    {
+    protected $subViewPath = "activity/";
 
+    public function index(Request $request)
+    {
+        return $this -> _sendViewResponse("index");
     }
 
+    public function create(Request $request)
+    {
+        return $this -> _sendViewResponse('new');
+    }
+
+    public function industry(Request $request)
+    {
+        return $this -> _sendViewResponse('industry');
+    }
+
+    public function common(Request $request)
+    {
+        return $this -> _sendViewResponse("common");
+    }
+
+
+    public function bargain(Request $request)
+    {
+        return $this -> _sendViewResponse('bargain');
+    }
 }
