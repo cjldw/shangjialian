@@ -35,9 +35,9 @@
                     </ul>
                         -->
                         <div class="clearfix"></div>
-                    </div
+                    </div>
                     <div class="x_content">
-                        <form id="js-form" onclick="return false;"data-parsley-validate class="form-horizontal form-label-left">
+                        <form id="js-form" onsubmit="return false;" data-parsley-validate class="form-horizontal form-label-left">
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name"> 行业名称: <span class="required">*</span>
@@ -49,7 +49,7 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                    <button type="submit"  class="btn btn-success js-submit">保存</button>
+                                    <button type="button"  class="btn btn-success js-submit">保存</button>
                                 </div>
                             </div>
                         </form>
@@ -60,4 +60,8 @@
     </div>
 </div>
 <!-- //page content end -->
+@endsection
+
+@section("js")
+    <script src="/js/pc/industry/new.js"></script>
 @endsection

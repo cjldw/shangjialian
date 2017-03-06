@@ -1,4 +1,4 @@
-@extends("backend.layouts.main");
+@extends("backend.layouts.main")
 @section("title", "行业管理")
 @section("content")
 <!-- page content -->
@@ -11,9 +11,9 @@
 
             <div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                    <form action="{{$be['endpoint']}}/activity/industry/entity" method="get">
+                    <form action="{{$be['endpoint']}}/activity/industry" method="get">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="name" value="{name!}" placeholder="搜索...">
+                            <input type="text" class="form-control" name="name" value="{{$name}}" placeholder="搜索...">
                             <span class="input-group-btn">
                           <button class="btn btn-default" type="button">Go!</button>
                         </span>
@@ -42,25 +42,35 @@
                                 <th class="column-title no-link last" width="20%"><span class="nobr">操作</span></th>
                             </tr>
                             </thead>
-
                             <tbody>
-                                <tr class="{industry?item_cycle("even", "odd")} pointer">
-                                <td class=" ">{industry.id}</td>
-                                <td class=" ">{industry.name}</td>
-                                <td class=" ">{industry.createdAt?datetime} </td>
+                            @forelse($data as $industry)
+                                <tr class=" {{$loop -> index / 2 ? 'even' : 'odd'}} pointer">
+                                <td class=" ">{{$industry['id']}}</td>
+                                <td class=" ">{{$industry['name']}}</td>
+                                <td class=" ">{{$industry['created_at']}} </td>
                                 <td class=" ">
-                                    <a href="/activity/industry/update/{industry.id}" class="btn btn-default btn-xs">修改</a>
-                                    <button class="btn btn-danger btn-xs js-industry-delete" data-id="{industry.id}">删除</button>
+                                    <a href="{{$be['endpoint']}}/activity/industry/entity/{{$industry['id']}}" class="btn btn-default btn-xs">修改</a>
+                                    <button class="btn btn-danger btn-xs js-industry-delete" data-id="{{$industry['id']}}">删除</button>
                                 </td>
                                 </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4">暂无数据!</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
+                        {!! $pageHtml  !!}
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
 </div>
+</div>
 <!-- /page content -->
+@endsection
+
+@section("js")
+    <script src="/js/pc/industry/index.js"></script>
 @endsection

@@ -10,7 +10,6 @@
     <title>商家恋 - @yield("title") | 我要联赢</title>
 
     @include("backend.layouts.commoncss");
-
     @yield('css')
 </head>
 

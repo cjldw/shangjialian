@@ -6,7 +6,6 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <#--<h3>添加行业</h3>-->
             </div>
         </div>
         <div class="clearfix"></div>
@@ -14,9 +13,9 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>行业添加</h2>
+                        <h2>行业修改</h2>
 
-                        <a href="/activity/industry" class="btn btn-primary btn-sm pull-right">返回列表</a>
+                        <a href="{{$be['endpoint']}}/activity/industry" class="btn btn-primary btn-sm pull-right">返回列表</a>
                         <!--
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -43,13 +42,13 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name"> 行业名称: <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="js-industry-name" name="industryName" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="js-industry-name" name="industryName"
+                                          value="{{$name}}" data-id="{{$id}}" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                    <button class="btn btn-primary js-cancel" type="reset">重置</button>
                                     <button type="submit"  class="btn btn-success js-submit">保存</button>
                                 </div>
                             </div>
@@ -61,4 +60,8 @@
     </div>
 </div>
 <!-- //page content end -->
+@endsection
+
+@section("js")
+    <script src="/js/pc/industry/update.js"></script>
 @endsection
