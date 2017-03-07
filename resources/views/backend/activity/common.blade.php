@@ -42,32 +42,6 @@
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number"> 活动主题介绍 <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="number" type="text" name="title"
-                                           class="optional form-control col-md-7 col-xs-12">
-                                </div>
-                            </div>
-
-                            <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">活动内容介绍 <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <textarea id="textarea" required="required"
-                                              name="description" class="form-control col-md-7 col-xs-12"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 收集关键字 <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="occupation" type="text" name="keyword"
-                                           class="optional form-control col-md-7 col-xs-12">
-                                </div>
-                            </div>
-                            <div class="item form-group">
                                 <label for="password" class="control-label col-md-3">  设置背景音乐 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input type="url" id="website" name="backgroundMusic"
@@ -77,22 +51,170 @@
                             <div class="item form-group">
                                 <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12"> 适应行业 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <#list industries as industry>
-                                        <input type="radio" name="industryId" value="${industry.id}" class="checkbox checkbox-inline icheckbox_flat" /> ${industry.name}
-                                        <#else>
-                                            <p>暂时没有</p>
-                                    </#list>
+                                    @forelse($industries as $industry)
+                                        <input type="radio" name="industryId" value="{{$industry['id']}}" class="checkbox checkbox-inline icheckbox_flat" /> {{$industry['name']}}
+                                    @empty
+                                        <p>暂时没有</p>
+                                    @endforelse
+                                </div>
+                            </div>
+
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone"> 活动区间 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="datetime" name="act_start_time"  class="form-control col-md-2 col-xs-12" placeholder="开始时间" />
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="datetime" name="act_end_time" class="form-control col-md-2 col-xs-12" placeholder="结束时间"/>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number"> 活动主题(标题)介绍 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="number" type="text" name="title"
+                                           class="optional form-control col-md-7 col-xs-12" placeholder="活动标题">
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">活动内容介绍 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="textarea" required="required"
+                                              name="description" class="form-control col-md-7 col-xs-12" placeholder="内容介绍"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 参与规则 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <input type="text" name="act_rule_decorate"
+                                           class="optional form-control col-md-7 col-xs-12" placeholder="修饰. '分享', '收集', '派送'">
+                                </div>
+                                <div class="col-md-1 col-sm-6 col-xs-12">
+                                    <input type="number" name="act_join_cnt"
+                                           class="optional form-control col-md-7 col-xs-12" placeholder="数量">
+                                </div>
+
+                                <div class="col-md-1 col-sm-6 col-xs-12">
+                                    <input type="text" name="act_join_cnt"
+                                           class="optional form-control col-md-7 col-xs-12" placeholder="元宝,星星">
+                                </div>
+
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <p>奖品(下面填写的奖品名称)</p>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone"> 奖品信息(数量) <span class="required">*</span>
+                                </label>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <input type="text" name="act_decorate"  class="form-control col-md-2 col-xs-12" placeholder="修饰. 如'最后','限量', '绝版" />
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <input type="number" name="act_prize_cnt" class="form-control col-md-2 col-xs-12" placeholder="数量"/>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <input type="text" name="act_prize_unit" class="form-control col-md-2 col-xs-12" placeholder="单位. 如'份', '个'"/>
+                                </div>
+                            </div>
+
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 奖品名称 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" name="act_prize_unit" class="form-control col-md-2 col-xs-12" placeholder="奖品名称"/>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 奖品描述 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="textarea" required="required"
+                                              name="act_prize_desc" class="form-control col-md-7 col-xs-12"></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 奖品图片(最多6张) <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="occupation" type="file" name="act_images"
+                                           class="optional form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方姓名 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="occupation" type="text" name="organizer_name"
+                                           class="optional form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方地址 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="occupation" type="text" name="organizer_address"
+                                           class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone"> 基本功能 <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方电话 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="checkbox checkbox-inline icheckbox_flat" /> 时间
-                                    <input type="checkbox" class="checkbox checkbox-inline icheckbox_flat" /> 规则
-                                    <input type="checkbox" class="checkbox checkbox-inline icheckbox_flat" /> 简介
+                                    <input id="occupation" type="text" name="organizer_phone"
+                                           class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">关于我们 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea required="required"
+                                              name="about_us" class="form-control col-md-7 col-xs-12"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">视频地址 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="occupation" type="text" name="video_url"
+                                           class="optional form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">外链名称 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="occupation" type="text" name="link_name"
+                                           class="optional form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">外链地址 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="occupation" type="text" name="link_url"
+                                           class="optional form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
+
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-3">

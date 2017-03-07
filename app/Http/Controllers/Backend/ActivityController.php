@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Backend;
 
 
+use App\Service\Pc\IndustryService;
 use Illuminate\Http\Request;
 
 class ActivityController extends BaseController
@@ -33,7 +34,8 @@ class ActivityController extends BaseController
 
     public function common(Request $request)
     {
-        return $this -> _sendViewResponse("common");
+        $industryRepo = (new IndustryService()) -> all() -> toArray();
+        return $this -> _sendViewResponse("common", ['industries' => $industryRepo]);
     }
 
 

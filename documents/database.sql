@@ -7,10 +7,10 @@ use shangjialian;
 -- 后台用户登录表
 create table  if not exists bizman_pc_users (
   id int unsigned auto_increment,
-  name varchar(32) not null default '' comment '后台登录名称',
-  password char(32) not null default '' comment '用户密码',
-  remember_token char(100) null default null '' comment 'api调用需要字段',
-  salt char(4) not null default 'abcd' comment '密码加盐',
+  name varchar(32) not null default "" comment "后台登录名称",
+  password char(32) not null default "" comment "用户密码",
+  remember_token char(100) null default null "" comment "api调用需要字段",
+  salt char(4) not null default "abcd" comment "密码加盐",
 
   created_at datetime null default current_timestamp,
   updated_at datetime null default null,
@@ -21,7 +21,7 @@ create table  if not exists bizman_pc_users (
 ) engine innodb charset utf8;
 
 -- 默认登入
-insert into bizman_pc_users (name, password, salt) values ("admin", md5("admin123;#1bc"), '#1bc');
+insert into bizman_pc_users (name, password, salt) values ("admin", md5("admin123;#1bc"), "#1bc");
 
 -- 行业表
 create table if not exists bizman_industry (
@@ -41,16 +41,39 @@ create table if not exists bizman_industry (
 insert into bizman_industry (name) values ("教育培训"), ("运动健身"), ("美容美体"), ("婚庆礼仪"), ("医疗保健"), ("文化旅游"), ("餐饮美食"), ("批发零售"), ("家居装修"), ("汽车地产"), ("金融保险"), ("休闲娱乐");
 
  -- 活动表
-create table if not exists bizman_activity (
+create table if not exists bizman_activity_template (
     id int unsigned auto_increment,
     title varchar(64) not null default "" comment "活动名称",
     industry_id tinyint unsigned not null default 0 comment "行业id",
     description varchar(100) not null default "" comment "活动简介",
-    keyword varchar(4) not null default "" comment "已经收集字符",
     cover_img varchar(256) null default null comment "封面图片",
     banner_img varchar(256) null default null comment "活动内页图片",
     color_plate varchar(512) null default null comment "活动背景等调色板",
     background_music varchar(256) null default null comment "背景音乐",
+
+    act_start_time datetime null default null comment "活动开始时间",
+    act_end_time datetime null default null comment "活动结束时间",
+    act_prize_name varchar(32) null default null comment "奖品名称",
+    act_prize_cnt int unsigned not null default 0 comment "活动奖品数量",
+    prize_decorate varchar(16) null default null comment "奖品前部分修饰"
+    act_prize_unit varchar(4) null default null comment "奖品单位",
+    act_prize_desc varchar(512) null default null comment "奖品描述",
+    act_join_keywords varchar(16) null default "收集" comment "参与活动动作, [元宝, 星星啥的]",
+    act_join_rule varchar(1024) null default null comment "活动规则",
+    act_join_cnt int unsigned not null default 0 comment "达目标所需数量",
+
+    act_images varchar(1024) null default null comment "图片序列化地址, 最多5张",
+
+    organzier_name varchar(32) not null comment "主办方姓名",
+    organizer_address varchar(32) not null comment "主办方地址",
+    organzizer_phone varchar(16) not null  comment "主办方电话",
+    
+    about_us varchar(512) null default null comment "关于我们",
+    video_url varchar(256) null default null comment "视频地址",
+    link_name varchar(64) null default null comment "连接名称",
+    link_url varchar(256) null default null comment "连接地址",
+    act_type tinyint unsigned not null default 1 comment "[1/普通活动, 2/保留]",
+
     is_recommend tinyint unsigned not null default 0 comment "活动推荐, [0/普通, 1/推荐]",
     is_offshelf tinyint unsigned not null default 0 comment "活动是否下架,[0/正常, 1/下架]",
     bizman_copy_cnt int unsigned not null default 0 comment "商家使用次数",
@@ -62,6 +85,9 @@ create table if not exists bizman_activity (
 
     primary key (id),
     key index_title (title),
+    key index_act_start_time (act_start_time),
+    key index_act_end_time (act_end_time),
+    key index_act_type (act_type),
     key index_is_recommend (is_recommend),
     key index_created_at(created_at),
     key index_updated_at(updated_at),

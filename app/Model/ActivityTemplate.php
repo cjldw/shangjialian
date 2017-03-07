@@ -11,8 +11,8 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Activity extends Model
+class ActivityTemplate extends Model
 {
-    protected $table = "activity";
+    protected $table = "activity_template";
 
 }

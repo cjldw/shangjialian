@@ -14,6 +14,6 @@ use App\Service\BaseService;
 class ActivityService extends BaseService
 {
 
-    protected $modelClassMap = \App\Model\Activity::class;
+    protected $modelClassMap = \App\Model\ActivityTemplate::class;
 
 }
