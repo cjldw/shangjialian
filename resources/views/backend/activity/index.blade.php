@@ -11,12 +11,14 @@
 
             <div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="搜索 ...">
-                        <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                    </div>
+                    <form action="{{$be['endpoint']}}/activity" method="get">
+                        <div class="input-group">
+                            <input type="text" name="title" class="form-control" placeholder="搜索 ..." value="{{$title}}">
+                            <span class="input-group-btn">
+                          <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -46,20 +48,31 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr class="{activityRo?item_cycle("even", "odd")} pointer">
-                                    <td class=" ">{activityRo.title}</td>
-                                    <td class=" ">{activityRo.title}</td>
-                                    <td class=" ">{activityRo.bizmanCopyCnt}</td>
-                                    <td class=" ">{activityRo.netizenCopyCnt}</td>
-                                    <td class=" ">{activityRo.industryRO.name}</td>
-                                    <td class="a-center ">
-                                        <a href="/activity/general/{activityRo.id}" class="btn btn-info btn-xs">修改</a>
-                                        <button class="btn btn-danger btn-xs js-putdown" data-id="{activityRo.id}">下架</button>
-                                        <button class="btn btn-primary btn-xs js-recommend" data-id="{activityRo.id}">推荐</button>
-                                    </td>
+                                @forelse($data as $activity)
+                                    <tr class=" {{$loop -> index / 2 ? 'even' : 'odd'}} pointer">
+                                        <td class=" ">{{$activity['title']}}</td>
+                                        <td class=" ">{{$activity['created_at']}}</td>
+                                        <td class=" ">{{$activity['bizman_copy_cnt']}} </td>
+                                        <td class=" ">{{$activity['netizen_copy_cnt']}} </td>
+                                        <td class=" ">{{$activity['industry']['name']}} </td>
+                                        <td class=" ">
+                                            <a href="{{$be['endpoint']}}/activity/{{$activity['id']}}" class="btn btn-info btn-xs">修改</a>
+                                            <button class="btn {{$activity['is_offshelf'] ? 'btn-default' : 'btn-danger'}} btn-xs js-offshelf" data-id="{{$activity['id']}}">
+                                                {{$activity['is_offshelf'] ? '上架' : '下架'}}
+                                            </button>
+                                            <button class="btn {{$activity['is_recommend'] ? 'btn-danger' : 'btn-primary'}} btn-xs js-recommend" data-id="{{$activity['id']}}">
+                                                {{$activity['is_recommend'] ? '取消推荐' : '推荐'}}
+                                            </button>
+                                        </td>
                                     </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4">暂无数据!</td>
+                                    </tr>
+                                @endforelse
                                 </tbody>
                             </table>
+                            {!! $pageHtml  !!}
                         </div>
                     </div>
                 </div>
@@ -68,4 +81,8 @@
     </div>
 </div>
 <!-- /page content -->
+@endsection
+
+@section("js")
+    <script src="/js/pc/activity/index.js"></script>
 @endsection

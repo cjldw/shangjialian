@@ -15,7 +15,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <form id="js-activity-form" class="form-horizontal form-label-left" novalidate method="post">
+                        <form id="js-activity-form" onsubmit="return false;" class="form-horizontal form-label-left" novalidate >
                             <span class="section">活动信息</span>
 
                             <div class="item form-group">
@@ -37,14 +37,14 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email"> 活动详情配色 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="email2" type="color" name="colorPlate"
+                                    <input id="email2" type="color" name="color_plate"
                                            class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label for="password" class="control-label col-md-3">  设置背景音乐 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="url" id="website" name="backgroundMusic"
+                                    <input type="url" id="website" name="background_music"
                                            required="required" placeholder="http://www.51lianying.com/test.mp3" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                 <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12"> 适应行业 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     @forelse($industries as $industry)
-                                        <input type="radio" name="industryId" value="{{$industry['id']}}" class="checkbox checkbox-inline icheckbox_flat" /> {{$industry['name']}}
+                                        <input type="radio" name="industry_id" value="{{$industry['id']}}" class="checkbox checkbox-inline icheckbox_flat" /> {{$industry['name']}}
                                     @empty
                                         <p>暂时没有</p>
                                     @endforelse
@@ -97,12 +97,12 @@
                                            class="optional form-control col-md-7 col-xs-12" placeholder="修饰. '分享', '收集', '派送'">
                                 </div>
                                 <div class="col-md-1 col-sm-6 col-xs-12">
-                                    <input type="number" name="act_join_cnt"
+                                    <input type="number" name="act_rule_cnt"
                                            class="optional form-control col-md-7 col-xs-12" placeholder="数量">
                                 </div>
 
                                 <div class="col-md-1 col-sm-6 col-xs-12">
-                                    <input type="text" name="act_join_cnt"
+                                    <input type="text" name="act_rule_keywords"
                                            class="optional form-control col-md-7 col-xs-12" placeholder="元宝,星星">
                                 </div>
 
@@ -218,7 +218,7 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-3">
-                                    <button type="button" class="btn btn-primary">取消</button>
+                                    {{--<button type="button" class="btn btn-primary">取消</button>--}}
                                     <button type="submit" class="btn btn-success js-submit">保存</button>
                                 </div>
                             </div>
@@ -230,4 +230,8 @@
     </div>
 </div>
 <!-- /page content -->
+@endsection
+
+@section("js")
+    <script src="/js/pc/activity/common/index.js"></script>
 @endsection

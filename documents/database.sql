@@ -9,7 +9,7 @@ create table  if not exists bizman_pc_users (
   id int unsigned auto_increment,
   name varchar(32) not null default "" comment "后台登录名称",
   password char(32) not null default "" comment "用户密码",
-  remember_token char(100) null default null "" comment "api调用需要字段",
+  remember_token char(100) null default null  comment "api调用需要字段",
   salt char(4) not null default "abcd" comment "密码加盐",
 
   created_at datetime null default current_timestamp,
@@ -55,18 +55,18 @@ create table if not exists bizman_activity_template (
     act_end_time datetime null default null comment "活动结束时间",
     act_prize_name varchar(32) null default null comment "奖品名称",
     act_prize_cnt int unsigned not null default 0 comment "活动奖品数量",
-    prize_decorate varchar(16) null default null comment "奖品前部分修饰"
+    prize_decorate varchar(16) null default null comment "奖品前部分修饰",
     act_prize_unit varchar(4) null default null comment "奖品单位",
     act_prize_desc varchar(512) null default null comment "奖品描述",
-    act_join_keywords varchar(16) null default "收集" comment "参与活动动作, [元宝, 星星啥的]",
-    act_join_rule varchar(1024) null default null comment "活动规则",
-    act_join_cnt int unsigned not null default 0 comment "达目标所需数量",
+    act_rule_decorate varchar(16) null default null comment "活动前缀修饰",
+    act_rule_cnt int unsigned not null default 0 comment "活动奖品数量",
+    act_rule_keywords varchar(16) null default "收集" comment "参与活动动作, [元宝, 星星啥的]",
 
     act_images varchar(1024) null default null comment "图片序列化地址, 最多5张",
 
-    organzier_name varchar(32) not null comment "主办方姓名",
-    organizer_address varchar(32) not null comment "主办方地址",
-    organzizer_phone varchar(16) not null  comment "主办方电话",
+    organizer_name varchar(32)  null default null comment "主办方姓名",
+    organizer_address varchar(32) null default null comment "主办方地址",
+    organizer_phone varchar(16) null default null comment "主办方电话",
     
     about_us varchar(512) null default null comment "关于我们",
     video_url varchar(256) null default null comment "视频地址",

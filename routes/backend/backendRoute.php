@@ -17,10 +17,29 @@ Route::group(['prefix' => 'admin', 'namespace' => '\Backend', 'as' => 'Backend::
         Route::group(['prefix' => 'activity', 'as' => 'Act::'], function() {
 
             Route::get('/', ['uses' => 'ActivityController@index', 'as' => 'Index']);
-            Route::match(['get', 'post'], '/entity', ['uses' => 'ActivityController@create', 'as' => 'create']);
-            Route::get('/common', ['uses' => 'ActivityController@common', 'as' => 'Common']);
+            Route::get('/{id}', ['uses' => 'ActivityController@modify', 'as' => 'Modify'])
+                -> where(['id' => '[0-9]+']);
 
-            Route::get('/bargain', ['uses' => 'ActivityController@bargain', 'as' => 'Bargain']);
+            Route::put("/{id}", ['uses' => 'ActivityController@recommend', 'as' => "Recommend"])
+                -> where(['id' => '[0-9]+']);
+            Route::delete('/{id}', ['uses' => 'ActivityController@offshelf', 'as' => 'Offshelf'])
+                -> where(['id' => '[0-9]+']);
+
+            Route::group(['prefix' => 'common', 'as' => 'Common::'], function () {
+                Route::match(['get', 'post'], '/', ['uses' => 'CommonActController@index', 'as' => 'Index']);
+                /*
+                Route::put("/{id}", ['uses' => 'CommonActController@recommend', 'as' => "Recommend"])
+                    -> where(['id' => '[0-9]+']);
+                Route::delete('/{id}', ['uses' => 'CommonActController@putdown', 'as' => 'Putdown'])
+                    -> where(['id' => '[0-9]+']);
+                */
+            });
+
+
+            Route::group(['prefix' => 'bargain', 'as' => 'Bargain'], function () {
+                Route::get('/', ['uses' => 'BargainActController@index', 'as' => 'index']);
+            });
+
 
             Route::group(['prefix' => '/industry', 'as' => 'Industry::'], function (){
                 Route::get('/', ['uses' => 'IndustryController@index', 'as' => 'Index']);

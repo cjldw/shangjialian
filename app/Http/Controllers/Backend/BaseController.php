@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use phpDocumentor\Reflection\Types\Array_;
 
 class BaseController extends Controller
 {
@@ -32,7 +33,7 @@ class BaseController extends Controller
         return parent::_sendViewResponse($viewName, $data);
     }
 
-    protected function getPagination($paginationData, $url = '/', $appendUrl = [])
+    protected function getPagination(Array $paginationData, $url = '/', $appendUrl = [])
     {
         $pagination = '';
         $lastPage = $paginationData['last_page'];
