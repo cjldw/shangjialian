@@ -8,4 +8,5 @@
 
 return [
     'pageSize' => 15,
+    'resetpasswd' => '111111',
 ];

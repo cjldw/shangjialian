@@ -6,7 +6,7 @@
  * Time: 14:04
  */
 
-namespace App\Http\Controllers\Utils;
+namespace App\Utils;
 
 
 Trait SingletonTrait

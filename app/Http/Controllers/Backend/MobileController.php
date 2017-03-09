@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Backend;
 
 
+use App\Service\Pc\ActivityService;
 use Illuminate\Http\Request;
 
 class MobileController extends BaseController
@@ -17,7 +18,9 @@ class MobileController extends BaseController
 
     public function index(Request $request)
     {
-        return $this -> _sendViewResponse('index');
+        $acts = (new ActivityService()) -> where("is_recommend", 1)
+            -> limit(3) -> orderBy("created_at", "desc") -> get();
+        return $this -> _sendViewResponse('index', ['acts' => $acts]);
     }
 
 }

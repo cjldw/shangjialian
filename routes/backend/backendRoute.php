@@ -51,6 +51,10 @@ Route::group(['prefix' => 'admin', 'namespace' => '\Backend', 'as' => 'Backend::
 
         Route::group(['prefix' => '/merchant', 'as' => 'Merchant::'], function () {
             Route::get('/', ['uses' => 'MerchantController@index', 'as' => 'Index']);
+            Route::put('/{id}', ['uses' => 'MerchantController@charge', 'as' => 'Charge'])
+                -> where(['id' => '[0-9]+']);
+            Route::put('/passwd/{id}', ['uses' => 'MerchantController@resetpwd', 'as' => 'Resetpwd'])
+                -> where(['id' => '[0-9]+']);
         });
 
         Route::group(['prefix' => 'mobile', 'as' => 'Mobile::'], function() {
