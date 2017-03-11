@@ -23,12 +23,12 @@
 
 2. 导入数据库
 
-  - [ ] 登入mysql客户端执行
+  - 登入mysql客户端执行
 
       ```bash
         source /you/clone/path/shangjialian/document/database.sql
       ```
-  - [ ] 如果已将安装mysql管理工具(navicat, sqlyog)等, 直接导入sql文件即可
+  - 如果已将安装mysql管理工具(navicat, sqlyog)等, 直接导入sql文件即可
 
 3. 配置虚拟主机
 
@@ -59,7 +59,7 @@
 
           location ~ \.php$ {
               fastcgi_split_path_info ^(.+\.php)(/.+)$;
-              @修改 确保本地php-fpm启动并监听在9000端口, 不是默认的, 修改对应的端口即可
+              #@修改 确保本地php-fpm启动并监听在9000端口, 不是默认的, 修改对应的端口即可
               fastcgi_pass 127.0.0.1:9000;
               fastcgi_index index.php;
               fastcgi_param   APP_ENV dev;
