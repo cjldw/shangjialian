@@ -2,20 +2,33 @@
 
 ## 本地部署
 
-1. 直接克隆项目到本地(由于考虑本地没有安装composer, 故把vendor里所有的文件都提交了)
+1. 直接克隆项目到本地(由于考虑本地没有安装composer, 故把vendor里所有的文件压缩都提交了)
 
     ```bash
         git clone https://github.com/vvotm/shangjialian.git
     ```
+2. 进入到项目目录, 解压vendor.zip文件. 文件结构为:
+
+    ```bash
+        _
+        |-app
+        |-public
+        |-..
+        |-vendor
+          |-bin
+          |-composer
+          |-..
+    ```
+
 
 2. 导入数据库
 
-  - [] 登入mysql客户端执行
+  - [ ] 登入mysql客户端执行
 
       ```bash
         source /you/clone/path/shangjialian/document/database.sql
       ```
-  - [] 如果已将安装mysql管理工具(navicat, sqlyog)等, 直接导入sql文件即可
+  - [ ] 如果已将安装mysql管理工具(navicat, sqlyog)等, 直接导入sql文件即可
 
 3. 配置虚拟主机
 
