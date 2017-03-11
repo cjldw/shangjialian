@@ -56,7 +56,7 @@
                                             <td class=" ">{{$merchant['expired_days']}} </td>
                                             <td class="js-change-box">
                                                 <div class="col-md-4">
-                                                    <input type="number" class="form-control input-sm js-change-value" value="0" placeholder="输入天数">
+                                                    <input type="number" class="form-control input-sm js-change-value" placeholder="输入天数">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <button class="btn btn-primary btn-sm js-charge"  data-id="{{$merchant['id']}}">充值</button>

@@ -130,7 +130,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 奖品名称 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" name="act_prize_unit" class="form-control col-md-2 col-xs-12" placeholder="奖品名称"/>
+                                    <input type="text" name="act_prize_name" class="form-control col-md-2 col-xs-12" placeholder="奖品名称"/>
                                 </div>
                             </div>
 
