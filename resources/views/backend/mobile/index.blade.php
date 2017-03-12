@@ -55,7 +55,7 @@
                                     </div>
                                 </div>
                                 @empty
-                                    <a href="{{$be['endpoint']}}/activity" class="btn btn-primary btn-sm">区推荐几个过来吧</a>
+                                    <a href="{{$be['endpoint']}}/activity" class="btn btn-primary btn-sm">去推荐几个过来吧</a>
                                 @endforelse
                             </div>
 

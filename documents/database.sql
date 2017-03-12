@@ -6,18 +6,21 @@ use shangjialian;
 
 -- 后台用户登录表
 create table  if not exists bizman_pc_users (
-  id int unsigned auto_increment,
-  name varchar(32) not null default '' comment '后台登录名称',
-  password char(32) not null default '' comment '用户密码',
-  remember_token char(100) null default null  comment 'api调用需要字段',
-  salt char(4) not null default 'abcd' comment '密码加盐',
+    id int unsigned auto_increment,
+    name varchar(32) not null default '' comment '后台登录名称',
+    password char(32) not null default '' comment '用户密码',
+    remember_token char(100) null default null  comment 'api调用需要字段',
+    salt char(4) not null default 'abcd' comment '密码加盐',
 
-  created_at datetime null default current_timestamp,
-  updated_at datetime null default null,
-  deleted_at datetime null default null,
+    created_at datetime null default current_timestamp,
+    updated_at datetime null default null,
+    deleted_at datetime null default null,
 
-  primary  key (id),
-  unique key index_name (name)
+    primary  key (id),
+    unique key index_name (name),
+    key index_created_at(created_at),
+    key index_updated_at(updated_at),
+    key index_deleted_at(deleted_at)
 ) engine innodb charset utf8;
 
 -- 默认登入
@@ -34,13 +37,16 @@ create table if not exists bizman_industry (
     deleted_at datetime null default null,
 
     primary key (id),
-    key index_parent_id (parent_id)
+    key index_parent_id (parent_id),
+    key index_created_at(created_at),
+    key index_updated_at(updated_at),
+    key index_deleted_at(deleted_at)
 ) engine innodb charset utf8;
 
 -- 行业表默认指
 insert into bizman_industry (name) values ('教育培训'), ('运动健身'), ('美容美体'), ('婚庆礼仪'), ('医疗保健'), ('文化旅游'), ('餐饮美食'), ('批发零售'), ('家居装修'), ('汽车地产'), ('金融保险'), ('休闲娱乐');
 
- -- 活动表
+-- 活动表
 create table if not exists bizman_activity_template (
     id int unsigned auto_increment,
     title varchar(64) not null default '' comment '活动名称',
@@ -67,7 +73,7 @@ create table if not exists bizman_activity_template (
     organizer_name varchar(32)  null default null comment '主办方姓名',
     organizer_address varchar(32) null default null comment '主办方地址',
     organizer_phone varchar(16) null default null comment '主办方电话',
-    
+
     about_us varchar(512) null default null comment '关于我们',
     video_url varchar(256) null default null comment '视频地址',
     link_name varchar(64) null default null comment '连接名称',
@@ -134,8 +140,11 @@ create table if not exists bizman_recharge_log (
 
     primary key (id),
     key index_log_type (log_type),
-    key index_created_at (created_at),
-    key index_deleted_at (deleted_at)
+
+    key index_created_at(created_at),
+    key index_updated_at(updated_at),
+    key index_deleted_at(deleted_at)
+
 ) engine innodb charset utf8;
 
 
@@ -163,7 +172,21 @@ create table if not exists bizman_merchant (
     key index_expired_at (expired_at),
     key index_is_expired (is_expired),
     key index_created_at (created_at),
+    key index_updated_at (updated_at),
     key index_deleted_at (deleted_at)
 ) engine innodb charset utf8;
 
+-- 首页搭建表
+create table if not exists bizman_mobile_skeleton (
+    id int unsigned auto_increment,
+    banner_url varchar(256) not null default '' comment '首页搭建广告图',
 
+    created_at datetime null default current_timestamp,
+    updated_at datetime null default null,
+    deleted_at datetime null default null,
+
+    primary key (id),
+    key index_created_at(created_at),
+    key index_updated_at(updated_at),
+    key index_deleted_at(deleted_at)
+) engine innodb charset utf8;

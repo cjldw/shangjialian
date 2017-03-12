@@ -1,5 +1,8 @@
 @extends("backend.layouts.main")
 @section("title", "通用活动")
+@section("css")
+    <link href="/assets/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+@endsection
 @section("content")
 <!-- page content -->
 <div class="right_col" role="main">
@@ -22,8 +25,8 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> 活动封面图 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
-                                           data-validate-words="2" name="coverImg" placeholder="upload" required="required" type="file">
+                                    <button class="btn btn-default btn-sm js-cover-img-upload">上传</button>
+                                    {{--<input id="js-cover-img"  class="dropzone" name="file" placeholder="upload" required="required" type="file">--}}
                                 </div>
                             </div>
                             <div class="item form-group">
@@ -233,5 +236,7 @@
 @endsection
 
 @section("js")
+    {{--<script src="/assets/dropzone/dist/min/dropzone.min.js"></script>--}}
+    <script src="/assets/dropzone/dist/dropzone.js"></script>
     <script src="/js/pc/activity/common/index.js"></script>
 @endsection
