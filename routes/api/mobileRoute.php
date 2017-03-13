@@ -8,8 +8,8 @@
 
 Route::group(['namespace' => 'Api', 'middleware' => ['cors'], 'as' => 'API::'], function () {
 
-    Route::group(['prefix' => 'skeleton', 'as' => 'Skeleton::'], function () {
-        Route::get("/", ['uses' => 'IndexController@index', 'as' => 'index']);
+    Route::group(['prefix' => '/mobile', 'as' => 'Mobile::'], function () {
+        Route::get("/banner", ['uses' => 'MobileController@bannerUrl', 'as' => 'Banner']);
     });
 
     Route::group(['prefix' => 'industry', 'as' => 'Industry::'], function () {
@@ -19,12 +19,17 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors'], 'as' => 'API::'], 
     Route::group(['prefix' => 'user', 'as' => 'User::'], function () {
        Route::get("/", ['uses' => "UserController@index", 'as' => "Index"]) ;
 
-       Route::post("/", ['uses' => "UserController@login", 'as' => "Login"]);
+       Route::post("/login", ['uses' => "UserController@login", 'as' => "Login"]);
+
+       Route::post("/register", ['uses' => 'UserController@register', 'as' => 'Register']);
     });
 
     Route::group(['prefix' => 'act', 'as' => 'Act::'], function () {
-       Route::get("/recommd", ['uses' => 'ActivityController@recommend', 'as' => 'Recommend']);
-       Route::get("/industry/{id}", ['uses' => 'ActivityController@category', 'as' => 'Category']);
+        Route::get("/{id}", ['uses' => 'ActivityController@detail', 'as' => 'Detail'])
+            -> where(['id' => '[0-9]+']);
+        Route::get("/recommd", ['uses' => 'ActivityController@recommend', 'as' => 'Recommend']);
+        Route::get("/industry/{id}", ['uses' => 'ActivityController@industry', 'as' => 'Category']);
     });
+
 });
 

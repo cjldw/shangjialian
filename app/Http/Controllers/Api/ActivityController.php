@@ -20,6 +20,12 @@ class ActivityController extends BaseController
 
     }
 
+    public function detail(Request $request, $id)
+    {
+        $resultSet = (new ActivityService()) -> find($id);
+        return $this -> _sendJsonResponse('请求成功', $resultSet);
+    }
+
 
     /**
      * recommend three activity
@@ -30,7 +36,7 @@ class ActivityController extends BaseController
     public function recommend(Request $request)
     {
         $resultSet = (new ActivityService())  -> orderBy("id", "desc")
-            -> orderBy("is_recommend", "desc") -> limit(3) -> get();
+            -> orderBy("is_recommend", "desc") -> limit(6) -> get();
 
         return $this -> _sendJsonResponse("请求成功", $resultSet);
     }
