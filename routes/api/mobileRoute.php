@@ -21,5 +21,10 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors'], 'as' => 'API::'], 
 
        Route::post("/", ['uses' => "UserController@login", 'as' => "Login"]);
     });
+
+    Route::group(['prefix' => 'act', 'as' => 'Act::'], function () {
+       Route::get("/recommd", ['uses' => 'ActivityController@recommend', 'as' => 'Recommend']);
+       Route::get("/industry/{id}", ['uses' => 'ActivityController@category', 'as' => 'Category']);
+    });
 });
 
