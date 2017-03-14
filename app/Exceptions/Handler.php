@@ -2,12 +2,15 @@
 
 namespace App\Exceptions;
 
+use App\Utils\JsonResponseTrait;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
+    use JsonResponseTrait;
     /**
      * A list of the exception types that should not be reported.
      *
@@ -60,7 +63,27 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        $loginUrl = config('auth.loginUrl.pc', "admin/login2222");
+        $loginUrl = config('auth.loginUrl.pc', "admin/login");
         return redirect()->guest(url($loginUrl));
+    }
+
+
+    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    {
+        /*
+        if ($e->response) {
+            return $e->response;
+        }
+        */
+        $errors = $e->validator->errors(); //->getMessages();
+        $errors = json_decode($errors, true);
+
+        if ($request->expectsJson()) {
+            $msg = array_first(array_first($errors));
+            return $this -> _sendJsonResponse($msg, $errors, false);
+        }
+        return redirect()->back()->withInput(
+            $request->input()
+        )->withErrors($errors);
     }
 }

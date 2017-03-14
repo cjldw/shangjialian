@@ -22,6 +22,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors'], 'as' => 'API::'], 
        Route::post("/login", ['uses' => "UserController@login", 'as' => "Login"]);
 
        Route::post("/register", ['uses' => 'UserController@register', 'as' => 'Register']);
+       Route::post("/captcha", ['uses' => 'UserController@captcha', 'as' => 'Captcha']);
     });
 
     Route::group(['prefix' => 'act', 'as' => 'Act::'], function () {

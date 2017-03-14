@@ -12,6 +12,13 @@ class Merchant extends Model
         'expired_days',
     ];
 
+    protected $fillable = [
+        'name',
+        'phone',
+        'password',
+        'salt',
+    ];
+
     public function getExpiredDaysAttribute()
     {
         $now = new \DateTime();
