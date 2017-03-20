@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -26,6 +27,15 @@ class Merchant extends Authenticatable
         'salt',
         'password'
     ];
+
+    public function getExpiredDays()
+    {
+        $now = Carbon::now();
+        $expiredAt = Carbon::createFromFormat('Y-m-d H:i:s', $this -> expired_at);
+
+        $diff = $expiredAt -> getTimestamp()  - $now -> getTimestamp();
+        return $diff < 0 ? 0 : $diff / (3600 * 24);
+    }
 
     public function getExpiredDaysAttribute()
     {

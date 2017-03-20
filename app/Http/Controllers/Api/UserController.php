@@ -45,14 +45,15 @@ class UserController extends BaseController
             if(md5($merchantRepo -> getAttribute("salt") . $password) === $merchantRepo -> getAttribute("password")) {
                 $merchantRepo -> setAttribute("login_cnt", $merchantRepo -> getAttribute("login_cnt") + 1);
                 $merchantRepo -> save();
-
                 Auth::guard(config('auth.authType.mobile')) -> login($merchantRepo, true);
-                return $this -> _sendJsonResponse("登入成功", $merchantRepo);
+                return $this -> _sendJsonResponse("登入成功", [
+                    'name' => $merchantRepo -> getAttribute("name"),
+                    'mobile' => $merchantRepo -> getAttribute("phone"),
+                    'expiredDays' => $merchantRepo -> getExpiredDays(),
+                ]);
             }
-
             return $this -> _sendJsonResponse('用户名或密码错误', null, false);
         }
-
         return $this -> _sendJsonResponse('用户不存在', null, false);
 
     }

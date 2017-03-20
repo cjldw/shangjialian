@@ -6,21 +6,24 @@
  * Time: 21:39
  */
 
-Route::group(['namespace' => 'Api', 'middleware' => ['cors'], 'as' => 'API::'], function () {
+Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'API::'], function () {
+    Route::group(['prefix' => '/wechat', 'as' => 'Wechat::'], function () {
+       Route::get("/authorization", ['uses' => 'WxController@authorization', 'as' => 'Authorization']);
+       Route::get("/userinfo", ['uses' => 'WxController@userinfo', 'as' => 'Userinfo']);
+    });
 
     Route::group(['prefix' => '/mobile', 'as' => 'Mobile::'], function () {
         Route::get("/banner", ['uses' => 'MobileController@bannerUrl', 'as' => 'Banner']);
     });
 
-    Route::group(['prefix' => 'industry', 'middleware' => ['auth:api'], 'as' => 'Industry::'], function () {
+    Route::group(['prefix' => 'industry', 'as' => 'Industry::'], function () {
        Route::get("/", ['uses' => 'IndustryController@index', 'as' => "Index"]);
     });
 
     Route::group(['prefix' => 'user', 'as' => 'User::'], function () {
        Route::get("/", ['uses' => "UserController@index", 'as' => "Index"]) ;
 
-        Route::get("/login", ['uses' => "UserController@login", 'as' => "Login"]);
-       //Route::post("/login", ['uses' => "UserController@login", 'as' => "Login"]);
+       Route::post("/login", ['uses' => "UserController@login", 'as' => "Login"]);
 
        Route::post("/register", ['uses' => 'UserController@register', 'as' => 'Register']);
        Route::post("/captcha", ['uses' => 'UserController@captcha', 'as' => 'Captcha']);

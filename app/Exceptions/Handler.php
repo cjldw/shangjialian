@@ -60,9 +60,8 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+            return $this -> _sendJsonResponse('未登入', ['msg' => $exception -> getMessage()], false, 401);
         }
-
         $guards = $exception -> guards();
         $authType = config('auth.authType.mobile');
         $loginUrl = in_array($authType, $guards) ? config('auth.loginUrl.mobile', "/user/login") :
