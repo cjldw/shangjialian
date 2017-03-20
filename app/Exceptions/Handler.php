@@ -63,7 +63,10 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        $loginUrl = config('auth.loginUrl.pc', "admin/login");
+        $guards = $exception -> guards();
+        $authType = config('auth.authType.mobile');
+        $loginUrl = in_array($authType, $guards) ? config('auth.loginUrl.mobile', "/user/login") :
+            config('auth.loginUrl.pc', "admin/login");
         return redirect()->guest(url($loginUrl));
     }
 

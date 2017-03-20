@@ -12,14 +12,15 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors'], 'as' => 'API::'], 
         Route::get("/banner", ['uses' => 'MobileController@bannerUrl', 'as' => 'Banner']);
     });
 
-    Route::group(['prefix' => 'industry', 'as' => 'Industry::'], function () {
+    Route::group(['prefix' => 'industry', 'middleware' => ['auth:api'], 'as' => 'Industry::'], function () {
        Route::get("/", ['uses' => 'IndustryController@index', 'as' => "Index"]);
     });
 
     Route::group(['prefix' => 'user', 'as' => 'User::'], function () {
        Route::get("/", ['uses' => "UserController@index", 'as' => "Index"]) ;
 
-       Route::post("/login", ['uses' => "UserController@login", 'as' => "Login"]);
+        Route::get("/login", ['uses' => "UserController@login", 'as' => "Login"]);
+       //Route::post("/login", ['uses' => "UserController@login", 'as' => "Login"]);
 
        Route::post("/register", ['uses' => 'UserController@register', 'as' => 'Register']);
        Route::post("/captcha", ['uses' => 'UserController@captcha', 'as' => 'Captcha']);

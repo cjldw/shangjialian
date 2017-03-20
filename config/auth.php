@@ -13,10 +13,12 @@ return [
     |
     */
 
+    /*
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'pcUsers',
     ],
+    */
 
     /*
     |--------------------------------------------------------------------------
@@ -36,14 +38,10 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            //'driver' => 'token',
+            'driver' => 'session',
+            'provider' => 'mobileUsers',
         ],
         'be' => [ // backend guard config
             'driver' => 'session',
@@ -69,14 +67,15 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
 
         'pcUsers' => [
             'driver' => 'eloquent',
             'model' => App\Model\PcUser::class,
+        ],
+
+        'mobileUsers' => [
+            'driver' => 'eloquent',
+            'model' => App\Model\Merchant::class,
         ]
 
         // 'users' => [
@@ -111,12 +110,12 @@ return [
 
     'loginUrl' => [
         'pc' => 'admin/login',
-        'mobile' => '/login',
+        'mobile' => '/user/login',
     ],
 
     'authType' => [
         'pc' => 'be',
-        'mobile' => 'fe',
+        'mobile' => 'api',
     ]
 
 ];

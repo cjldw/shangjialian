@@ -10,18 +10,21 @@ namespace App\Http\Controllers\Api;
 
 
 
-use App\Service\Api\MerchantService;
+
+use Auth;
+use Cache;
 use App\Utils\SMSUtil;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Cache;
 use Illuminate\Support\Facades\Log;
+use App\Service\Api\MerchantService;
 
 class UserController extends BaseController
 {
 
     public function index(Request $request)
     {
+        dd('User');
     }
 
     public function login(Request $request)
@@ -39,10 +42,12 @@ class UserController extends BaseController
 
         $merchantRepo = (new MerchantService()) -> where(["phone" => $mobile]) -> first();
         if($merchantRepo) {
-            if(md5($merchantRepo -> getAttribute("salt") . $password) == $merchantRepo -> getAttribute("password")) {
+            if(md5($merchantRepo -> getAttribute("salt") . $password) === $merchantRepo -> getAttribute("password")) {
                 $merchantRepo -> setAttribute("login_cnt", $merchantRepo -> getAttribute("login_cnt") + 1);
                 $merchantRepo -> save();
 
+                Auth::guard(config('auth.authType.mobile')) -> login($merchantRepo, true);
+                return $this -> _sendJsonResponse("登入成功", $merchantRepo);
             }
 
             return $this -> _sendJsonResponse('用户名或密码错误', null, false);

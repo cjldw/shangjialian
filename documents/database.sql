@@ -101,32 +101,6 @@ create table if not exists bizman_activity_template (
 
 ) engine innodb charset utf8;
 
--- 客户表 --
-create table if not exists bizman_user (
-    id int unsigned auto_increment,
-    mobile varchar(16) not null default '' comment '用户手机号码',
-    name varchar(16) not null default '' comment '用户姓名',
-    password varchar(32) null default null comment '用户密码',
-    salt middleint not null default '0' comment '密码加盐',
-    login_cnt int unsigned not null default 0 comment '用户登入次数',
-
-    apply_at datetime null default null comment '用户开通时间',
-    expired_at datetime null default null comment '用户过期时间',
-
-    created_at datetime null default current_timestamp,
-    updated_at datetime null default null,
-    deleted_at datetime null default null,
-
-    primary key index_id (id),
-    key index_name (name),
-    key index_apply_at (apply_at),
-    key index_expired_at (expired_at),
-
-    key index_created_at(created_at),
-    key index_updated_at(updated_at),
-    key index_deleted_at(deleted_at)
-) engine innodb charset utf8;
-
 -- 日志表
 create table if not exists bizman_recharge_log (
     id int unsigned auto_increment,
@@ -155,6 +129,7 @@ create table if not exists bizman_merchant (
     name varchar(32) not null default '' comment '商家名称',
     salt char(6) not null default 'abcdef' comment '密码加盐',
     password varchar(32) not null default '' comment '用户登入密码',
+    remember_token char(100) null default null  comment 'api调用需要字段',
     phone varchar(16) null default null comment '商家手机号码',
     login_cnt int unsigned not null default 0 comment '用户登入次数',
     charged_at datetime null default now() comment '用户充值时间',
