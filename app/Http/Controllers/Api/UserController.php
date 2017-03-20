@@ -24,6 +24,34 @@ class UserController extends BaseController
     {
     }
 
+    public function login(Request $request)
+    {
+        $this -> validate($request, [
+            'mobile' => 'required',
+            'password' => 'required'
+        ], [
+            'mobile.required' => '用户名不能为空',
+            'password.required' => '密码不能为空',
+        ]);
+
+        $mobile = $request -> input('mobile');
+        $password = $request -> input('password');
+
+        $merchantRepo = (new MerchantService()) -> where(["phone" => $mobile]) -> first();
+        if($merchantRepo) {
+            if(md5($merchantRepo -> getAttribute("salt") . $password) == $merchantRepo -> getAttribute("password")) {
+                $merchantRepo -> setAttribute("login_cnt", $merchantRepo -> getAttribute("login_cnt") + 1);
+                $merchantRepo -> save();
+
+            }
+
+            return $this -> _sendJsonResponse('用户名或密码错误', null, false);
+        }
+
+        return $this -> _sendJsonResponse('用户不存在', null, false);
+
+    }
+
     public function register(Request $request)
     {
         $this -> validate($request, [

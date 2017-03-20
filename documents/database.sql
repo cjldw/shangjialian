@@ -46,7 +46,7 @@ create table if not exists bizman_industry (
 -- 行业表默认指
 insert into bizman_industry (name) values ('教育培训'), ('运动健身'), ('美容美体'), ('婚庆礼仪'), ('医疗保健'), ('文化旅游'), ('餐饮美食'), ('批发零售'), ('家居装修'), ('汽车地产'), ('金融保险'), ('休闲娱乐');
 
--- 活动表
+-- 活动模板表
 create table if not exists bizman_activity_template (
     id int unsigned auto_increment,
     title varchar(64) not null default '' comment '活动名称',
@@ -228,9 +228,6 @@ create table if not exists bizman_merchant_acts (
     act_type tinyint unsigned not null default 1 comment '[1/普通活动, 2/保留]',
 
     is_recommend tinyint unsigned not null default 0 comment '活动推荐, [0/普通, 1/推荐]',
-    is_offshelf tinyint unsigned not null default 0 comment '活动是否下架,[0/正常, 1/下架]',
-    bizman_copy_cnt int unsigned not null default 0 comment '商家使用次数',
-    netizen_copy_cnt int unsigned not null default 0 comment '网名转发分享次数',
 
     created_at datetime null default current_timestamp,
     updated_at datetime null default null,
@@ -256,6 +253,7 @@ create table if not exists bizman_supported (
     owner_openid char(28) not null default '' comment '平台opend_id',
     support_openid char(28) not null default '' comment 'opend_id检测',
 
+    primary key (id),
     primary key index_supported (act_id, owner_openid, support_openid),
     created_at datetime null default current_timestamp,
     updated_at datetime null default null,

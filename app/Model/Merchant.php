@@ -19,6 +19,11 @@ class Merchant extends Model
         'salt',
     ];
 
+    protected $hidden = [
+        'salt',
+        'password'
+    ];
+
     public function getExpiredDaysAttribute()
     {
         $now = new \DateTime();

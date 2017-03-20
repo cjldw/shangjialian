@@ -32,5 +32,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['cors'], 'as' => 'API::'], 
         Route::get("/industry/{id}", ['uses' => 'ActivityController@industry', 'as' => 'Category']);
     });
 
+    Route::group(['prefix' => 'mine', 'as' => 'Mine::'], function () {
+
+    });
 });
 
