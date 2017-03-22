@@ -82,17 +82,28 @@ class UserController extends BaseController
         $mobile = $request -> input("mobile");
         $password = $request -> input("password");
         $code = $request -> input("code");
+
+        $session = $request -> getSession();
+        $openid = $session -> get("_openid");
+        $isBind = (new MerchantService()) -> where(['openid' => $openid, 'phone' => $mobile]) -> first();
+
+        if($isBind) {
+            return $this -> _sendJsonResponse("用户已经绑定了手机号, 不能在绑定, 如需修改, 联系客服", $request -> all(), false);
+        }
+
         if($code == Cache::get("_captcha_" . $mobile)) {
             Cache::forget("_captcha_".$mobile); // remove cache
-            $merchantRepo = ((new MerchantService()) -> where("phone", "=", $mobile) -> first()) ?
-                : (new MerchantService());
-            $merchantRepo -> fill([
-                'name' => $name,
-                'phone' => $mobile,
-                'password' => md5($code.$password),
-                'salt' => $code
-            ]) -> save();
-            return $this -> _sendJsonResponse("注册成功", ['id' => $merchantRepo -> getAttribute("id")]);
+            $merchantRepo = (new MerchantService()) -> where("openid", "=", $openid) -> first();
+            if($merchantRepo) {
+                $merchantRepo -> fill([
+                    'name' => $name,
+                    'phone' => $mobile,
+                    'password' => md5($code.$password),
+                    'salt' => $code
+                ]) -> save();
+                return $this -> _sendJsonResponse("注册成功", ['id' => $merchantRepo -> getAttribute("id")]);
+            }
+            return $this -> _sendJsonResponse("你是黑客吗?", $request -> all(), false);
         }
         return $this -> _sendJsonResponse("验证码错误", null, false);
     }
