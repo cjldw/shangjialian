@@ -58,7 +58,13 @@ class UserController extends BaseController
 
     }
 
-    public function register(Request $request)
+    public function logout(Request $request)
+    {
+        Auth::guard(config("auth.authType.mobile")) -> logout();
+        return $this -> _sendJsonResponse('退出成功!', ['redirectUrl' => "/"]);
+    }
+
+    public function bindmobile(Request $request)
     {
         $this -> validate($request, [
             'name' => 'required',
@@ -96,8 +102,8 @@ class UserController extends BaseController
         $this -> validate($request, [
             'mobile' => 'required|unique:merchant,phone'
         ], [
-            'mobile.required' => '手机好不能为空',
-            'mobile.unique' => '手机号已经注册, 请登入'
+            'mobile.required' => '手机号不能为空',
+            'mobile.unique' => '次手机号已经绑定, 请确认后再绑定!'
         ]);
 
 

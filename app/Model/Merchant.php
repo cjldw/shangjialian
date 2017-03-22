@@ -30,6 +30,8 @@ class Merchant extends Authenticatable
 
     public function getExpiredDays()
     {
+        if(!$this -> expired_at)
+            return 0;
         $now = Carbon::now();
         $expiredAt = Carbon::createFromFormat('Y-m-d H:i:s', $this -> expired_at);
 

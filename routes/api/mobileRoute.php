@@ -25,7 +25,9 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
 
        Route::post("/login", ['uses' => "UserController@login", 'as' => "Login"]);
 
-       Route::post("/register", ['uses' => 'UserController@register', 'as' => 'Register']);
+       Route::post("/logout", ['uses' => "UserController@logout" , 'as' => "Logout"]);
+
+       Route::post("/bindmobile", ['uses' => 'UserController@bindmobile', 'as' => 'Register']);
        Route::post("/captcha", ['uses' => 'UserController@captcha', 'as' => 'Captcha']);
     });
 

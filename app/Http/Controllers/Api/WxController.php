@@ -25,10 +25,13 @@ class WxController extends BaseController
     {
         $code = $request -> input("code");
         if($code) {
+            $session = $request -> getSession();
             $userInfo = json_decode(WxUtils::getWxOpenId($code), true);
             /* just for test */
             $userInfo['openid'] = 'abcdefIOk-wefladf-edgo1P';
             if(isset($userInfo['openid'])) {
+                /* mark as wx */
+                $session -> set("_openid", $userInfo['openid']);
                 $merchantRepo = new MerchantService();
                 $merchantInfo = $merchantRepo -> getUserInfo($userInfo['openid']);
                 return $this -> _sendJsonResponse("请求成功", $merchantInfo);
