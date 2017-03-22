@@ -24,7 +24,10 @@ class UserController extends BaseController
 
     public function index(Request $request)
     {
-        dd('User');
+        $session = $request -> getSession();
+        $openid = $session -> get("_openid");
+
+        dd($openid);
     }
 
     public function login(Request $request)
@@ -45,7 +48,7 @@ class UserController extends BaseController
             if(md5($merchantRepo -> getAttribute("salt") . $password) === $merchantRepo -> getAttribute("password")) {
                 $merchantRepo -> setAttribute("login_cnt", $merchantRepo -> getAttribute("login_cnt") + 1);
                 $merchantRepo -> save();
-                Auth::guard(config('auth.authType.mobile')) -> login($merchantRepo, true);
+                //Auth::guard(config('auth.authType.mobile')) -> login($merchantRepo, true);
                 return $this -> _sendJsonResponse("登入成功", [
                     'name' => $merchantRepo -> getAttribute("name"),
                     'mobile' => $merchantRepo -> getAttribute("phone"),
@@ -85,14 +88,10 @@ class UserController extends BaseController
 
         $session = $request -> getSession();
         $openid = $session -> get("_openid");
-        $isBind = (new MerchantService()) -> where(['openid' => $openid, 'phone' => $mobile]) -> first();
 
-        if($isBind) {
-            return $this -> _sendJsonResponse("用户已经绑定了手机号, 不能在绑定, 如需修改, 联系客服", $request -> all(), false);
-        }
-
-        if($code == Cache::get("_captcha_" . $mobile)) {
-            Cache::forget("_captcha_".$mobile); // remove cache
+        if(true || $code == Cache::get("_captcha_" . $mobile)) {
+            //Cache::forget("_captcha_".$mobile); // remove cache
+            return $this -> _sendJsonResponse("sb|$name|$openid|", ['msg' => $openid]);
             $merchantRepo = (new MerchantService()) -> where("openid", "=", $openid) -> first();
             if($merchantRepo) {
                 $merchantRepo -> fill([
@@ -123,6 +122,15 @@ class UserController extends BaseController
             return $this -> _sendJsonResponse("验证码已经发送, 请耐心等待", null, false);
         }
         if($mobile) {
+
+            $session = $request -> getSession();
+            $openid = $session -> get("_openid");
+            $isBind = (new MerchantService()) -> where(['openid' => $openid, 'phone' => $mobile]) -> first();
+            if($isBind) {
+                return $this -> _sendJsonResponse("用户已经绑定了手机号, 不能在绑定, 如需修改, 联系客服", $request -> all(), false);
+            }
+
+
             $randomCode = rand(100000, 999999);
             // just for test
             Cache::put("_captcha_".$mobile, $randomCode, Carbon::now() -> addMinute(1));
