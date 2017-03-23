@@ -263,7 +263,7 @@ create table if not exists bizman_supported (
     support_openid char(28) not null default '' comment 'opend_id检测',
 
     primary key (id),
-    primary key index_supported (act_id, owner_openid, support_openid),
+    unique key index_supported (act_id, owner_openid, support_openid),
     created_at datetime null default current_timestamp,
     updated_at datetime null default null,
     deleted_at datetime null default null
