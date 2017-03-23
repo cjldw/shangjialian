@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Service\Api\ActivityRankService;
 use App\Service\Api\ActivityService;
 use Illuminate\Http\Request;
 
@@ -64,4 +65,20 @@ class ActivityController extends BaseController
 
     }
 
+    /**
+     * get default rank of activity
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function getDefaultRank(Request $request)
+    {
+        $pageSize = $request -> input("pageSize");
+
+        $resultSet = (new ActivityRankService()) -> where([
+            'act_id' => 0,
+        ]) -> orderBy('is_completed', 'desc') -> orderBy('id', 'desc') -> paginate($pageSize);
+
+        return $this -> _sendJsonResponse("请求成功", $resultSet);
+    }
 }

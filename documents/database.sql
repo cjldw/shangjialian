@@ -101,6 +101,35 @@ create table if not exists bizman_activity_template (
 
 ) engine innodb charset utf8;
 
+-- 活动排行表
+create table if not exists bizman_activity_rank (
+    id int unsigned auto_increment,
+    act_id int unsigned not null default 0 comment '活动id, 为0时候, 为默认数据',
+    merchant_id int unsigned not null default 0 comment '商家id',
+    openid char(28) null default null comment '用户opend_id',
+    name varchar(64) null default null comment '参与者名称',
+    spend_time varchar(8) not null default '还差一点点',
+    join_cnt int unsigned not null default 0 comment '参与次数',
+    completed_cnt int unsigned not null default 0 comment '完成次数',
+    is_completed tinyint unsigned not null default 0 comment '是否完成[0/未完成, 1/已经完成]',
+
+    created_at datetime null default current_timestamp,
+    updated_at datetime null default null,
+    deleted_at datetime null default null,
+
+    primary key (id),
+    unique key index_act_openid (act_id, openid),
+    key index_deleted_at (deleted_at)
+
+) engine innodb charset utf8 comment '活动排行表';
+
+insert into bizman_activity_rank (act_id, name, spend_time, is_completed) values
+    (0, '罗至东', '16', 1), (0, '张伟', '12', 0), (0, '李国资', '12', 1), (0, '王建国', '12', 1),
+    (0, '李志宏', '23', 1), (0, '高晓峰', '12', 0), (0, '李晓峰', '12', 0), (0, '武大伟', '12', 1),
+    (0, '向志华', '19', 1), (0, '张志东', '12', 0), (0, '陈志新', '12', 0), (0, '张小凡', '12', 0),
+    (0, '吴迪', '12', 0), (0, '钱峰', '12', 0), (0, '陈浩', '12', 0), (0, '王宝剑', '12', 1),
+    (0, '肖芬', '12', 0), (0, '孙小根', '12', 0), (0, '康祥可', '12', 0), (0, '赵小兰', '12', 0);
+
 -- 日志表
 create table if not exists bizman_recharge_log (
     id int unsigned auto_increment,
@@ -119,7 +148,7 @@ create table if not exists bizman_recharge_log (
     key index_updated_at(updated_at),
     key index_deleted_at(deleted_at)
 
-) engine innodb charset utf8;
+) engine innodb charset utf8 comment '充值表';
 
 
 -- 商家表
@@ -235,3 +264,4 @@ create table if not exists bizman_supported (
     deleted_at datetime null default null
 
 ) engine innodb charset utf8;
+

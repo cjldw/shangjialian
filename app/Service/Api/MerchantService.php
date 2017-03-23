@@ -30,8 +30,8 @@ class MerchantService extends BaseService
 
             return [
                 'openid' => $openid,
-                'name' => $merchantRepo -> getAttribute("name"),
-                'mobile' => $merchantRepo -> getAttribute("phone"),
+                //'name' => $merchantRepo -> getAttribute("name"),
+                //'mobile' => $merchantRepo -> getAttribute("phone"),
                 'isAvailable' => $isAvailable,
                 'expireDays' => $days
             ];
@@ -43,8 +43,8 @@ class MerchantService extends BaseService
         $merchantRepo -> save();
         return [
             'openid' => $openid,
-            'name' => $merchantRepo -> getAttribute("name"),
-            'mobile' => $merchantRepo -> getAttribute("phone"),
+            //'name' => $merchantRepo -> getAttribute("name"),
+            //'mobile' => $merchantRepo -> getAttribute("phone"),
             'isAvailable' => false,
             'expireDays' => 0,
         ];

@@ -27,7 +27,7 @@ class UserController extends BaseController
         $session = $request -> getSession();
         $openid = $session -> get("_openid");
 
-        dd($openid);
+        return $this -> _sendJsonResponse($openid);
     }
 
     public function login(Request $request)
@@ -69,6 +69,7 @@ class UserController extends BaseController
 
     public function bindmobile(Request $request)
     {
+
         $this -> validate($request, [
             'name' => 'required',
             'password' => 'required',
@@ -86,12 +87,13 @@ class UserController extends BaseController
         $password = $request -> input("password");
         $code = $request -> input("code");
 
+        /* just for test */
         $session = $request -> getSession();
         $openid = $session -> get("_openid");
+        $openid = 'abcdefIOk-wefladf-edgo1P';
 
         if(true || $code == Cache::get("_captcha_" . $mobile)) {
             //Cache::forget("_captcha_".$mobile); // remove cache
-            return $this -> _sendJsonResponse("sb|$name|$openid|", ['msg' => $openid]);
             $merchantRepo = (new MerchantService()) -> where("openid", "=", $openid) -> first();
             if($merchantRepo) {
                 $merchantRepo -> fill([
@@ -100,7 +102,14 @@ class UserController extends BaseController
                     'password' => md5($code.$password),
                     'salt' => $code
                 ]) -> save();
-                return $this -> _sendJsonResponse("注册成功", ['id' => $merchantRepo -> getAttribute("id")]);
+                $expiredDays = $merchantRepo -> getExpiredDays();
+                $respData = [
+                    'mobile' => $mobile,
+                    'name' => $name,
+                    'expiredDays' =>  $expiredDays,
+                    'isAvailable' => ($expiredDays > 0) ? : false,
+                ];
+                return $this -> _sendJsonResponse("绑定成功", $respData);
             }
             return $this -> _sendJsonResponse("你是黑客吗?", $request -> all(), false);
         }
@@ -125,6 +134,7 @@ class UserController extends BaseController
 
             $session = $request -> getSession();
             $openid = $session -> get("_openid");
+            $openid = 'abcdefIOk-wefladf-edgo1P';
             $isBind = (new MerchantService()) -> where(['openid' => $openid, 'phone' => $mobile]) -> first();
             if($isBind) {
                 return $this -> _sendJsonResponse("用户已经绑定了手机号, 不能在绑定, 如需修改, 联系客服", $request -> all(), false);
@@ -134,7 +144,7 @@ class UserController extends BaseController
             $randomCode = rand(100000, 999999);
             // just for test
             Cache::put("_captcha_".$mobile, $randomCode, Carbon::now() -> addMinute(1));
-            return $this -> _sendJsonResponse("验证码发送成功, 请注意查收".$randomCode);
+            return $this -> _sendJsonResponse("验证码发送成功, 请注意查收".$randomCode, ['code' => $randomCode]);
             $resultSet = SMSUtil::send($mobile, $randomCode);
 
             if($resultSet && is_array($resultSet) && isset($resultSet['code']) && $resultSet['code'] == 2) {

@@ -90,6 +90,10 @@ class Handler extends ExceptionHandler
         $errors = $e->validator->errors(); //->getMessages();
         $errors = json_decode($errors, true);
 
+        $msg = array_first(array_first($errors));
+        return $this -> _sendJsonResponse($msg, $errors, false);
+
+        /*
         if ($request->expectsJson()) {
             $msg = array_first(array_first($errors));
             return $this -> _sendJsonResponse($msg, $errors, false);
@@ -97,5 +101,6 @@ class Handler extends ExceptionHandler
         return redirect()->back()->withInput(
             $request->input()
         )->withErrors($errors);
+        */
     }
 }

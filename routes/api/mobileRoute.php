@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
 
        Route::post("/logout", ['uses' => "UserController@logout" , 'as' => "Logout"]);
 
-       Route::post("/bindmobile", ['uses' => 'UserController@bindmobile', 'as' => 'Register']);
+       Route::post("/bindmobile", ['uses' => 'UserController@bindmobile', 'as' => 'Bindmobile']);
        Route::post("/captcha", ['uses' => 'UserController@captcha', 'as' => 'Captcha']);
     });
 
@@ -36,10 +36,21 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
             -> where(['id' => '[0-9]+']);
         Route::get("/recommd", ['uses' => 'ActivityController@recommend', 'as' => 'Recommend']);
         Route::get("/industry/{id}", ['uses' => 'ActivityController@industry', 'as' => 'Category']);
+        Route::get("/rank", ['uses' => 'ActivityController@getDefaultRank', 'as' => 'Rank']);
+
+        Route::group(['prefix' => "u",  'as' => "User::"], function () { // 需要用户登入才能访问了
+            Route::post("/", ['uses' => 'UserActController@createAct', 'as' => 'CreateAct']);
+            Route::delete("/{id}", ['uses' => 'UserActController@deleteById','as' => 'Delete'])
+                -> where(['id' => '[0-9]+']);
+            Route::put("/{id}", ['uses' => 'UserActController@updateById', 'as' => "Update"]);
+        });
     });
 
-    Route::group(['prefix' => 'mine', 'as' => 'Mine::'], function () {
-
+    Route::group(['prefix' => 'mine', 'as' => 'Mine::'], function () { // 需要用户登入
+        Route::get("/top1", ['uses' => "MineController@top1", 'as' => 'Top1']);
+        Route::get("/start", ['uses' => 'MineController@start', 'as' => 'Start']);
+        Route::get("/nostart", ['uses' => 'MineController@nostart', 'as' => 'NoStart']);
+        Route::get("/end", ['uses' => 'MineController@end', 'as' => 'End']);
     });
 });
 
