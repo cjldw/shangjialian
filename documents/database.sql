@@ -99,7 +99,12 @@ create table if not exists bizman_activity_template (
     key index_updated_at(updated_at),
     key index_deleted_at(deleted_at)
 
-) engine innodb charset utf8;
+) engine innodb charset utf8 comment '活动模板表';
+
+insert into `bizman_activity_template` values ('1', '不错的活动', '2', '这是一个不错的活动', null, null, '#000000', null, '2017-02-18 00:00:00', '2017-03-21 00:00:00', null, '1000', null, '篮球', '科比亲笔签名篮球', '手机', '100', '云豹', null, null, '天堂路282好', null, '我们是我要联赢', 'http://youku.com/2323.mp4', 'baidu', 'http://www.baidu.com', '1', '1', '1', '0', '0', '2017-03-08 13:20:22', '2017-03-10 00:05:43', null);
+insert into `bizman_activity_template` values ('2', '非常好的活动', '1', '非常好的活动', null, null, null, null, null, null, null, '0', null, null, null, null, '0', '收集', null, null, null, null, null, null, null, null, '1', '0', '0', '0', '0', '2017-03-13 20:28:28', null, null);
+insert into `bizman_activity_template` values ('3', '情人节活动', '4', '情人节活动', null, null, null, null, null, null, null, '0', null, null, null, null, '0', '收集', null, null, null, null, null, null, null, null, '1', '0', '0', '0', '0', '2017-03-13 20:28:39', null, null);
+
 
 -- 活动排行表
 create table if not exists bizman_activity_rank (
