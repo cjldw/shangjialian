@@ -17,7 +17,7 @@ class WxMiddleware
     public function handle($request, Closure $next)
     {
         $session = $request -> getSession();
-        $isWx = $session -> get("_openid");
+        $isWx = $session -> get("_userinfo");
         if($isWx) {
             return $next($request);
         }

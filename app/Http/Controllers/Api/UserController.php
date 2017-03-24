@@ -25,9 +25,8 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $session = $request -> getSession();
-        $openid = $session -> get("_openid");
-
-        return $this -> _sendJsonResponse($openid);
+        $userInfo = $session -> get("_userinfo");
+        return $this -> _sendJsonResponse($userInfo);
     }
 
     public function login(Request $request)
@@ -49,6 +48,9 @@ class UserController extends BaseController
                 $merchantRepo -> setAttribute("login_cnt", $merchantRepo -> getAttribute("login_cnt") + 1);
                 $merchantRepo -> save();
                 //Auth::guard(config('auth.authType.mobile')) -> login($merchantRepo, true);
+                $session = $request -> getSession();
+                $session -> put("_userinfo", $merchantRepo);
+                $session -> save();
                 return $this -> _sendJsonResponse("登入成功", [
                     'name' => $merchantRepo -> getAttribute("name"),
                     'mobile' => $merchantRepo -> getAttribute("phone"),
@@ -89,7 +91,7 @@ class UserController extends BaseController
 
         /* just for test */
         $session = $request -> getSession();
-        $openid = $session -> get("_openid");
+        $openid = $session -> get("_userinfo")['openid'];
         $openid = 'abcdefIOk-wefladf-edgo1P';
 
         if(true || $code == Cache::get("_captcha_" . $mobile)) {
@@ -133,7 +135,7 @@ class UserController extends BaseController
         if($mobile) {
 
             $session = $request -> getSession();
-            $openid = $session -> get("_openid");
+            $openid = $session -> get("_userinfo")['openid'];
             $openid = 'abcdefIOk-wefladf-edgo1P';
             $isBind = (new MerchantService()) -> where(['openid' => $openid, 'phone' => $mobile]) -> first();
             if($isBind) {

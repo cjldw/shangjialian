@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Service\Api\MerchantActsService;
 use Illuminate\Http\Request;
 
 class UserActController extends BaseController
@@ -17,8 +18,12 @@ class UserActController extends BaseController
     public function createAct(Request $request)
     {
         $session = $request -> getSession();
-        $openid = $session -> get("_openid");
-        return $this -> _sendJsonResponse("创建成功", ['id' => 1]);
+        $userinfo = $session -> get("_userinfo");
+
+        $attributes = array_merge($userinfo, $request -> all());
+        $merchantActsRepo = new MerchantActsService();
+        $merchantActsRepo -> fill($attributes) -> save();
+        return $this -> _sendJsonResponse("创建成功", ['id' => $merchantActsRepo -> getAttribute("id")]);
     }
 
     public function deleteById(Request $request, $id)
