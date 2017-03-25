@@ -18,9 +18,12 @@ class UserActController extends BaseController
     public function createAct(Request $request)
     {
         $session = $request -> getSession();
-        $userinfo = $session -> get("_userinfo");
-
-        $attributes = array_merge($userinfo, $request -> all());
+        $userInfo = $session -> get("_userinfo");
+        $userData = [
+            'merchant_id' => $userInfo -> getAttribute("id"),
+            'openid' => $userInfo -> getAttribute("openid"),
+        ];
+        $attributes = array_merge($userData, $request -> all());
         $merchantActsRepo = new MerchantActsService();
         $merchantActsRepo -> fill($attributes) -> save();
         return $this -> _sendJsonResponse("创建成功", ['id' => $merchantActsRepo -> getAttribute("id")]);

@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Service\Api\MerchantActsService;
 use Illuminate\Http\Request;
 
 class MineController extends BaseController
@@ -16,7 +17,12 @@ class MineController extends BaseController
 
     public function top1(Request $request)
     {
-        return $this -> _sendJsonResponse("请求成功");
+        $session = $request -> getSession();
+        $id = $session -> get("_userinfo")["id"];
+        $resultSet = (new MerchantActsService()) -> where([
+            "merchant_id" => $id
+        ]) -> orderBy("id", "desc") -> first();
+        return $this -> _sendJsonResponse("请求成功", $resultSet);
     }
 
     public function start(Request $request)

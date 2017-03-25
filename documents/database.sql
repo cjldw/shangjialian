@@ -253,7 +253,25 @@ create table if not exists bizman_merchant_acts (
     key index_deleted_at(deleted_at)
 
 
-) engine innodb charset utf8;
+) engine innodb charset utf8 comment '商家制作表';
+
+-- 用户参与表
+create table if not exists bizman_visit_log (
+    id int unsigned auto_increment,
+    merchant_id int unsigned not null default 0 comment '来访是那个商家制作的活动',
+    openid char(28) not null default '' comment '关联用户opend_id',
+    act_id int unsigned not null default 0 comment '来访用户查看的是那个活动',
+
+    created_at datetime null default current_timestamp,
+    updated_at datetime null default null,
+    deleted_at datetime null default null,
+
+    primary key (id),
+    key index_created_at(created_at),
+    key index_updated_at(updated_at),
+    key index_deleted_at(deleted_at)
+) engine innodb charset utf8 comment '用户来访记录表';
+
 
 -- 是否支持表
 create table if not exists bizman_supported (
