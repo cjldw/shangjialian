@@ -17,6 +17,6 @@ Trait SingletonTrait
     private function __clone() { }
 
 
-    abstract public static function getInstance();
+    public static function getInstance(){}
 
 }
