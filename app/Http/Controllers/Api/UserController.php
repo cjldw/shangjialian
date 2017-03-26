@@ -49,7 +49,7 @@ class UserController extends BaseController
                 $merchantRepo -> save();
                 //Auth::guard(config('auth.authType.mobile')) -> login($merchantRepo, true);
                 $session = $request -> getSession();
-                $session -> put("_userinfo", $merchantRepo);
+                $session -> put("_userinfo", $merchantRepo -> toArray());
                 $session -> save();
                 return $this -> _sendJsonResponse("登入成功", [
                     'name' => $merchantRepo -> getAttribute("name"),

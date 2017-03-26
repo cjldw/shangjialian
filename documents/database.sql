@@ -113,9 +113,11 @@ create table if not exists bizman_activity_rank (
     merchant_id int unsigned not null default 0 comment '商家id',
     openid char(28) null default null comment '用户opend_id',
     name varchar(64) null default null comment '参与者名称',
+    phone varchar(16) null default null comment '商家手机号码',
     spend_time varchar(8) not null default '还差一点点',
     join_cnt int unsigned not null default 0 comment '参与次数',
     completed_cnt int unsigned not null default 0 comment '完成次数',
+    level tinyint unsigned not null default 0 comment  '级别, [0/制作者分享出来 1/网名点击我要玩出来的]',
     is_completed tinyint unsigned not null default 0 comment '是否完成[0/未完成, 1/已经完成]',
 
     created_at datetime null default current_timestamp,

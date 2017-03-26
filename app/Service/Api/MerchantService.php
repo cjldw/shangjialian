@@ -29,6 +29,7 @@ class MerchantService extends BaseService
             $isAvailable =  $days > 0 ? true : false;
 
             return [
+                'id' => $merchantRepo -> getAttribute("id"),
                 'openid' => $openid,
                 //'name' => $merchantRepo -> getAttribute("name"),
                 //'mobile' => $merchantRepo -> getAttribute("phone"),
@@ -42,6 +43,7 @@ class MerchantService extends BaseService
         $merchantRepo -> setAttribute("salt", RandomUtils::randomChar(6));
         $merchantRepo -> save();
         return [
+            'id' => $merchantRepo -> getAttribute("id"),
             'openid' => $openid,
             //'name' => $merchantRepo -> getAttribute("name"),
             //'mobile' => $merchantRepo -> getAttribute("phone"),

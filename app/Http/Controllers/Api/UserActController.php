@@ -20,8 +20,8 @@ class UserActController extends BaseController
         $session = $request -> getSession();
         $userInfo = $session -> get("_userinfo");
         $userData = [
-            'merchant_id' => $userInfo -> getAttribute("id"),
-            'openid' => $userInfo -> getAttribute("openid"),
+            'merchant_id' => $userInfo["id"],
+            'openid' => $userInfo['openid'],
         ];
         $attributes = array_merge($userData, $request -> all());
         $merchantActsRepo = new MerchantActsService();
