@@ -29,8 +29,22 @@ class UserActController extends BaseController
         return $this -> _sendJsonResponse("创建成功", ['id' => $merchantActsRepo -> getAttribute("id")]);
     }
 
+    /**
+     * delete user activity by id
+     *
+     * @param Request $request
+     * @param $id
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
     public function deleteById(Request $request, $id)
     {
+        $merchantActRepo = (new MerchantActsService()) -> find($id);
+
+        if($merchantActRepo) {
+            $merchantActRepo -> delete();
+            return $this -> _sendJsonResponse("删除成功", ['id' => $id]);
+        }
+        return $this -> _sendJsonResponse("活动不存在");
 
     }
 

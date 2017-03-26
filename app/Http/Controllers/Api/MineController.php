@@ -57,19 +57,7 @@ class MineController extends BaseController
      */
     public function start(Request $request)
     {
-        $session = $request -> getSession();
-        $userInfo = $session -> get("_userinfo");
-        $merchantId = $userInfo['id'] ? : 0;
-
-        $pageSize = $request -> input("pageSize");
-
-        $now = Carbon::now();
-        $resultSet = (new MerchantActsService())
-            -> where([ 'merchant_id' => $merchantId])
-            -> where("act_start_time", "<=", $now)
-            -> where("act_end_time", ">=", $now)
-            -> paginate($pageSize);
-
+        $resultSet = (new MerchantActsService()) -> getStartActs($request);
         return $this -> _sendJsonResponse("请求成功", $resultSet);
     }
 
@@ -105,19 +93,7 @@ class MineController extends BaseController
      */
     public function end(Request $request)
     {
-
-        $session = $request -> getSession();
-        $userInfo = $session -> get("_userinfo");
-        $merchantId = $userInfo['id'];
-
-        $pageSize = $request -> input("pageSize");
-
-        $now = Carbon::now();
-
-        $resultSet = (new MerchantActsService())
-            -> where([ 'merchant_id' => $merchantId])
-            -> where("act_end_time", "<=", $now)
-            -> paginate($pageSize);
+        $resultSet = (new MerchantActsService()) -> getEndActs($request);
         return $this -> _sendJsonResponse("请求成功", $resultSet);
     }
 
