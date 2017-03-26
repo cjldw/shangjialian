@@ -185,7 +185,10 @@ create table if not exists bizman_merchant (
     key index_created_at (created_at),
     key index_updated_at (updated_at),
     key index_deleted_at (deleted_at)
-) engine innodb charset utf8;
+) engine innodb charset utf8 comment '商家表';
+
+insert into `bizman_merchant` values ('7', 'abcdefiok-wefladf-edgo1p', 'luowen', '112194', 'e213114c19a123d8f5d2b04e87875515', null, '13211112222', '45', '2017-03-23 21:03:22', null, '0', '2017-03-23 21:03:22', '2017-03-26 10:32:54', null);
+
 
 -- 首页搭建表
 create table if not exists bizman_mobile_skeleton (
@@ -256,6 +259,12 @@ create table if not exists bizman_merchant_acts (
 
 
 ) engine innodb charset utf8 comment '商家制作表';
+
+insert into `bizman_merchant_acts` values ('1', '0', 'abcdefiok-wefladf-edgo1p', '疯狂夺宝', '0', '新的一年来临了，快来抢个新年币增加好运吧，抢到足够新年币，即可兑换好礼。', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', '#ccc', null, null, null, null, '0', null, null, null, null, '0', '收集', null, null, null, null, null, null, null, null, '1', '0', '2017-03-23 21:03:22', '2017-03-25 13:53:33', null);
+insert into `bizman_merchant_acts` values ('2', '7', 'abcdefiok-wefladf-edgo1p', '疯狂夺宝', '0', '新的一年来临了，快来抢个新年币增加好运吧，抢到足够新年币，即可兑换好礼。', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', '#ccc', null, '2017-03-14 09:33:34', '2017-04-09 09:34:02', '[九阳]浆机哈哈', '1', null, null, null, null, '0', '收集', null, null, null, null, null, null, null, null, '1', '0', '2017-03-25 14:04:35', '2017-03-25 14:04:35', null);
+insert into `bizman_merchant_acts` values ('4', '7', 'abcdefiok-wefladf-edgo1p', '圣诞卡uial', '0', '新的一年来临了，快来抢个新年币增加好运吧，抢到足够新年币，即可兑换好礼。', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', '#ccc', null, '2017-03-08 09:34:18', '2017-03-26 09:34:23', '四件套', '44', null, null, null, null, '0', '收集', null, null, null, null, null, null, null, null, '1', '0', '2017-03-26 09:32:22', null, null);
+insert into `bizman_merchant_acts` values ('6', '7', 'abcdefiok-wefladf-edgo1p', '水星家纺换购', '0', '新的一年来临了，快来抢个新年币增加好运吧，抢到足够新年币，即可兑换好礼。', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', '#ccc', null, '2017-04-09 09:34:18', '2017-03-26 09:34:23', '四件套', '4', null, '件', '正品水星家纺四件套', null, '0', '换购', null, null, null, null, null, null, null, null, '1', '0', '2017-03-26 12:32:15', null, null);
+
 
 -- 用户参与表
 create table if not exists bizman_visit_log (
