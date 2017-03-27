@@ -26,7 +26,10 @@ class UserActController extends BaseController
         $attributes = array_merge($userData, $request -> all());
         $merchantActsRepo = new MerchantActsService();
         $merchantActsRepo -> fill($attributes) -> save();
-        return $this -> _sendJsonResponse("创建成功", ['id' => $merchantActsRepo -> getAttribute("id")]);
+        return $this -> _sendJsonResponse("创建成功", [
+            'id' => $merchantActsRepo -> getAttribute("id"),
+            'openid' => $userInfo['openid']
+        ]);
     }
 
     /**

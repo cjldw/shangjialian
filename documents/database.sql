@@ -118,6 +118,7 @@ create table if not exists bizman_activity_rank (
     join_cnt int unsigned not null default 0 comment '参与次数',
     completed_cnt int unsigned not null default 0 comment '完成次数',
     level tinyint unsigned not null default 0 comment  '级别, [0/制作者分享出来 1/网名点击我要玩出来的]',
+    helpers text null default null comment '帮手列表集合， json序列化',
     is_completed tinyint unsigned not null default 0 comment '是否完成[0/未完成, 1/已经完成]',
 
     created_at datetime null default current_timestamp,
