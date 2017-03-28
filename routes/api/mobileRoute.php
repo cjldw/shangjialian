@@ -38,6 +38,14 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
         Route::get("/industry/{id}", ['uses' => 'ActivityController@industry', 'as' => 'Category']);
         Route::get("/rank", ['uses' => 'ActivityController@getDefaultRank', 'as' => 'Rank']);
 
+        Route::group(['prefix' => 'shared', 'as' => 'Shared::'], function () { // 活动分享后相关
+            Route::get("/rank/{id}", ['uses' => 'SharedController@getActRank', 'as' => 'Rank'])
+                -> where(['id' => '[0-9]+']);
+            Route::get("/{id}", ['uses' => 'SharedController@sharedAct', 'as' => 'SharedAct'])
+                -> where(['id' => '[0-9]+']);
+            Route::post("/helpit", ['uses' => 'SharedController@helpIt', 'as' => 'HelpIt']);
+        });
+
         Route::group(['prefix' => "u",  'as' => "User::"], function () { // 需要用户登入才能访问了
             Route::post("/", ['uses' => 'UserActController@createAct', 'as' => 'CreateAct']);
             Route::delete("/{id}", ['uses' => 'UserActController@deleteById','as' => 'Delete'])
