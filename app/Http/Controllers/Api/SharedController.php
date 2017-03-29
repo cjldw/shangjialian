@@ -55,8 +55,42 @@ class SharedController extends BaseController
     public function helpIt(Request $request)
     {
 
-    }
+        $actId = $request -> input("actId");
+        $openid = $request -> input("openid");
 
+        $session = $request -> getSession();
+        $userInfo = $session -> get("_userinfo");
+
+        /* 用户分享后, 自己打开, 什么也不做 */
+        if($userInfo['openid'] == $openid) {
+            return $this -> _sendJsonResponse("请求成功", ['msg' => '自己不能帮助自己']);
+        }
+
+        $rankRepo = (new ActivityRankService()) -> where([
+            'openid' => $openid,
+            'act_id' => $actId
+        ]) -> first();
+
+        $rankRepo = $rankRepo ? : (new ActivityRankService());
+
+        $helpers = $rankRepo -> getAttribute("helpers");
+        if($helpers && is_array($helpersArr = json_decode($helpers, true))
+            && in_array("$openid", $helpersArr)) {
+            return $this -> _sendJsonResponse("请求成功", ['msg' => '之前已经帮忙了']);
+        }
+
+        $joinCnt = $rankRepo -> getAttribute("join_cnt");
+        $rankRepo -> setAttribute("join_cnt", ++$joinCnt);
+        $helpersArr = json_decode($helpers, true);
+        $helpersArr = is_array($helpersArr) ? $helpersArr : [];
+
+        $helpersArr[] = $openid;
+        $rankRepo -> setAttribute("helpers", json_encode($helpersArr, JSON_UNESCAPED_UNICODE));
+        $rankRepo -> setAttribute("act_id", $actId);
+        $rankRepo -> save();
+
+        return $this -> _sendJsonResponse("请求成功", ['msg' => "帮忙成功"]);
+    }
 
 
 }
