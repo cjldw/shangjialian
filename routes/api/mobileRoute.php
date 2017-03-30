@@ -47,6 +47,10 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
                 -> where(['id' => '[0-9]+']);
 
             Route::post("/helpit", ['uses' => 'SharedController@helpIt', 'as' => 'HelpIt']);
+
+            /* 我也要玩 */
+            Route::get("/isplay", ['uses' => 'SharedController@isPlay', 'as' => 'IsPlay']);
+            Route::post("/play", ['uses' => 'SharedController@play', 'as' => 'Play']);
         });
 
         Route::group(['prefix' => "u",  'as' => "User::"], function () { // 需要用户登入才能访问了

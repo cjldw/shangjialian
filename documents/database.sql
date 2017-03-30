@@ -41,7 +41,7 @@ create table if not exists bizman_industry (
     key index_created_at(created_at),
     key index_updated_at(updated_at),
     key index_deleted_at(deleted_at)
-) engine innodb charset utf8;
+) engine innodb charset utf8 comment '行业类别表';
 
 -- 行业表默认指
 insert into bizman_industry (name) values ('教育培训'), ('运动健身'), ('美容美体'), ('婚庆礼仪'), ('医疗保健'), ('文化旅游'), ('餐饮美食'), ('批发零售'), ('家居装修'), ('汽车地产'), ('金融保险'), ('休闲娱乐');
