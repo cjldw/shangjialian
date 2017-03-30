@@ -131,8 +131,16 @@ class SharedController extends BaseController
         }
         $helpers = [$openid];
 
+
         $joinCnt = $rankRepo -> getAttribute("join_cnt");
-        $rankRepo -> setAttribute("join_cnt", ++$joinCnt);
+        $completedCnt = $rankRepo -> getAttribute("completed_cnt");
+        $nowJoinCnt = $joinCnt + 1;
+        /* mark as completed */
+        if($nowJoinCnt >= $completedCnt) {
+            $rankRepo -> setAttribute("is_completed", 1);
+        }
+
+        $rankRepo -> setAttribute("join_cnt", $nowJoinCnt);
         $rankRepo -> setAttribute("helpers", json_encode($helpers, JSON_UNESCAPED_UNICODE));
         $rankRepo -> setAttribute("act_id", $actId);
         $rankRepo -> save();
@@ -208,6 +216,11 @@ class SharedController extends BaseController
             $rankRepo -> setAttribute("act_id", $actId);
             $rankRepo -> setAttribute("openid", $openid);
             $rankRepo -> setAttribute("level", (($openid == $actOpenId) ? 0 : 1));
+
+            /* query activity complement count rule */
+            $merchantAct = (new MerchantActsService()) -> find($actId);
+            $ruleCnt = $merchantAct -> getAttribute("act_rule_cnt");
+            $rankRepo -> setAttribute("completed_cnt", $ruleCnt);
         }
         if($name) {
             $rankRepo -> setAttribute("name", $name);
