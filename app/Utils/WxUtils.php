@@ -16,12 +16,12 @@ final class WxUtils
     /*
      * wechat app id
      */
-    const WX_APPID = "";
+    const WX_APPID = "wx41680155348354c9";
 
     /*
      * wechat secret
      */
-    const WX_SECRET = "";
+    const WX_SECRET = "4bd4ceaaeaab5b46c2e2a020c48f1119";
 
     /*
      * base scope
