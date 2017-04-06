@@ -27,7 +27,6 @@ class WxController extends BaseController
         if($code) {
             $userInfo = json_decode(WxUtils::getWxOpenId($code), true);
             /* just for test */
-            $userInfo['openid'] = 'abcdefIOk-wefladf-edgo1P';
             if(isset($userInfo['openid'])) {
                 $merchantRepo = new MerchantService();
                 $merchantInfo = $merchantRepo -> getUserInfo($userInfo['openid']);

@@ -136,7 +136,6 @@ class UserController extends BaseController
 
             $session = $request -> getSession();
             $openid = $session -> get("_userinfo")['openid'];
-            $openid = 'abcdefIOk-wefladf-edgo1P';
             $isBind = (new MerchantService()) -> where(['openid' => $openid, 'phone' => $mobile]) -> first();
             if($isBind) {
                 return $this -> _sendJsonResponse("用户已经绑定了手机号, 不能在绑定, 如需修改, 联系客服", $request -> all(), false);
