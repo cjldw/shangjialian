@@ -14,11 +14,6 @@ final class WxUtils
     use SingletonTrait;
 
     /*
-     * wechat redirect url for website
-     */
-    const REDIRECT_URI = "http://sjl.51lianying.com";
-
-    /*
      * wechat app id
      */
     const WX_APPID = "wx41680155348354c9";
@@ -41,7 +36,7 @@ final class WxUtils
     /*
      * wechat ask user to authenticate uri
      */
-    const WX_AUTH_URI = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=STATE#wechat_redirect";
+    const WX_AUTH_URI = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&response_type=code&scope=%s&state=STATE";
 
     /*
      * wechat get access token uri
@@ -57,7 +52,7 @@ final class WxUtils
      */
     public static function getRedirectUri()
     {
-        return sprintf(self::WX_AUTH_URI, self::WX_APPID, self::REDIRECT_URI, self::WX_SNSAPI_BASE_SCOPE);
+        return sprintf(self::WX_AUTH_URI, self::WX_APPID, self::WX_SNSAPI_BASE_SCOPE);
     }
 
 
