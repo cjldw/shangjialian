@@ -73,7 +73,7 @@ final class WxUtils
         $resultSet = json_decode(HttpUtil::get($accessTokenUrl), true);
 
         if(isset($resultSet['openid']))
-            return $resultSet['openid'];
+            return $resultSet;
         return null;
     }
 }
