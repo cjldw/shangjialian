@@ -22,6 +22,7 @@ final class HttpUtil
         curl_setopt($curl, CURLOPT_NOBODY, true);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, false);
         $contents = curl_exec($curl);
         curl_close($curl);
         return $contents;
@@ -30,12 +31,22 @@ final class HttpUtil
 
     public static function get($url, $data = [])
     {
+        if(strpos($url, '?') !== false) {
+            $url .= "&" . http_build_query($data);
+        } else {
+            $url .= "?" . http_build_query($data);
+        }
+        $url = trim($url, '&');
         $curl = curl_init();
-        $url .= '?'  . http_build_query($data);
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_NOBODY, false);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_NOBODY, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Expect:'));
+        curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
         $contents = curl_exec($curl);
         curl_close($curl);
         return $contents;
