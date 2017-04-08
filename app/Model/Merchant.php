@@ -36,7 +36,7 @@ class Merchant extends Authenticatable
         $expiredAt = Carbon::createFromFormat('Y-m-d H:i:s', $this -> expired_at);
 
         $diff = $expiredAt -> getTimestamp()  - $now -> getTimestamp();
-        return $diff < 0 ? 0 : $diff / (3600 * 24);
+        return $diff < 0 ? 0 : ceil($diff / (3600 * 24));
     }
 
     public function getExpiredDaysAttribute()

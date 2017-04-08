@@ -71,6 +71,14 @@ class UserController extends BaseController
 
     public function bindmobile(Request $request)
     {
+        /* just for test */
+        $session = $request -> getSession();
+        $openid = $session -> get("_userinfo")['openid'];
+        $merchantRepo = (new MerchantService()) -> where("openid", "=", $openid) -> first();
+
+        if($merchantRepo && $merchantRepo -> getAttribute("mobile")) {
+            return $this -> _sendJsonResponse("你的微信号已经使用手机注册了", null, false);
+        }
 
         $this -> validate($request, [
             'name' => 'required',
@@ -89,13 +97,8 @@ class UserController extends BaseController
         $password = $request -> input("password");
         $code = $request -> input("code");
 
-        /* just for test */
-        $session = $request -> getSession();
-        $openid = $session -> get("_userinfo")['openid'];
-
         if(true || $code == Cache::get("_captcha_" . $mobile)) {
             //Cache::forget("_captcha_".$mobile); // remove cache
-            $merchantRepo = (new MerchantService()) -> where("openid", "=", $openid) -> first();
             if($merchantRepo) {
                 $merchantRepo -> fill([
                     'name' => $name,
