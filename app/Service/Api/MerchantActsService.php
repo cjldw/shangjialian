@@ -46,7 +46,7 @@ class MerchantActsService extends BaseService
             $item['completed_count'] = $completedCount = $rankSrv -> getIsCompletedCount($actId);
             $item['visit_count'] = $visitCount = (new VisitLogService()) -> getVisitCount($actId);
             $item['join_proportion'] = ($joinCount / (($visitCount == 0) ? 1 : $visitCount)) * 100;
-            $item['completed_proportion'] = ($completedCount / (($joinCount == 0) ? 1 : $visitCount)) * 100;
+            $item['completed_proportion'] = ($completedCount / (($joinCount == 0) ? 1 : ($visitCount == 0) ? 1 : $visitCount)) * 100;
             return $item;
         });
 

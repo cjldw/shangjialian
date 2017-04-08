@@ -74,14 +74,14 @@ class UserController extends BaseController
 
         $this -> validate($request, [
             'name' => 'required',
-            'password' => 'required',
             'mobile' => 'required',
-            'code' => 'required'
+            'code' => 'required',
+            'password' => 'required',
         ], [
             'name.required' => "用户名不能为空",
-            'password.required' => '密码不能为空',
             'mobile.required' => '手机号不能为空',
             "code.required" =>  "验证码不能为空",
+            'password.required' => '密码不能为空',
         ]);
 
         $name = $request -> input("name");
@@ -92,7 +92,6 @@ class UserController extends BaseController
         /* just for test */
         $session = $request -> getSession();
         $openid = $session -> get("_userinfo")['openid'];
-        $openid = 'abcdefIOk-wefladf-edgo1P';
 
         if(true || $code == Cache::get("_captcha_" . $mobile)) {
             //Cache::forget("_captcha_".$mobile); // remove cache

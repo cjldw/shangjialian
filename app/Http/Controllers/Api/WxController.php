@@ -26,6 +26,10 @@ class WxController extends BaseController
         $code = $request -> input("code");
         if($code) {
             $userInfo = WxUtils::getWxOpenId($code);
+            $env = config("app.env");
+            if($env != 'production') {
+                $userInfo['openid'] = 'abcdefIOk-wefladf-edgo1P';
+            }
             /* just for test */
             if(isset($userInfo['openid'])) {
                 $merchantRepo = new MerchantService();

@@ -44,7 +44,7 @@ class MineController extends BaseController
             'completed_cnt' => $completedCount,
             'visit_cnt' => $visitCount,
             'join_proportion' => ($joinCount / (($visitCount == 0) ? 1 : $visitCount)) * 100,
-            'completed_proportion' => ($completedCount / (($joinCount == 0) ? 1 : $visitCount)) * 100
+            'completed_proportion' => ($completedCount / (($joinCount == 0) ? 1 : ($visitCount == 0) ? 1 : $visitCount)) * 100
         ]);
         return $this -> _sendJsonResponse("请求成功", $resultSet);
     }

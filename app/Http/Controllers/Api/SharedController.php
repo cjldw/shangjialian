@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Service\Api\ActivityRankService;
 use App\Service\Api\MerchantActsService;
+use App\Service\Api\MerchantService;
 use Illuminate\Http\Request;
 
 class SharedController extends BaseController
@@ -73,16 +74,30 @@ class SharedController extends BaseController
         $actId = $request -> input("actId");
         $openid = $request -> input("openid");
 
+        $merchantRepo = (new MerchantService()) -> where([
+            'openid' => $openid
+        ]) -> first();
+
+        $merchantName = $merchantRepo ? $merchantRepo -> getAttribute("name") : "";
+
         $resultSet = (new ActivityRankService()) -> where([
             'act_id' => $actId,
             'openid' => $openid
         ]) -> first();
 
-        if($resultSet) {
-            return $this -> _sendJsonResponse("请求成功", $resultSet);
+        if(!$resultSet) {
+            $resultSet = [
+                'join_cnt' => 0,
+                'completed_cnt' => 1,
+                'is_completed' => 0,
+                'spend_time' => '还差一点点',
+                'username' => $merchantName,
+            ];
+        } else {
+            $resultSet = $resultSet -> toArray();
+            $resultSet['username'] = $merchantName;
         }
-        return $this -> _sendJsonResponse("用户不存在", null, false);
-
+        return $this -> _sendJsonResponse("请求成功", $resultSet);
     }
 
     /**
@@ -108,9 +123,10 @@ class SharedController extends BaseController
 
         $session = $request -> getSession();
         $userInfo = $session -> get("_userinfo");
+        $helperId = $userInfo['openid'];
 
         /* 用户分享后, 自己打开, 什么也不做 */
-        if($userInfo['openid'] == $openid) {
+        if($helperId == $openid) {
             return $this -> _sendJsonResponse("自己不能帮助自己", null, false);
         }
 
@@ -119,17 +135,19 @@ class SharedController extends BaseController
             'act_id' => $actId
         ]) -> first();
 
-        $rankRepo = $rankRepo ? : (new ActivityRankService());
+        if(!$rankRepo) {
+            return $this -> _sendJsonResponse("分享连接出错", null, false);
+        }
 
         $helpers = json_decode($rankRepo -> getAttribute("helpers"), true);
-        if(is_array($helpers) && in_array($openid, $helpers)) {
+        if(is_array($helpers) && in_array($helperId, $helpers)) {
             return $this -> _sendJsonResponse("请求成功", ['msg' => '之前已经帮忙了']);
         }
 
         if(is_array($helpers)) { // append current openid in helpers
-            array_push($helpers, $openid);
+            array_push($helpers, $helperId);
         }
-        $helpers = [$openid];
+        $helpers = [$helperId];
 
 
         $joinCnt = $rankRepo -> getAttribute("join_cnt");
