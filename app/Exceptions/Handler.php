@@ -55,6 +55,8 @@ class Handler extends ExceptionHandler
             return $this->unauthenticated($request, $e);
         } elseif ($e instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($e, $request);
+        } elseif ($e instanceof NotInWxException || $e instanceof UserExpiredException) {
+            return $this -> _sendJsonResponse($e -> getMessage(), $request -> all(), false);
         }
 
         return $this->prepareResponse($request, $e);
