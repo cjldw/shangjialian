@@ -59,5 +59,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'cors' => \Barryvdh\Cors\HandleCors::class,
         'wx' => \App\Http\Middleware\WxMiddleware::class,
+        'rich' => \App\Http\Middleware\UserDuration::class,
     ];
 }

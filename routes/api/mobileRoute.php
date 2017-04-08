@@ -6,7 +6,7 @@
  * Time: 21:39
  */
 
-Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'API::'], function () {
+Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors', 'wx'], 'as' => 'API::'], function () {
     Route::group(['prefix' => '/wechat', 'as' => 'Wechat::'], function () {
        Route::get("/authorization", ['uses' => 'WxController@authorization', 'as' => 'Authorization']);
        Route::get("/userinfo", ['uses' => 'WxController@userinfo', 'as' => 'Userinfo']);
@@ -57,7 +57,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
             Route::post("/play", ['uses' => 'SharedController@play', 'as' => 'Play']);
         });
 
-        Route::group(['prefix' => "u",  'as' => "User::"], function () { // 需要用户登入才能访问了
+        Route::group(['prefix' => "u", 'middleware' => ['rich'],  'as' => "User::"], function () { // 需要用户登入才能访问了
             Route::post("/", ['uses' => 'UserActController@createAct', 'as' => 'CreateAct']);
             Route::delete("/{id}", ['uses' => 'UserActController@deleteById','as' => 'Delete'])
                 -> where(['id' => '[0-9]+']);

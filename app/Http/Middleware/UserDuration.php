@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\NotInWxException;
+use App\Exceptions\UserExpiredException;
 use Closure;
 
-class WxMiddleware
+class UserDuration
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,11 @@ class WxMiddleware
     public function handle($request, Closure $next)
     {
         $session = $request -> getSession();
-        $isWx = $session -> get("_userinfo");
-        if($isWx) {
+        $userInfo = $session -> get("_userinfo");
+        if(is_array($userInfo) && !empty($userInfo)
+            && isset($userInfo['isAvailable']) && $userInfo['isAvailable']) {
             return $next($request);
         }
-        throw new NotInWxException("非法请求: [确认在微信中访问, 或重新登入]");
+        throw new UserExpiredException("非法请求: [用户到期了]");
     }
 }
