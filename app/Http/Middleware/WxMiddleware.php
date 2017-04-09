@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\NotInWxException;
+use App\Utils\DevEnvUtils;
 use Closure;
 
 class WxMiddleware
@@ -18,7 +19,7 @@ class WxMiddleware
     {
         $session = $request -> getSession();
         $isWx = $session -> get("_userinfo");
-        if($isWx) {
+        if($isWx || DevEnvUtils::isDevelopEnv()) {
             return $next($request);
         }
 

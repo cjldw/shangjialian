@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\UserExpiredException;
+use App\Utils\DevEnvUtils;
 use Closure;
 
 class UserDuration
@@ -18,6 +19,11 @@ class UserDuration
     {
         $session = $request -> getSession();
         $userInfo = $session -> get("_userinfo");
+
+        if(DevEnvUtils::isDevelopEnv()) {
+            return $next($request);
+        }
+
         if(is_array($userInfo) && !empty($userInfo)
             && isset($userInfo['isAvailable']) && $userInfo['isAvailable']) {
             return $next($request);

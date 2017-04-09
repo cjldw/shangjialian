@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Service\Api\MerchantService;
+use App\Utils\DevEnvUtils;
 use App\Utils\WxUtils;
 use Illuminate\Http\Request;
 
@@ -26,12 +27,9 @@ class WxController extends BaseController
         $code = $request -> input("code");
         if($code) {
             $userInfo = WxUtils::getWxOpenId($code);
-            $env = config("app.env");
-            /*
-            if($env != 'production') {
+            if(DevEnvUtils::isDevelopEnv()) {
                 $userInfo['openid'] = 'abcdefIOk-wefladf-edgo1P';
             }
-            */
             /* just for test */
             if(isset($userInfo['openid'])) {
                 $merchantRepo = new MerchantService();
