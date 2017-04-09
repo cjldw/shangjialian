@@ -279,6 +279,9 @@ create table if not exists bizman_visit_log (
     deleted_at datetime null default null,
 
     primary key (id),
+    key index_merchant_id (merchant_id),
+    key index_open_id (openid),
+    key index_act_id (act_id),
     key index_created_at(created_at),
     key index_updated_at(updated_at),
     key index_deleted_at(deleted_at)
