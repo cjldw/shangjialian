@@ -56,6 +56,9 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
                 /* 我也要玩 */
                 Route::get("/isplay", ['uses' => 'SharedController@isPlay', 'as' => 'IsPlay']);
                 Route::post("/play", ['uses' => 'SharedController@play', 'as' => 'Play']);
+
+                /* 来访记录*/
+                Route::post("/visitlog", ['uses' => 'SharedController@visitLog', 'as' => 'VisitLog']);
             });
 
             Route::group(['prefix' => "u", 'middleware' => ['rich'],  'as' => "User::"], function () { // 需要用户登入才能访问了

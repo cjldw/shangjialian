@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Api;
 use App\Service\Api\ActivityRankService;
 use App\Service\Api\MerchantActsService;
 use App\Service\Api\MerchantService;
+use App\Service\Api\VisitLogService;
 use Illuminate\Http\Request;
 
 class SharedController extends BaseController
@@ -249,6 +250,29 @@ class SharedController extends BaseController
         $rankRepo -> save();
 
         return $this -> _sendJsonResponse("参与成功", $request -> all());
+    }
+
+    /**
+     * record user visit log
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function visitLog(Request $request)
+    {
+        $this -> validate($request, [
+            'actId' => 'required',
+            'openid' => 'required',
+            'merchantId' => 'required',
+        ], [
+            'actId.required' => '活动id不能为空',
+            'openid.required' => 'openid不能为空',
+            'merchantId.required' => 'merchantId不能为空'
+        ]);
+
+        $visitLogRepo = new VisitLogService();
+        $visitLogRepo -> fill($request -> all()) -> save();
+        return $this -> _sendJsonResponse('请求成功', $visitLogRepo);
     }
 
 }
