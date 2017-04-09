@@ -16,11 +16,6 @@ use Illuminate\Http\Request;
 class ActivityController extends BaseController
 {
 
-    public function index()
-    {
-
-    }
-
     public function detail(Request $request, $id)
     {
         $resultSet = (new ActivityService()) -> find($id);

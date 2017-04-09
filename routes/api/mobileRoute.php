@@ -39,10 +39,15 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
             Route::get("/industry/{id}", ['uses' => 'ActivityController@industry', 'as' => 'Category']);
             Route::get("/rank", ['uses' => 'ActivityController@getDefaultRank', 'as' => 'Rank']);
 
+
             Route::group(['prefix' => 'shared', 'as' => 'Shared::'], function () { // 活动分享后相关
 
                 /* 用户成就 */
                 Route::get("/feats", ['uses' => 'SharedController@getUserInfo', 'as' => 'Feats']);
+
+                /* 活动完成人数 */
+                Route::get("/completed/{id}", ['uses' => 'SharedController@completedCnt', 'completedCnt'])
+                    -> where(['id' => '[0-9]+']);
 
                 Route::get("/{id}", ['uses' => 'SharedController@sharedAct', 'as' => 'SharedAct'])
                     -> where(['id' => '[0-9]+']);

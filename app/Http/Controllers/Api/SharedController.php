@@ -206,50 +206,46 @@ class SharedController extends BaseController
      */
     public function play(Request $request)
     {
-        $id = $request -> input("id", false);
-        $name = $request -> input("name", false);
-        $phone = $request -> input("phone", false);
 
         $this -> validate($request, [
+            'name' => 'required',
+            'phone' => 'required',
+            'actId' => 'required',
+            'openid' => 'required',
             'actOpenId' => 'required',
+
         ], [
-            'actOpenId.required' => '活动openid不能为空'
+            'name.required' => '姓名不能为空',
+            'phone.required' => '电话不能为空',
+            'actId.required' => '活动id能为空',
+            'openid.required' => '活动openid不能为空',
+            'actOpenId.required' => '活动所属用户不能为空',
         ]);
 
+        $name = $request -> input("name");
+        $phone = $request -> input("phone");
+        $actId = $request -> input("actId");
+        $openid = $request -> input("openid");
+        $actOpenId = $request  -> input("actOpenId");
+
+
         $rankRepo = new ActivityRankService();
-        /* first play fill necessary information */
-        if(!$rankRepo -> find($id)) {
+        if(!$rankRepo -> where(['act_id' => $actId, 'openid' => $openid]) -> first()) {
 
-            $this -> validate($request -> all(), [
-                'actId' => 'required',
-                'openid' => 'required',
-            ], [
-                'actId.required' => 'actId不能为空',
-                'openid.required' => 'openid不能为空'
-            ]);
-
-            $actId = $request -> input("actId");
-            $openid = $request -> input("openid");
-            $actOpenId = $request -> input("actOpenId");
-
+            $rankRepo -> setAttribute("name", $name);
+            $rankRepo -> setAttribute("phone", $phone);
             $rankRepo -> setAttribute("act_id", $actId);
             $rankRepo -> setAttribute("openid", $openid);
             $rankRepo -> setAttribute("level", (($openid == $actOpenId) ? 0 : 1));
 
-            /* query activity complement count rule */
             $merchantAct = (new MerchantActsService()) -> find($actId);
             $ruleCnt = $merchantAct -> getAttribute("act_rule_cnt");
             $rankRepo -> setAttribute("completed_cnt", $ruleCnt);
-        }
-        if($name) {
-            $rankRepo -> setAttribute("name", $name);
-        }
-        if($phone) {
-            $rankRepo -> setAttribute("phone", $phone);
-        }
-        $rankRepo -> save();
 
-        return $this -> _sendJsonResponse("参与成功", $request -> all());
+            $rankRepo -> save();
+            return $this -> _sendJsonResponse("参与活动成功", $rankRepo);
+        }
+        return $this -> _sendJsonResponse("已经参与过活动, 不能在参与了", null, false);
     }
 
     /**
@@ -275,4 +271,19 @@ class SharedController extends BaseController
         return $this -> _sendJsonResponse('请求成功', $visitLogRepo);
     }
 
+    /**
+     * get completed count of activity
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function completedCnt(Request $request, $id)
+    {
+        $completedCnt = (new ActivityRankService()) -> where([
+            'act_id' => $id,
+            'is_completed' => 1,
+        ]) -> count();
+
+        return $this -> _sendJsonResponse("请求成功", ['completed_cnt' => $completedCnt]);
+    }
 }
