@@ -14,15 +14,18 @@ use Illuminate\Http\Request;
 
 class MobileController extends BaseController
 {
-    public function index(Request $request)
-    {
-
-    }
-
+    /**
+     * get banner url
+     *
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
     public function bannerUrl()
     {
         $resultSet = (new MobileSkeletonService()) -> first();
-        return $this -> _sendJsonResponse('请求成功', $resultSet);
+        if($resultSet) {
+            return $this -> _sendJsonResponse('请求成功', $resultSet);
+        }
+        return $this -> _sendJsonResponse('请求失败', ['banner_url' => ''], false);
     }
 
 }
