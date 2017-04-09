@@ -32,6 +32,10 @@ class MineController extends BaseController
             "merchant_id" => $id
         ]) -> orderBy("id", "desc") -> first();
 
+        if(is_null($resultSet)) {
+            return $this -> _sendJsonResponse("用户没有数据", null, false);
+        }
+
         $actId = $resultSet -> getAttribute("id");
 
         $rankSrv = new ActivityRankService();
