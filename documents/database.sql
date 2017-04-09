@@ -57,8 +57,8 @@ create table if not exists bizman_activity_template (
     color_plate varchar(512) null default null comment '活动背景等调色板',
     background_music varchar(256) null default null comment '背景音乐',
 
-    act_start_time datetime null default null comment '活动开始时间',
-    act_end_time datetime null default null comment '活动结束时间',
+    act_start_time date null default null comment '活动开始时间',
+    act_end_time date null default null comment '活动结束时间',
     act_prize_name varchar(32) null default null comment '奖品名称',
     act_prize_cnt int unsigned not null default 0 comment '活动奖品数量',
     prize_decorate varchar(16) null default null comment '奖品前部分修饰',
@@ -219,8 +219,8 @@ create table if not exists bizman_merchant_acts (
     color_plate varchar(512) null default null comment '活动背景等调色板',
     background_music varchar(256) null default null comment '背景音乐',
 
-    act_start_time datetime null default null comment '活动开始时间',
-    act_end_time datetime null default null comment '活动结束时间',
+    act_start_time date null default null comment '活动开始时间',
+    act_end_time date null default null comment '活动结束时间',
     act_prize_name varchar(32) null default null comment '奖品名称',
     act_prize_cnt int unsigned not null default 0 comment '活动奖品数量',
     prize_decorate varchar(16) null default null comment '奖品前部分修饰',
