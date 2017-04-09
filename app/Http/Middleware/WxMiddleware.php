@@ -27,7 +27,7 @@ class WxMiddleware
         $userAgent = $request -> header('User-Agent');
         $wxAgent = $session -> get("_wxagent", false);
         if(strpos($userAgent, 'MicroMessenger') !== false && !$wxAgent) {
-            $session -> set("_wxagent", 1);
+            $session -> put("_wxagent", 1);
             $session -> save();
             return $next($request);
         }
