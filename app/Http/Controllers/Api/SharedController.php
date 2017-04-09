@@ -266,8 +266,16 @@ class SharedController extends BaseController
             'merchantId.required' => 'merchantId不能为空'
         ]);
 
+        $merchantId = $request -> input("merchantId");
+        $actId = $request -> input("actId");
+        $openid = $request -> input("openid");
+
         $visitLogRepo = new VisitLogService();
-        $visitLogRepo -> fill($request -> all()) -> save();
+        $visitLogRepo -> setAttribute("act_id", $actId);
+        $visitLogRepo -> setAttribute("merchant_id", $merchantId);
+        $visitLogRepo -> setAttribute("openid", $openid);
+        $visitLogRepo -> save();
+
         return $this -> _sendJsonResponse('请求成功', $visitLogRepo);
     }
 
