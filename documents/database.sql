@@ -204,7 +204,10 @@ create table if not exists bizman_mobile_skeleton (
     key index_created_at(created_at),
     key index_updated_at(updated_at),
     key index_deleted_at(deleted_at)
-) engine innodb charset utf8;
+) engine innodb charset utf8 comment '商家恋首页图设置';
+
+-- 默认背景图
+insert into bizman_mobile_skeleton (banner_url) values ('http://bpic.588ku.com/back_pic/04/11/76/05581ad01da2a8d.jpg');
 
 -- 商家用户复制木板后, 新建自己活动表
 create table if not exists bizman_merchant_acts (
