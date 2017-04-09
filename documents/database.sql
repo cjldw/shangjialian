@@ -101,9 +101,12 @@ create table if not exists bizman_activity_template (
 
 ) engine innodb charset utf8 comment '活动模板表';
 
-insert into `bizman_activity_template` values ('1', '不错的活动', '2', '这是一个不错的活动', null, null, '#000000', null, '2017-02-18 00:00:00', '2017-03-21 00:00:00', null, '1000', null, '篮球', '科比亲笔签名篮球', '手机', '100', '云豹', null, null, '天堂路282好', null, '我们是我要联赢', 'http://youku.com/2323.mp4', 'baidu', 'http://www.baidu.com', '1', '1', '1', '0', '0', '2017-03-08 13:20:22', '2017-03-10 00:05:43', null);
-insert into `bizman_activity_template` values ('2', '非常好的活动', '1', '非常好的活动', null, null, null, null, null, null, null, '0', null, null, null, null, '0', '收集', null, null, null, null, null, null, null, null, '1', '0', '0', '0', '0', '2017-03-13 20:28:28', null, null);
-insert into `bizman_activity_template` values ('3', '情人节活动', '4', '情人节活动', null, null, null, null, null, null, null, '0', null, null, null, null, '0', '收集', null, null, null, null, null, null, null, null, '1', '0', '0', '0', '0', '2017-03-13 20:28:39', null, null);
+-- 插入默认数据
+insert into `bizman_activity_template` (`id`, `title`, `industry_id`, `description`, `cover_img`, `banner_img`, `color_plate`, `background_music`, `act_start_time`, `act_end_time`, `act_prize_name`, `act_prize_cnt`, `prize_decorate`, `act_prize_unit`, `act_prize_desc`, `act_rule_decorate`, `act_rule_cnt`, `act_rule_keywords`, `act_images`, `organizer_name`, `organizer_address`, `organizer_phone`, `about_us`, `video_url`, `link_name`, `link_url`, `act_type`, `is_recommend`, `is_offshelf`, `bizman_copy_cnt`, `netizen_copy_cnt`, `created_at`, `updated_at`, `deleted_at`) values
+    (1, '不错的活动', 2, '这是一个不错的活动', 'http://bpic.588ku.com/back_pic/04/11/76/05581ad01da2a8d.jpg', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', '#000000', null, '2017-02-18 00:00:00', '2017-03-21 00:00:00', '科比亲笔签名篮球', 1000, 'dayouh', '篮球', '科比亲笔签名篮球', '快抢', 100, '云豹', '[\'http://s.51lianying.com/images/biz/common/biz_person_head.jpg\']', '罗大文', '天堂路282好', '13211112222', '我们是我要联赢', 'http://youku.com/2323.mp4', 'baidu', 'http://www.baidu.com', 1, 1, 1, 0, 0, '2017-03-08 13:20:22', '2017-03-10 00:05:43', null),
+    (2, '非常好的活动', 1, '非常好的活动', 'http://bpic.588ku.com/back_pic/04/11/76/05581ad01da2a8d.jpg', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', '#ccc', null, '2017-02-18 00:00:00', '2019-03-21 00:00:00', '苏泊尔套装', 300, '送完就没有', '套', '苏泊尔超级电饭煲+电磁炉+美的中央空调', '快抢', 200, '收集', '[\'http://s.51lianying.com/images/biz/common/biz_person_head.jpg\']', '大帝', '莫干山路128号', '13211112222', '我们是我要联赢', 'http://youku.com/2323.mp4', null, null, 1, 0, 0, 0, 0, '2017-03-13 20:28:28', null, null),
+    (3, '情人节活动', 4, '情人节活动', 'http://bpic.588ku.com/back_pic/04/11/76/05581ad01da2a8d.jpg', 'http://s.51lianying.com/images/www/index_v2/thum-1.jpg', '#ccc', null, '2017-02-18 00:00:00', '2019-03-21 00:00:00', '蛋糕', 1999, null, '份', '托马斯物理教科书', '快抢', 400, '收集', '[\'http://s.51lianying.com/images/biz/common/biz_person_head.jpg\']', '边哥', '万塘路252号', '13211112222', '我们是我要联赢', 'http://youku.com/2323.mp4', null, null, 1, 0, 0, 0, 0, '2017-03-13 20:28:39', null, null);
+
 
 
 -- 活动排行表
