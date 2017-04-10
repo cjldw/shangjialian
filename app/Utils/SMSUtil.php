@@ -15,7 +15,7 @@ final class SMSUtil
 
     const SMS_SERVICE_API = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
     const SMS_USER = "cf_51lianying";
-    const SMS_APPKEY = "debee3af377db95e5c87345c33abf645......";
+    const SMS_APPKEY = "debee3af377db95e5c87345c33abf645";
     const SMS_EXPIRE = "10";
     const SMS_TEMPLATE = "您的验证码是：【%s】。请不要把验证码泄露给其他人。";
 
