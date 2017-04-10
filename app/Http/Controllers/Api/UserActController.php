@@ -32,7 +32,7 @@ class UserActController extends BaseController
         $merchantRankRepo -> fill([
             'act_id' => $merchantActsRepo -> getAttribute("id"),
             'openid' => $userInfo['openid'],
-            'merchant_id' => $userInfo['merchant_id'],
+            'merchant_id' => $userInfo['id'],
             'name' => $userInfo['name'],
             'phone' => $userInfo['phone'],
             'completed_cnt' => $merchantActsRepo -> getAttribute("act_rule_cnt"),
