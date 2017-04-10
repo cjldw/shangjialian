@@ -127,9 +127,11 @@ class SharedController extends BaseController
         $helperId = $userInfo['openid'];
 
         /* 用户分享后, 自己打开, 什么也不做 */
+        /*
         if($helperId == $openid) {
             return $this -> _sendJsonResponse("自己不能帮助自己", null, false);
         }
+        */
 
         $rankRepo = (new ActivityRankService()) -> where([
             'openid' => $openid,
@@ -142,7 +144,7 @@ class SharedController extends BaseController
 
         $helpers = json_decode($rankRepo -> getAttribute("helpers"), true);
         if(is_array($helpers) && in_array($helperId, $helpers)) {
-            return $this -> _sendJsonResponse("请求成功", ['msg' => '之前已经帮忙了']);
+            return $this -> _sendJsonResponse("之前已经帮忙了", ['id' => $helperId], false);
         }
 
         if(is_array($helpers)) { // append current openid in helpers
