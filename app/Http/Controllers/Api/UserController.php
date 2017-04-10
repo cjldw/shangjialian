@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Utils\DevEnvUtils;
 use Auth;
 use Cache;
 use App\Utils\SMSUtil;
@@ -126,7 +127,7 @@ class UserController extends BaseController
             'mobile' => 'required|unique:merchant,phone'
         ], [
             'mobile.required' => '手机号不能为空',
-            'mobile.unique' => '次手机号已经绑定, 请确认后再绑定!'
+            'mobile.unique' => '次手机号已经注册, 请确认后再注册!'
         ]);
 
 
@@ -147,16 +148,120 @@ class UserController extends BaseController
             $randomCode = rand(100000, 999999);
             // just for test
             Cache::put("_captcha_".$mobile, $randomCode, Carbon::now() -> addMinute(1));
-            return $this -> _sendJsonResponse("验证码发送成功, 请注意查收".$randomCode, ['code' => $randomCode]);
+            if(DevEnvUtils::isDevelopEnv()) {
+                return $this -> _sendJsonResponse("验证码发送成功, 请注意查收".$randomCode, ['code' => $randomCode]);
+            }
             $resultSet = SMSUtil::send($mobile, $randomCode);
 
             if($resultSet && is_array($resultSet) && isset($resultSet['code']) && $resultSet['code'] == 2) {
                 Cache::put("_captcha_".$mobile, $randomCode, Carbon::now() -> addMinute(1));
-                return $this -> _sendJsonResponse("验证码发送成功, 请注意查收");
+                return $this -> _sendJsonResponse("验证码发送成功, 请注意查收", ['code' => '']);
             }
             Log::error("captcha code send failed", $resultSet);
             return $this -> _sendJsonResponse("系统繁忙, 请稍候再试", null, false);
         }
         return $this -> _sendJsonResponse('请输入正确的手机号码',null, false);
     }
+
+    /**
+     * reset password
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function resetpwd(Request $request)
+    {
+        $this -> validate($request, [
+            'password' => 'required'
+        ], [
+            'password.required' => '新密不能为空'
+        ]);
+
+        $session = $request -> getSession();
+        $phone = $session -> get("_canset_pwd");
+        $password = $request -> input("password");
+        if($phone) {
+            $merchantRepo = (new MerchantService()) -> where([
+                'phone' => $phone
+            ]) -> first();
+
+            if($merchantRepo) {
+                $newPassword = md5($merchantRepo -> getAttribute("salt") . $password);
+                $merchantRepo -> setAttribute("password", $newPassword);
+                $merchantRepo -> save();
+
+                return $this -> _sendJsonResponse("设置成功");
+            }
+        }
+        return $this -> _sendJsonResponse("设置失败, 请重新获取验证码", [$password], false);
+    }
+
+    /**
+     * check captcha code
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function verifyResetPwdCaptchaCode(Request $request)
+    {
+        $this -> validate($request, [
+            'phone' => 'required',
+            'code' => 'required',
+        ], [
+            'phone.required' => '手机号不能为空',
+            'code.required' => '验证码不能为空'
+        ]);
+
+        $phone = $request -> input("phone");
+        $code = $request -> input("code");
+
+        if($cacheCode = Cache::get("_captcha_pwd_".$phone)) {
+            if($cacheCode == $code) {
+                $session = $request -> getSession();
+                $session -> put("_canset_pwd", $phone);
+                $session -> save();
+                return $this -> _sendJsonResponse("验证成功");
+            }
+        }
+        return $this -> _sendJsonResponse("验证码错误", $request -> all(), false);
+    }
+
+    /**
+     * get captcha code
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function getResetPwdCaptcha(Request $request)
+    {
+        $this -> validate($request, [
+            'phone' => 'required',
+        ], [
+            'phone.required' => '手机号不能为空',
+        ]);
+
+        $phone = $request -> input("phone");
+        $merchantRepo = (new MerchantService()) -> where(['phone' => $phone]) -> first();
+        if(!$merchantRepo) {
+            return $this -> _sendJsonResponse("用户不存在, 请注册", ['phone' => $phone], false);
+        }
+
+        if(Cache::get("_captcha_pwd_".$phone)) {
+            return $this -> _sendJsonResponse("验证码已经发送, 请耐心等待", null, false);
+        }
+        $randomCode = rand(100000, 999999);
+        // just for test
+        Cache::put("_captcha_pwd_".$phone, $randomCode, Carbon::now() -> addMinute(1));
+        if(DevEnvUtils::isDevelopEnv()) {
+            return $this -> _sendJsonResponse("验证码发送成功, 请注意查收".$randomCode, ['code' => $randomCode]);
+        }
+        $resultSet = SMSUtil::send($phone, $randomCode);
+        if($resultSet && is_array($resultSet) && isset($resultSet['code']) && $resultSet['code'] == 2) {
+            Cache::put("_captcha_pwd_".$phone, $randomCode, Carbon::now() -> addMinute(1));
+            return $this -> _sendJsonResponse("验证码发送成功, 请注意查收", ['code' => '']);
+        }
+        Log::error("captcha code send failed", $resultSet);
+        return $this -> _sendJsonResponse("系统繁忙, 请稍候再试", null, false);
+    }
+
 }

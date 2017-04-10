@@ -30,6 +30,10 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
 
             Route::post("/bindmobile", ['uses' => 'UserController@bindmobile', 'as' => 'Bindmobile']);
             Route::post("/captcha", ['uses' => 'UserController@captcha', 'as' => 'Captcha']);
+
+            Route::get("/pwd/captcha", ['uses' => 'UserController@getResetPwdCaptcha', 'ResetPwdCaptcha']);
+            Route::post("/pwd/verifycode", ['uses' => 'UserController@verifyResetPwdCaptchaCode', 'as' => 'VerifyCode']);
+            Route::post("/pwd/reset", ['uses' => 'UserController@resetpwd', 'as' => 'ResetPwd' ]);
         });
 
         Route::group(['prefix' => 'act', 'as' => 'Act::'], function () {
