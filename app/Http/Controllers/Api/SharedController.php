@@ -193,9 +193,9 @@ class SharedController extends BaseController
         ]) -> first();
 
         if($resultSet) {
-            return $this -> _sendJsonResponse('用户之前有参与此活动', $resultSet);
+            return $this -> _sendJsonResponse('用户之前有参与此活动', $resultSet, false);
         }
-        return $this -> _sendJsonResponse("用户没有参与", null, false);
+        return $this -> _sendJsonResponse("用户没有参与");
     }
 
     /**
