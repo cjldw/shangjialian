@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Service\Api\ActivityRankService;
 use App\Service\Api\MerchantActsService;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,17 @@ class UserActController extends BaseController
         $attributes = array_merge($userData, $request -> all());
         $merchantActsRepo = new MerchantActsService();
         $merchantActsRepo -> fill($attributes) -> save();
+
+        $merchantRankRepo = new ActivityRankService();
+        $merchantRankRepo -> fill([
+            'act_id' => $merchantActsRepo -> getAttribute("id"),
+            'openid' => $userInfo['openid'],
+            'merchant_id' => $userInfo['merchant_id'],
+            'name' => $userInfo['name'],
+            'phone' => $userInfo['phone'],
+            'completed_cnt' => $merchantActsRepo -> getAttribute("act_rule_cnt"),
+        ]) -> save();
+
         return $this -> _sendJsonResponse("创建成功", [
             'id' => $merchantActsRepo -> getAttribute("id"),
             'openid' => $userInfo['openid']
