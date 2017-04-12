@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Service\Pc\MerchantService;
 use App\Utils\RandomUtils;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -41,12 +42,15 @@ class MerchantController extends BaseController
     {
         $merchantRepo = (new MerchantService()) -> find($id);
         if($merchantRepo) {
-            $days = intval($request -> input("days"));
-            if($days > 0) {
-                $dateInterval = new \DateInterval("P".$days."D");
-                $newExpiredAt = (new \DateTime($merchantRepo -> getAttribute("expired_at"))) -> add($dateInterval);
+            $days = $request -> input("days");
+            if(is_numeric($days)) {
+                $expiredAt = Carbon::createFromFormat('Y-m-d H:i:s', $merchantRepo -> getAttribute("expired_at"));
+                if($expiredAt -> getTimestamp() < time()) { // expired
+                    $newExpiredAt = Carbon::now() -> addDays($days);
+                } else {
+                    $newExpiredAt = $expiredAt -> addDays($days);
+                }
                 $merchantRepo -> setAttribute("expired_at", $newExpiredAt) -> save();
-
                 return $this -> _sendJsonResponse("充值成功", ['days' => $days]);
            }
            return $this ->  _sendJsonResponse('天数必须是数子', null, false);

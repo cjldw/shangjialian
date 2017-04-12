@@ -343,7 +343,8 @@ if (typeof NProgress != 'undefined') {
 		console.log('init_flot_chart');
 		
 		
-		
+
+		/*
 		var arr_data1 = [
 			[gd(2012, 1, 1), 17],
 			[gd(2012, 1, 2), 74],
@@ -353,6 +354,7 @@ if (typeof NProgress != 'undefined') {
 			[gd(2012, 1, 6), 85],
 			[gd(2012, 1, 7), 7]
 		];
+		*/
 
 		var arr_data2 = [
 		  [gd(2012, 1, 1), 82],
@@ -363,7 +365,7 @@ if (typeof NProgress != 'undefined') {
 		  [gd(2012, 1, 6), 6],
 		  [gd(2012, 1, 7), 9]
 		];
-		
+
 		var arr_data3 = [
 			[0, 1],
 			[1, 9],
@@ -438,7 +440,7 @@ if (typeof NProgress != 'undefined') {
             borderWidth: 1,
             color: '#fff'
           },
-          colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
+          colors: ["rgba(3, 106, 0, 1)", "rgba(3, 88, 106, 0.38)"],
           xaxis: {
             tickColor: "rgba(51, 51, 51, 0.06)",
             mode: "time",
@@ -547,8 +549,7 @@ if (typeof NProgress != 'undefined') {
 		
         if ($("#chart_plot_01").length){
 			console.log('Plot1');
-			
-			$.plot( $("#chart_plot_01"), [ arr_data1, arr_data2 ],  chart_plot_01_settings );
+			$.plot( $("#chart_plot_01"), [ /*arr_data1, */arr_data2 ],  chart_plot_01_settings );
 		}
 		
 		
