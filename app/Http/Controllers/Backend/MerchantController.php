@@ -44,8 +44,9 @@ class MerchantController extends BaseController
         if($merchantRepo) {
             $days = $request -> input("days");
             if(is_numeric($days)) {
-                $expiredAt = Carbon::createFromFormat('Y-m-d H:i:s', $merchantRepo -> getAttribute("expired_at"));
-                if($expiredAt -> getTimestamp() < time()) { // expired
+                $userExpiredAt = $merchantRepo -> getAttribute("expired_at");
+                $expiredAt = Carbon::createFromFormat('Y-m-d H:i:s', $userExpiredAt ? : date('Y-m-d H:i:s', time() - 3600 * 24));
+                if($expiredAt -> getTimestamp() <= time()) { // expired
                     $newExpiredAt = Carbon::now() -> addDays($days);
                 } else {
                     $newExpiredAt = $expiredAt -> addDays($days);
