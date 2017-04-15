@@ -115,6 +115,19 @@
                             </div>
 
                             <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 规则描述 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="textarea" required="required" placeholder="" name="act_rule_desc" class="form-control col-md-7 col-xs-12"></textarea>
+                                    <p>例如</p>
+                                    <p> 1. 参与活动前，请详细阅读活动规则及相关条款。凡参与本次活动，则视为同意活动内容及免责声明条款。 </p>
+                                    <p> 2. 如遇不可抗力因素，本次活动因故无法进行时，活动主办方在法律允许的范围内有权决定取消、终止、修改或暂停本活动。 </p>
+                                    <p> 3. 请中奖用户按照活动提示提供正确的联系方式，若不正确导致无法收到奖品，活动主办方不予负责。 </p>
+                                    <p> 4. 除质量问题外，本活动产品概不退货。 </p>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone"> 奖品信息(数量) <span class="required">*</span>
                                 </label>
                                 <div class="col-md-2 col-sm-2 col-xs-12">
@@ -145,16 +158,14 @@
                                               name="act_prize_desc" class="form-control col-md-7 col-xs-12"></textarea>
                                 </div>
                             </div>
-
-
-                            <div class="item form-group">
+                            <!-- <div class="item form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 奖品图片(最多6张) <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="occupation" type="file" name="act_images"
                                            class="optional form-control col-md-7 col-xs-12">
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="item form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方姓名 <span class="required">*</span>
