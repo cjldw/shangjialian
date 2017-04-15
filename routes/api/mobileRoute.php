@@ -12,7 +12,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
         Route::get("/userinfo", ['uses' => 'WxController@userinfo', 'as' => 'Userinfo']);
     });
 
-    Route::group(['middleware' => ['web']], function () {
+    Route::group(['middleware' => ['wx']], function () {
         Route::group(['prefix' => '/mobile', 'as' => 'Mobile::'], function () {
             Route::get("/banner", ['uses' => 'MobileController@bannerUrl', 'as' => 'Banner']);
         });

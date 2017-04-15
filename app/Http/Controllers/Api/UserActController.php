@@ -63,8 +63,22 @@ class UserActController extends BaseController
 
     }
 
+    /**
+     * update user's activity
+     *
+     * @param Request $request
+     * @param $id
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
     public function updateById(Request $request, $id)
     {
+        $userActRepo = (new MerchantActsService()) -> find($id);
+        if($userActRepo) {
+            $requestAttribute = $request -> all();
+            $userActRepo -> fill($requestAttribute) -> save();
+            return $this -> _sendJsonResponse("保存成功", $requestAttribute);
+        }
+        return $this -> _sendJsonResponse("活动不存在", ['id' => $id], false);
 
     }
 

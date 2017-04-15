@@ -51,4 +51,14 @@ class MerchantActs extends Model
 
     protected $table = "merchant_acts";
 
+    public function setActImagesAttribute($value)
+    {
+        return $this -> attributes['act_images'] = json_encode($value, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getActImagesAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
 }
