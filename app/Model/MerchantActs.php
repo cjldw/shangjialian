@@ -34,6 +34,7 @@ class MerchantActs extends Model
         'act_rule_decorate',
         'act_rule_cnt',
         'act_rule_keywords',
+        'act_rule_desc',
         'act_images',
         'organizer_name',
         'organizer_address',

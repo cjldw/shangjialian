@@ -235,6 +235,7 @@ create table if not exists bizman_merchant_acts (
     act_rule_decorate varchar(16) null default null comment '活动前缀修饰',
     act_rule_cnt int unsigned not null default 0 comment '活动奖品数量',
     act_rule_keywords varchar(16) null default '收集' comment '参与活动动作, [元宝, 星星啥的]',
+    act_rule_desc text null default null comment '活动规则说明',
 
     act_images varchar(1024) null default null comment '图片序列化地址, 最多5张',
 
