@@ -72,8 +72,7 @@ html , body{
     margin: 0 0 4px 0
 }
 .daterangepicker .calendar.single .calendar-table {
-    width: 224px;
-    padding: 0 0 4px 0 !important
+    padding: 4px !important
 }
 .daterangepicker .calendar.single .calendar-table thead tr:first-child th {
     padding: 8px 5px

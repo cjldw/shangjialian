@@ -28,7 +28,7 @@ class MerchantActs extends Model
         'act_end_time',
         'act_prize_name',
         'act_prize_cnt',
-        'prize_decorate',
+        'act_prize_decorate',
         'act_prize_unit',
         'act_prize_desc',
         'act_rule_decorate',

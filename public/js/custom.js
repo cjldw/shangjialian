@@ -1725,7 +1725,6 @@ if (typeof NProgress != 'undefined') {
 	   }
 	   
 	    function init_daterangepicker_single_call() {
-	      
 			if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
 			console.log('init_daterangepicker_single_call');
 		   

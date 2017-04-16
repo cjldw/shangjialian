@@ -25,15 +25,18 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> 活动封面图 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button class="btn btn-default btn-sm js-cover-img-upload">上传</button>
-                                    {{--<input id="js-cover-img"  class="dropzone" name="file" placeholder="upload" required="required" type="file">--}}
+                                    <input type="file" id="js-coverimg" accept="image/*" />
+                                    <input type="hidden" name="cover_img" id="js-coverimg-val">
+                                    <div class="js-coverimg"></div>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email"> 活动内页图片 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="email" type="file" name="bannerImg" class="optional form-control col-md-7 col-xs-12">
+                                    <input type="file" id="js-actimg" accept="image/*" />
+                                    <input type="hidden" name="banner_img" id="js-actimg-val">
+                                    <div class="js-actimg"></div>
                                 </div>
                             </div>
                             <div class="item form-group">
@@ -64,15 +67,66 @@
 
 
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone"> 活动区间 <span class="required">*</span>
-                                </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone"> 活动区间 <span class="required">*</span> </label>
                                 <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <div class="daterangepicker dropdown-menu ltr single opensright show-calendar picker_2 xdisplay">
+                                        <div class="calendar left single" style="display: block;">
+                                            <div class="daterangepicker_input">
+                                                <input class="input-mini form-control active" type="text" id="js-start-time-val" name="act_start_time" style="display: none;">
+                                                <i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i>
+                                                <div class="calendar-time" style="display: none;">
+                                                    <div></div>
+                                                    <i class="fa fa-clock-o glyphicon glyphicon-time"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <fieldset>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+                                                    <input type="text" class="form-control has-feedback-left" id="js-start-time" placeholder="First Name" aria-describedby="inputSuccess2Status2">
+                                                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                    <span id="inputSuccess2Status2" class="sr-only">(success)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <!-- <div class="col-md-3 col-sm-3 col-xs-12">
                                     <input type="datetime" name="act_start_time"  class="form-control col-md-2 col-xs-12" placeholder="开始时间" />
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-12">
                                     <input type="datetime" name="act_end_time" class="form-control col-md-2 col-xs-12" placeholder="结束时间"/>
+                                </div> -->
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <div class="daterangepicker dropdown-menu ltr single opensright show-calendar picker_2 xdisplay">
+                                        <div class="calendar left single" style="display: block;">
+                                            <div class="daterangepicker_input">
+                                                <input class="input-mini form-control active" type="text" id="js-end-time-val" name="act_end_time" value="" style="display: none;">
+                                                <i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i>
+                                                <div class="calendar-time" style="display: none;">
+                                                    <div></div>
+                                                    <i class="fa fa-clock-o glyphicon glyphicon-time"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <fieldset>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+                                                    <input type="text" class="form-control has-feedback-left" id="js-end-time" placeholder="First Name" aria-describedby="inputSuccess2Status2">
+                                                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                    <span id="inputSuccess2Status2" class="sr-only">(success)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
                             </div>
+
 
                             <div class="item form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number"> 活动主题(标题)介绍 <span class="required">*</span>
@@ -131,7 +185,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone"> 奖品信息(数量) <span class="required">*</span>
                                 </label>
                                 <div class="col-md-2 col-sm-2 col-xs-12">
-                                    <input type="text" name="act_decorate"  class="form-control col-md-2 col-xs-12" placeholder="修饰. 如'最后','限量', '绝版" />
+                                    <input type="text" name="act_prize_decorate"  class="form-control col-md-2 col-xs-12" placeholder="修饰. 如'最后','限量', '绝版" />
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-12">
                                     <input type="number" name="act_prize_cnt" class="form-control col-md-2 col-xs-12" placeholder="数量"/>
@@ -248,6 +302,8 @@
 
 @section("js")
     {{--<script src="/assets/dropzone/dist/min/dropzone.min.js"></script>--}}
+    <script src="/assets/lrz/lrz.bundle.js"></script>
     <script src="/assets/dropzone/dist/dropzone.js"></script>
+    <script src="/assets/dateformat/date-format.min.js"></script>
     <script src="/js/pc/activity/common/index.js"></script>
 @endsection
