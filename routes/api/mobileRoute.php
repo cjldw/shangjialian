@@ -74,7 +74,9 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
                 Route::post("/", ['uses' => 'UserActController@createAct', 'as' => 'CreateAct']);
                 Route::delete("/{id}", ['uses' => 'UserActController@deleteById','as' => 'Delete'])
                     -> where(['id' => '[0-9]+']);
-                Route::put("/{id}", ['uses' => 'UserActController@updateById', 'as' => "Update"]);
+                Route::put("/{id}", ['uses' => 'UserActController@updateById', 'as' => "Update"])
+                    -> where(['id' => '[0-9]+']);
+
             });
         });
 
