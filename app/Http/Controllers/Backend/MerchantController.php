@@ -24,7 +24,7 @@ class MerchantController extends BaseController
     {
         $pageSize = $request -> input('pageSize');
         $like = $request -> input('like');
-        $builder = (new MerchantService()) -> orderBy('created_at', 'desc');
+        $builder = (new MerchantService()) -> whereNotNull("phone") -> orderBy('created_at', 'desc');
 
         if($like != '') {
             $builder = $builder -> where('name', 'like', '%'.$like.'%') -> orWhere('phone', 'like', '%'.$like.'%');
