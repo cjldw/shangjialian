@@ -64,8 +64,16 @@ class UserController extends BaseController
 
     }
 
+    /**
+     * logout
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
+        $session = $request -> getSession();
+        $session -> flush();
         Auth::guard(config("auth.authType.mobile")) -> logout();
         return $this -> _sendJsonResponse('退出成功!', ['redirectUrl' => "/"]);
     }
