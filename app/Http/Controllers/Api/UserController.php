@@ -264,11 +264,34 @@ class UserController extends BaseController
         return $this -> _sendJsonResponse("系统繁忙, 请稍候再试", null, false);
     }
 
+    /**
+     * 获取用户登入状态
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
     public function loginInfo(Request $request)
     {
         $session = $request -> getSession();
         $userInfo = $session -> get("_userinfo");
-        dd($userInfo);
+        if(!$userInfo || !is_array($userInfo)) {
+            return $this -> _sendJsonResponse("用户未登入", [], false);
+        }
+        if(!isset($userInfo['id'])) {
+            return $this -> _sendJsonResponse("用户未登入", [], false);
+        }
+
+        $merchantRepo = (new MerchantService()) -> find($userInfo['id']);
+        if(!$merchantRepo) {
+            return $this -> _sendJsonResponse("用户不存在", [], false);
+        }
+        $session -> put("_userinfo", $merchantRepo -> toArray());
+        $session -> save();
+        return $this -> _sendJsonResponse("请求成功", [
+            'name' => $merchantRepo -> getAttribute("name"),
+            'mobile' => $merchantRepo -> getAttribute("phone"),
+            'expiredDays' => $merchantRepo -> getExpiredDays(),
+        ]);
     }
 
 }
