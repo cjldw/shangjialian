@@ -47,20 +47,15 @@ class WxJsUtils
             Cache::put(self::WX_JS_TICKET_TOKEN_CACHE_KEY, $jsTicketToken, Carbon::now() -> addSecond($expireIn - 10));
         }
 
-        $randomString = RandomUtils::randomChar(16);
-        $nowTimestamp = time();
-        $signature = [
-            'jsapi_ticket' => $jsTicketToken,
-            'nonceStr' =>  $randomString,
-            'timestamp' => $nowTimestamp,
-            'url' => $url,
-        ];
-        $signatureString = sha1(http_build_query($signature));
+        $nonceStr = RandomUtils::randString();
+        $timestamp = time();
+        $string = "jsapi_ticket=$jsTicketToken&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
+        $signatureString = sha1($string);
 
         return [
             'appId' => WxUtils::getAppId(),
-            'nonceStr' => $randomString,
-            'timestamp' => $nowTimestamp,
+            'nonceStr' => $nonceStr,
+            'timestamp' => $timestamp,
             'signature' => $signatureString,
             'jsApiList' => [
                 'checkJsApi',
