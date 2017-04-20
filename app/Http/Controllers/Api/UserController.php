@@ -31,19 +31,21 @@ class UserController extends BaseController
     {
         $this -> validate($request, [
             'mobile' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'openid' => 'required',
         ], [
             'mobile.required' => '用户名不能为空',
             'password.required' => '密码不能为空',
+            'openid.required' => '网络繁忙, 请稍候在试',
         ]);
 
         $mobile = $request -> input('mobile');
         $password = $request -> input('password');
+        $openid = $request -> input('openid');
 
         $session = $request -> getSession();
-        $userInfo = $session -> get("_userinfo");
 
-        $merchantRepo = (new MerchantService()) -> where(["phone" => $mobile, 'openid' => $userInfo['openid']]) -> first();
+        $merchantRepo = (new MerchantService()) -> where(["phone" => $mobile, 'openid' => $openid]) -> first();
         if($merchantRepo) {
             if(md5($merchantRepo -> getAttribute("salt") . $password) === $merchantRepo -> getAttribute("password")) {
                 $merchantRepo -> setAttribute("login_cnt", $merchantRepo -> getAttribute("login_cnt") + 1);
