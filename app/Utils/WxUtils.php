@@ -43,6 +43,8 @@ final class WxUtils
      */
     const WX_ACCESS_TOKEN_URI = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code';
 
+    const WX_JS_API_URL = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi';
+
     public static function getInstance() { }
 
     /**
@@ -67,8 +69,26 @@ final class WxUtils
         $accessTokenUrl = sprintf(self::WX_ACCESS_TOKEN_URI, self::WX_APPID, self::WX_SECRET, $code);
         $resultSet = json_decode(HttpUtil::get($accessTokenUrl), true);
 
-        if(isset($resultSet['openid']))
-            return $resultSet;
-        return null;
+        if(!isset($resultSet['openid']))
+            return null;
+        return $resultSet;
+    }
+
+//    public static function getWxToken = ()
+
+    public static function getJsToken($url = null)
+    {
+        if(!$url) {
+            return null;
+        }
+
+        $jsToken = [
+            'debug' => DevEnvUtils::isProductionEnv() ? false : true,
+            'appId' => self::WX_APPID,
+            'timestamp' => time(),
+            'nonceStr' => RandomUtils::randomChar(10),
+            'url' => $url,
+        ];
+
     }
 }

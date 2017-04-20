@@ -44,4 +44,10 @@ class WxController extends BaseController
         return $this -> _sendJsonResponse("请求失败", $request -> all(), false);
     }
 
+    public function jsToken(Request $request)
+    {
+
+
+    }
+
 }

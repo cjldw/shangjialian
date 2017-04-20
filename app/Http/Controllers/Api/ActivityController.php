@@ -31,9 +31,12 @@ class ActivityController extends BaseController
      */
     public function recommend(Request $request)
     {
-        $resultSet = (new ActivityService())  -> orderBy("id", "desc")
-            -> orderBy("is_recommend", "desc") -> limit(6) -> get();
-
+        $resultSet = (new ActivityService())
+            -> where("is_offshelf", '=', 0)
+            -> orderBy("id", "desc")
+            -> orderBy("is_recommend", "desc")
+            -> limit(6)
+            -> get();
         return $this -> _sendJsonResponse("请求成功", $resultSet);
     }
 

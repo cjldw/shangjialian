@@ -10,6 +10,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
     Route::group(['prefix' => '/wechat', 'as' => 'Wechat::'], function () {
         Route::get("/authorization", ['uses' => 'WxController@authorization', 'as' => 'Authorization']);
         Route::get("/userinfo", ['uses' => 'WxController@userinfo', 'as' => 'Userinfo']);
+        Route::get("/jstoken", ['uses' => 'WxController@jsToken', 'as' => 'JsToken']);
     });
 
     Route::group(['middleware' => ['wx']], function () {
