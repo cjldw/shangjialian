@@ -50,8 +50,8 @@ class WxJsUtils
         $randomString = RandomUtils::randomChar(16);
         $nowTimestamp = time();
         $signature = [
-            'nonceStr' =>  $randomString,
             'jsapi_ticket' => $jsTicketToken,
+            'nonceStr' =>  $randomString,
             'timestamp' => $nowTimestamp,
             'url' => $url,
         ];
