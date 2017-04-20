@@ -108,7 +108,7 @@ class UserController extends BaseController
         $password = $request -> input("password");
         $code = $request -> input("code");
 
-        if(true || $code == Cache::get("_captcha_" . $mobile)) {
+        if(DevEnvUtils::isDevelopEnv() || $code == Cache::get("_captcha_" . $mobile)) {
             //Cache::forget("_captcha_".$mobile); // remove cache
             if($merchantRepo) {
                 $merchantRepo -> fill([

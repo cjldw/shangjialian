@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Service\Api\MerchantService;
 use App\Utils\DevEnvUtils;
+use App\Utils\WxJsUtils;
 use App\Utils\WxUtils;
 use Illuminate\Http\Request;
 
@@ -44,10 +45,17 @@ class WxController extends BaseController
         return $this -> _sendJsonResponse("请求失败", $request -> all(), false);
     }
 
+    /**
+     * 获取微信jstoken
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
     public function jsToken(Request $request)
     {
-
-
+        $url = $request -> get("url", config('constants.frontendUrl'));
+        $jsTokenConfig = WxJsUtils::getWxJsConfig($url);
+        return $this -> _sendJsonResponse('请求成功', $jsTokenConfig);
     }
 
 }

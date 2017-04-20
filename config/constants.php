@@ -9,4 +9,5 @@
 return [
     'pageSize' => 15,
     'resetpasswd' => '111111',
+    'frontendUrl' => 'http://sjl.51lianying.com',
 ];

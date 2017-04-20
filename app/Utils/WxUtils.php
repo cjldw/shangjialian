@@ -34,9 +34,19 @@ final class WxUtils
     const WX_SNSAPI_USERINFO_SCOPE = "snsapi_userinfo";
 
     /*
+     * get wechat access_token api
+     */
+    const WX_CLIENT_ACCESS_TOKEN = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s';
+
+    /*
      * wechat ask user to authenticate uri
      */
     const WX_AUTH_URI = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&response_type=code&scope=%s&state=STATE";
+
+    /*
+     * wechat js ticket url
+     */
+    const WX_JSTICKET_URL = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi';
 
     /*
      * wechat get access token uri
@@ -74,21 +84,36 @@ final class WxUtils
         return $resultSet;
     }
 
-//    public static function getWxToken = ()
-
-    public static function getJsToken($url = null)
+    /**
+     * obtain access_token url
+     *
+     * @return string
+     */
+    public static function getAccessTokenUrl()
     {
-        if(!$url) {
-            return null;
-        }
-
-        $jsToken = [
-            'debug' => DevEnvUtils::isProductionEnv() ? false : true,
-            'appId' => self::WX_APPID,
-            'timestamp' => time(),
-            'nonceStr' => RandomUtils::randomChar(10),
-            'url' => $url,
-        ];
-
+        return sprintf(self::WX_CLIENT_ACCESS_TOKEN, self::WX_APPID, self::WX_SECRET);
     }
+
+    /**
+     * acquire wechat javascript ticket url
+     *
+     * @param string $accessToken
+     * @return string
+     */
+    public static function getJsTicketUrl($accessToken = '')
+    {
+        return sprintf(self::WX_JSTICKET_URL, $accessToken);
+    }
+
+
+    /**
+     * acquire wechat appId
+     *
+     * @return string
+     */
+    public static function getAppId()
+    {
+        return self::WX_APPID;
+    }
+
 }
