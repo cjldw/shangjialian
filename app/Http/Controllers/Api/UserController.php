@@ -264,4 +264,11 @@ class UserController extends BaseController
         return $this -> _sendJsonResponse("系统繁忙, 请稍候再试", null, false);
     }
 
+    public function loginInfo(Request $request)
+    {
+        $session = $request -> getSession();
+        $userInfo = $session -> get("_userinfo");
+        dd($userInfo);
+    }
+
 }

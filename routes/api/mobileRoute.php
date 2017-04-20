@@ -25,6 +25,9 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
         Route::group(['prefix' => 'user', 'as' => 'User::'], function () {
             Route::get("/", ['uses' => "UserController@index", 'as' => "Index"]) ;
 
+            /* 获取用户登入信息 多次登入后, 可无需在登入*/
+            Route::get("/logininfo", ['uses' => 'UserController@loginInfo', 'as' => 'LoginInfo']);
+
             Route::post("/login", ['uses' => "UserController@login", 'as' => "Login"]);
 
             Route::post("/logout", ['uses' => "UserController@logout" , 'as' => "Logout"]);
