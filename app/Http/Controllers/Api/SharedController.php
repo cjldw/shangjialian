@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Service\Api\ActivityRankService;
+use App\Service\Api\ActivityService;
 use App\Service\Api\MerchantActsService;
 use App\Service\Api\MerchantService;
 use App\Service\Api\VisitLogService;
@@ -197,6 +198,19 @@ class SharedController extends BaseController
         if($resultSet) {
             return $this -> _sendJsonResponse('用户之前有参与此活动', $resultSet, false);
         }
+
+        /* 用户使用模版+1 */
+        $userActRepo = (new MerchantActsService()) -> find($actId);
+        if ($userActRepo) {
+            $tplId = $userActRepo -> getAttribute("tpl_id");
+            $actTplRepo = (new ActivityService()) -> find($tplId);
+
+            if($actTplRepo) {
+                $netizenCopyCnt = $actTplRepo -> getAttribute('netizen_copy_cnt');
+                $actTplRepo -> setAttribute('netizen_copy_cnt', ++$netizenCopyCnt);
+                $actTplRepo -> save();
+            }
+        }
         return $this -> _sendJsonResponse("用户没有参与");
     }
 
@@ -232,22 +246,21 @@ class SharedController extends BaseController
 
 
         $rankRepo = new ActivityRankService();
-        if(!$rankRepo -> where(['act_id' => $actId, 'openid' => $openid]) -> first()) {
-
-            $rankRepo -> setAttribute("name", $name);
-            $rankRepo -> setAttribute("phone", $phone);
-            $rankRepo -> setAttribute("act_id", $actId);
-            $rankRepo -> setAttribute("openid", $openid);
-            $rankRepo -> setAttribute("level", (($openid == $actOpenId) ? 0 : 1));
-
-            $merchantAct = (new MerchantActsService()) -> find($actId);
-            $ruleCnt = $merchantAct -> getAttribute("act_rule_cnt");
-            $rankRepo -> setAttribute("completed_cnt", $ruleCnt);
-
-            $rankRepo -> save();
-            return $this -> _sendJsonResponse("参与活动成功", $rankRepo);
+        if($rankRepo -> where(['act_id' => $actId, 'openid' => $openid]) -> first()) {
+            return $this -> _sendJsonResponse("已经参与过活动, 不能在参与了", null, false);
         }
-        return $this -> _sendJsonResponse("已经参与过活动, 不能在参与了", null, false);
+        $rankRepo -> setAttribute("name", $name);
+        $rankRepo -> setAttribute("phone", $phone);
+        $rankRepo -> setAttribute("act_id", $actId);
+        $rankRepo -> setAttribute("openid", $openid);
+        $rankRepo -> setAttribute("level", (($openid == $actOpenId) ? 0 : 1));
+
+        $merchantAct = (new MerchantActsService()) -> find($actId);
+        $ruleCnt = $merchantAct -> getAttribute("act_rule_cnt");
+        $rankRepo -> setAttribute("completed_cnt", $ruleCnt);
+
+        $rankRepo -> save();
+        return $this -> _sendJsonResponse("参与活动成功", $rankRepo);
     }
 
     /**

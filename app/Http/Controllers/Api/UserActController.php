@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Service\Api\ActivityRankService;
+use App\Service\Api\ActivityService;
 use App\Service\Api\MerchantActsService;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,9 @@ class UserActController extends BaseController
             'merchant_id' => $userInfo["id"],
             'openid' => $userInfo['openid'],
         ];
-        $attributes = array_merge($userData, $request -> all());
+        $tplData = $request -> all();
+        $tplData['tpl_id'] = isset($tplData['id']) ? $tplData['id'] : 1;
+        $attributes = array_merge($userData, $tplData);
         $merchantActsRepo = new MerchantActsService();
         $merchantActsRepo -> fill($attributes) -> save();
 
@@ -37,6 +40,13 @@ class UserActController extends BaseController
             'phone' => $userInfo['phone'],
             'completed_cnt' => $merchantActsRepo -> getAttribute("act_rule_cnt"),
         ]) -> save();
+
+        /* 模版使用次数+1 */
+        if($actRepo = (new ActivityService()) -> find($tplData['id'])) {
+            $bizmanCopyCnt = $actRepo -> getAttribute('bizman_copy_cnt');
+            $actRepo -> setAttribute('bizman_copy_cnt', ++$bizmanCopyCnt);
+            $actRepo -> save();
+        }
 
         return $this -> _sendJsonResponse("创建成功", [
             'id' => $merchantActsRepo -> getAttribute("id"),

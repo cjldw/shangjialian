@@ -36,11 +36,50 @@ class CommonActController extends BaseController
         return $this -> _sendViewResponse("index", ['industries' => $industryRepo]);
     }
 
+    /**
+     * 编辑页面
+     *
+     * @param Request $request
+     * @param $id
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function modify(Request $request, $id)
     {
-        return $this -> _sendJsonResponse("修改成功", null, ['id' => $id]);
+        $activityRepo = (new ActivityService()) -> find($id);
+        if(!$activityRepo) {
+            return $this -> _sendJsonResponse('活动不存在', null, false);
+        }
+
+        $industryRepo = (new IndustryService()) -> all() -> toArray();
+
+        return $this -> _sendViewResponse('modify', ['actRepo' => $activityRepo, 'industries' => $industryRepo]);
     }
 
+    /**
+     * asynchronized activity
+     *
+     * @param Request $request
+     * @param $id
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function modifySync(Request $request, $id)
+    {
+        $activityRepo = (new ActivityService()) -> find($id);
+
+        if(!$activityRepo) {
+            return $this -> _sendJsonResponse('活动不存在', null, false);
+        }
+        $activityRepo -> fill($request -> all()) -> save();
+        return $this -> _sendJsonResponse('修改成功', $activityRepo);
+    }
+
+    /**
+     * recommend activity synchronized
+     *
+     * @param Request $request
+     * @param $id
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
     public function recommend(Request $request, $id)
     {
         $activityRepo = (new ActivityService()) -> find($id);

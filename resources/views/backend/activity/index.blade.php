@@ -56,11 +56,11 @@
                                         <td class=" ">{{$activity['netizen_copy_cnt']}} </td>
                                         <td class=" ">{{$activity['industry']['name']}} </td>
                                         <td class=" ">
-                                            <a href="{{$be['endpoint']}}/activity/{{$activity['id']}}" class="btn btn-info btn-xs">修改</a>
-                                            <button class="btn {{$activity['is_offshelf'] ? 'btn-default' : 'btn-danger'}} btn-xs js-offshelf" data-id="{{$activity['id']}}">
+                                            <a href="{{$be['endpoint']}}/activity/{{$activity['id']}}?type={{$activity['act_type']}}" class="btn btn-info btn-xs">修改</a>
+                                            <button class="btn {{$activity['is_offshelf'] ? 'btn-default' : 'btn-danger'}} btn-xs js-offshelf" data-offshelf="{{$activity['is_offshelf']}}" data-id="{{$activity['id']}}">
                                                 {{$activity['is_offshelf'] ? '上架' : '下架'}}
                                             </button>
-                                            <button class="btn {{$activity['is_recommend'] ? 'btn-danger' : 'btn-primary'}} btn-xs js-recommend" data-id="{{$activity['id']}}">
+                                            <button class="btn {{$activity['is_recommend'] ? 'btn-danger' : 'btn-primary'}} btn-xs js-recommend" data-recommend="{{$activity['is_recommend']}}" data-id="{{$activity['id']}}">
                                                 {{$activity['is_recommend'] ? '取消推荐' : '推荐'}}
                                             </button>
                                         </td>

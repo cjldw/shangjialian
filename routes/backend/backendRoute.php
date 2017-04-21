@@ -27,9 +27,9 @@ Route::group(['prefix' => 'admin', 'namespace' => '\Backend', 'as' => 'Backend::
 
             Route::group(['prefix' => 'common', 'as' => 'Common::'], function () {
                 Route::match(['get', 'post'], '/', ['uses' => 'CommonActController@index', 'as' => 'Index']);
-                /*
-                Route::put("/{id}", ['uses' => 'CommonActController@recommend', 'as' => "Recommend"])
+                Route::put("/{id}", ['uses' => 'CommonActController@modifySync', 'as' => "ModifySync"])
                     -> where(['id' => '[0-9]+']);
+                /*
                 Route::delete('/{id}', ['uses' => 'CommonActController@putdown', 'as' => 'Putdown'])
                     -> where(['id' => '[0-9]+']);
                 */

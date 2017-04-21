@@ -76,49 +76,45 @@ class ActivityController extends BaseController
      */
     public function modify(Request $request, $id)
     {
-        $activityRepo = (new ActivityService()) -> find($id);
-        if($activityRepo) {
-            $actType = $activityRepo -> getAttribute("type");
-            switch ($actType) {
-                case 1:
-                    return (new CommonActController($request)) -> modify($request, $id); //'Backend\CommonActController@modify', ['id' => $id]);
-                    break;
-                case 2:
-                    return redirect() -> action('Backend\BargainActController@index', ['id' => $id]);
-                    break;
+        $actType = $request -> input('type');
+        switch ($actType) {
+            case 1:
+                return (new CommonActController($request)) -> modify($request, $id); //'Backend\CommonActController@modify', ['id' => $id]);
+                break;
+            case 2:
+                return redirect() -> action('Backend\BargainActController@index', ['id' => $id]);
+                break;
 
-                case 3:
-                    return redirect() -> action('CommonActController@index', ['id' => $id]);
-                    break;
+            case 3:
+                return redirect() -> action('CommonActController@index', ['id' => $id]);
+                break;
 
-                default:
-                    return (new CommonActController($request)) -> modify($request, $id); //'Backend\CommonActController@modify', ['id' => $id]);
-                    //return redirect() -> action('Backend\CommonActController@index', ['id' => $id]);
-                    break;
-            }
+            default:
+                return (new CommonActController($request)) -> modify($request, $id); //'Backend\CommonActController@modify', ['id' => $id]);
+                //return redirect() -> action('Backend\CommonActController@index', ['id' => $id]);
+                break;
         }
-        throw new NotFoundHttpException("活动不存在");
     }
 
     public function recommend(Request $request, $id)
     {
         $activityRepo = (new ActivityService()) -> find($id);
-        if($activityRepo) {
-            $isRecommend = abs(intval($activityRepo -> getAttribute("is_recommend")) - 1);
-            $status = $activityRepo -> setAttribute("is_recommend", $isRecommend) -> save();
-            return $this -> _sendJsonResponse('推荐成功', ['status' => $status]);
+        if(!$activityRepo) {
+            return $this -> _sendJsonResponse('活动不存在', null, false);
         }
-        return $this -> _sendJsonResponse('活动不存在', null, false);
+        $isRecommend = abs(intval($activityRepo -> getAttribute("is_recommend")) - 1);
+        $status = $activityRepo -> setAttribute("is_recommend", $isRecommend) -> save();
+        return $this -> _sendJsonResponse('操作成功', ['status' => $status]);
     }
 
     public function offshelf(Request $request, $id)
     {
         $activityRepo = (new ActivityService()) -> find($id);
-        if($activityRepo) {
-            $isOffshelf = abs(intval($activityRepo -> getAttribute("is_offshelf")) - 1);
-            $status = $activityRepo -> setAttribute("is_offshelf", $isOffshelf) -> save();
-            return $this -> _sendJsonResponse('下架成功', ['status' => $status]);
+        if(!$activityRepo) {
+            return $this -> _sendJsonResponse('活动不存在', null, false);
         }
-        return $this -> _sendJsonResponse('活动不存在', null, false);
+        $isOffshelf = abs(intval($activityRepo -> getAttribute("is_offshelf")) - 1);
+        $status = $activityRepo -> setAttribute("is_offshelf", $isOffshelf) -> save();
+        return $this -> _sendJsonResponse('操作成功', ['status' => $status]);
     }
 }
