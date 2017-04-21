@@ -295,6 +295,11 @@ class UserController extends BaseController
         if(!$merchantRepo) {
             return $this -> _sendJsonResponse("用户不存在", [], false);
         }
+
+        if(trim($merchantRepo -> getAttribute("phone")) == '') {
+            return $this -> _sendJsonResponse("用户未注册", [], false);
+        }
+
         $session -> put("_userinfo", $merchantRepo -> toArray());
         $session -> save();
         return $this -> _sendJsonResponse("请求成功", [
