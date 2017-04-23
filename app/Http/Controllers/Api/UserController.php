@@ -42,9 +42,6 @@ class UserController extends BaseController
         $mobile = $request -> input('mobile');
         $password = $request -> input('password');
         $openid = $request -> input('openid');
-
-        $session = $request -> getSession();
-
         $merchantRepo = (new MerchantService()) -> where(["phone" => $mobile, 'openid' => $openid]) -> first();
         if($merchantRepo) {
             if(md5($merchantRepo -> getAttribute("salt") . $password) === $merchantRepo -> getAttribute("password")) {

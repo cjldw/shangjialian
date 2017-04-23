@@ -143,15 +143,12 @@ class SharedController extends BaseController
         }
 
         $helpers = json_decode($rankRepo -> getAttribute("helpers"), true);
-        if(is_array($helpers) && in_array($helperId, $helpers)) {
+        $helpers = is_array($helpers) ? $helpers : [];
+
+        if(in_array($helperId, $helpers)) {
             return $this -> _sendJsonResponse("之前已经帮忙了", ['id' => $helperId], false);
         }
-
-        if(is_array($helpers)) { // append current openid in helpers
-            array_push($helpers, $helperId);
-        }
-        $helpers = [$helperId];
-
+        array_push($helpers, $helperId);
 
         $joinCnt = $rankRepo -> getAttribute("join_cnt");
         $completedCnt = $rankRepo -> getAttribute("completed_cnt");
@@ -233,7 +230,11 @@ class SharedController extends BaseController
 
         $rankRepo = new ActivityRankService();
         if(!$rankRepo -> where(['act_id' => $actId, 'openid' => $openid]) -> first()) {
+            $session = $request -> getSession();
+            $userInfo = $session -> get("_userinfo");
+            $merchantId = isset($userInfo['id']) ? $userInfo['id'] : 0;
 
+            $rankRepo -> setAttribute("merchant_id", $merchantId);
             $rankRepo -> setAttribute("name", $name);
             $rankRepo -> setAttribute("phone", $phone);
             $rankRepo -> setAttribute("act_id", $actId);
