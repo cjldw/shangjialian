@@ -26,7 +26,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="file" id="js-coverimg" accept="image/*" />
-                                        <input type="hidden" name="cover_img" id="js-coverimg-val">
+                                        <input type="hidden" name="cover_img" id="js-coverimg-val" value="{{$actRepo['cover_img']}}">
                                         <div class="js-coverimg">
                                             <img src="{{$actRepo['cover_img']}}">
                                         </div>
@@ -37,7 +37,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="file" id="js-actimg" accept="image/*" />
-                                        <input type="hidden" name="banner_img" id="js-actimg-val">
+                                        <input type="hidden" name="banner_img" id="js-actimg-val" value="{{$actRepo['banner_img']}}">
                                         <div class="js-actimg">
                                             <img src="{{$actRepo['banner_img']}}">
                                         </div>
