@@ -15,6 +15,7 @@ class MerchantActs extends Model
 {
 
     protected $fillable = [
+        'tpl_id',
         'merchant_id',
         'openid',
         'title',

@@ -10,7 +10,8 @@
 
     E_recommend.on("click", function () {
         var that = $(this);
-        var allow = window.confirm("确认推荐?");
+        var mesg = that.data('recommend') ? '取消推荐' : '确认推荐';
+        var allow = window.confirm(mesg + '?');
         if(allow) {
             var id = that.data("id");
 
@@ -25,7 +26,8 @@
 
     E_offshelf.on("click", function () {
         var that = $(this);
-        var allow = window.confirm("确认下架");
+        var mesg = that.data("offshelf") ? '上架' : '下架';
+        var allow = window.confirm("确认" + mesg + '?');
         if(allow) {
             var id = that.data("id");
             httpUtils.delete("/activity/"+id).then(function (response) {
