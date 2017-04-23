@@ -158,7 +158,7 @@
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 参与规则 <span class="required">*</span>
                                     </label>
                                     <div class="col-md-2 col-sm-6 col-xs-12">
-                                        <input type="text" name="act_rule_decorate" value="{{$actRepo['act_rule_decrate']}}"
+                                        <input type="text" name="act_rule_decorate" value="{{$actRepo['act_rule_decorate']}}"
                                                class="optional form-control col-md-7 col-xs-12" placeholder="修饰. '分享', '收集', '派送'">
                                     </div>
                                     <div class="col-md-1 col-sm-6 col-xs-12">
