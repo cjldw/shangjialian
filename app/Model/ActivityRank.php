@@ -27,6 +27,7 @@ class ActivityRank extends Model
         'level',
         'helpers',
         'is_completed',
+        'is_exchanged',
         'created_at',
         'updated_at',
         'deleted_at',

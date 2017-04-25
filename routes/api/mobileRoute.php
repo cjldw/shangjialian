@@ -89,6 +89,9 @@ Route::group(['namespace' => 'Api', 'middleware' => ['web', 'cors'], 'as' => 'AP
             Route::get("/start", ['uses' => 'MineController@start', 'as' => 'Start']);
             Route::get("/nostart", ['uses' => 'MineController@nostart', 'as' => 'NoStart']);
             Route::get("/end", ['uses' => 'MineController@end', 'as' => 'End']);
+            Route::get('/prize', ['uses' => 'MineController@getPrizeList', 'as' => 'PrizeList']);
+            Route::post('/prize/exchange', ['uses' => 'MineController@exchange', 'as' => 'Exchanged']);
+
         });
 
     });

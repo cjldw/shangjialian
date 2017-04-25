@@ -124,6 +124,7 @@ create table if not exists bizman_activity_rank (
     level tinyint unsigned not null default 0 comment  '级别, [0/制作者分享出来 1/网名点击我要玩出来的]',
     helpers text null default null comment '帮手列表集合， json序列化',
     is_completed tinyint unsigned not null default 0 comment '是否完成[0/未完成, 1/已经完成]',
+    is_exchanged tinyint unsigned not null default 0 comment '是否兑奖[0/未兑奖, 1/已经兑奖]',
 
     created_at datetime null default current_timestamp,
     updated_at datetime null default null,
@@ -131,6 +132,7 @@ create table if not exists bizman_activity_rank (
 
     primary key (id),
     unique key index_act_openid (act_id, openid),
+    key index_is_exchanged (is_exchanged),
     key index_deleted_at (deleted_at)
 
 ) engine innodb charset utf8 comment '活动排行表';

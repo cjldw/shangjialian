@@ -101,6 +101,75 @@ class MineController extends BaseController
         return $this -> _sendJsonResponse("请求成功", $resultSet);
     }
 
+    /**
+     * get completed activity by user phone
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function getPrizeList(Request $request)
+    {
+        $this -> validate($request, [
+            'mobile' => 'required',
+        ], [
+            'mobile.required' => '请输入用户手机号码',
+        ]);
 
+        $session = $request -> getSession();
+        $userInfo = $session -> get('_userinfo');
+        $mobile = $request -> input('mobile');
+        $rankRepo = (new ActivityRankService()) -> where([
+            'merchant_id' => isset($userInfo['id']) ? $userInfo['id'] : 0,
+            'phone' => $mobile,
+            'is_completed' => 1,
+            'is_exchanged' => 0,
+        ]) -> get();
+        if($rankRepo -> isEmpty()) {
+            return $this -> _sendJsonResponse('请求成功', $rankRepo);
+        }
+
+        $actIds = array_column($rankRepo -> toArray(), 'act_id');
+        $activityRepo = (new MerchantActsService()) -> whereIn('id', $actIds) -> get();
+        return $this -> _sendJsonResponse('请求成功', $activityRepo);
+    }
+
+    /**
+     * user exchange merchant gifts
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function exchange(Request $request)
+    {
+        $this -> validate($request, [
+            'mobile' => 'required',
+            'actId' => 'required',
+        ], [
+            'mobile.required' => '手机号不能为空',
+            'actId.required' => '活动id不能为空',
+        ]);
+
+        $mobile = $request -> input('mobile');
+        $actId = $request -> input('actId');
+
+        $rankRepo = (new ActivityRankService()) -> where([
+            'phone' => $mobile,
+            'act_id' => $actId
+        ]) -> first();
+
+        if(!$rankRepo) {
+            return $this -> _sendJsonResponse('活动不存在', null, false);
+        }
+        $isExchenaged = $rankRepo -> getAttribute('is_exchanged');
+        if($isExchenaged) {
+            return $this -> _sendJsonResponse('您已经领取过此活动的奖品', null, false);
+        }
+        $rankRepo -> setAttribute('is_exchanged', 1);
+        if(!$stat = $rankRepo -> save()){
+            return $this -> _sendJsonResponse('网络繁忙, 请稍候再试试', null, false);
+        }
+
+        return $this -> _sendJsonResponse('领取成功, 记得发放奖品给用户哦');
+    }
 
 }
