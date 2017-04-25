@@ -83,12 +83,12 @@ class UserActController extends BaseController
     public function updateById(Request $request, $id)
     {
         $userActRepo = (new MerchantActsService()) -> find($id);
-        if($userActRepo) {
-            $requestAttribute = $request -> all();
-            $userActRepo -> fill($requestAttribute) -> save();
-            return $this -> _sendJsonResponse("保存成功", $requestAttribute);
+        if(!$userActRepo) {
+            return $this -> _sendJsonResponse("活动不存在", ['id' => $id], false);
         }
-        return $this -> _sendJsonResponse("活动不存在", ['id' => $id], false);
+        $requestAttribute = $request -> all();
+        $userActRepo -> fill($requestAttribute) -> save();
+        return $this -> _sendJsonResponse("保存成功", $requestAttribute);
 
     }
 
