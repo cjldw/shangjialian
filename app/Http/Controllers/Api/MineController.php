@@ -76,14 +76,13 @@ class MineController extends BaseController
         $session = $request -> getSession();
         $userInfo = $session -> get("_userinfo");
         $merchantId = $userInfo['id'];
-
         $pageSize = $request -> input("pageSize");
 
         $now = Carbon::now();
-
         $resultSet = (new MerchantActsService())
             -> where([ 'merchant_id' => $merchantId])
             -> where("act_start_time", ">=", $now)
+            -> orderBy('id', 'desc')
             -> paginate($pageSize);
 
         return $this -> _sendJsonResponse("请求成功", $resultSet);

@@ -28,19 +28,20 @@ class MerchantActsService extends BaseService
     public function getStartActs(Request $request)
     {
         $session = $request -> getSession();
-        $userInfo = $session -> get("_userinfo");
+        $userInfo = $session -> get('_userinfo');
         $merchantId = $userInfo['id'] ? : 0;
-        $pageSize = $request -> input("pageSize");
+        $pageSize = $request -> input('pageSize');
         $now = Carbon::now();
         $resultSet = $this -> where([ 'merchant_id' => $merchantId])
-            -> where("act_start_time", "<=", $now)
-            -> where("act_end_time", ">=", $now)
+            -> where('act_start_time', '<=', $now)
+            -> where('act_end_time', '>=', $now)
+            -> orderBy('id', 'desc')
             -> paginate($pageSize);
 
         $items = $resultSet -> getCollection();
         $newItems = $items -> map(function ($item, $key) {
             $item = $item -> toArray();
-            $actId = $item["id"];
+            $actId = $item['id'];
             $rankSrv = new ActivityRankService();
             $item['join_count'] = $joinCount = $rankSrv -> getJoinCount($actId);
             $item['completed_count'] = $completedCount = $rankSrv -> getIsCompletedCount($actId);
@@ -63,18 +64,19 @@ class MerchantActsService extends BaseService
     public function getEndActs(Request $request)
     {
         $session = $request -> getSession();
-        $userInfo = $session -> get("_userinfo");
+        $userInfo = $session -> get('_userinfo');
         $merchantId = $userInfo['id'] ? : 0;
-        $pageSize = $request -> input("pageSize");
+        $pageSize = $request -> input('pageSize');
         $now = Carbon::now();
         $resultSet = $this -> where([ 'merchant_id' => $merchantId])
-            -> where("act_end_time", "<=", $now)
+            -> where('act_end_time', '<=', $now)
+            -> orderBy('id', 'desc')
             -> paginate($pageSize);
 
         $items = $resultSet -> getCollection();
         $newItems = $items -> map(function ($item, $key) {
             $item = $item -> toArray();
-            $actId = $item["id"];
+            $actId = $item['id'];
             $rankSrv = new ActivityRankService();
             $item['join_count'] = $joinCount = $rankSrv -> getJoinCount($actId);
             $item['completed_count'] = $completedCount = $rankSrv -> getIsCompletedCount($actId);
