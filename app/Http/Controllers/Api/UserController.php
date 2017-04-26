@@ -121,9 +121,9 @@ class UserController extends BaseController
                     'expiredDays' =>  $expiredDays,
                     'isAvailable' => ($expiredDays > 0) ? : false,
                 ];
-                return $this -> _sendJsonResponse("绑定成功", $respData);
+                return $this -> _sendJsonResponse("注册成功", $respData);
             }
-            return $this -> _sendJsonResponse("你是黑客吗?", $request -> all(), false);
+            return $this -> _sendJsonResponse("网络繁忙, 请稍候再试", $request -> all(), false);
         }
         return $this -> _sendJsonResponse("验证码错误", null, false);
     }
