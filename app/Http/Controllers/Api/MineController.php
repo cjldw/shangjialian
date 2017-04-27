@@ -120,7 +120,6 @@ class MineController extends BaseController
         $rankRepo = (new ActivityRankService()) -> where([
             'merchant_id' => isset($userInfo['id']) ? $userInfo['id'] : 0,
             'phone' => $mobile,
-            'is_completed' => 1,
             'is_exchanged' => 0,
         ]) -> get();
         if($rankRepo -> isEmpty()) {
@@ -159,6 +158,12 @@ class MineController extends BaseController
         if(!$rankRepo) {
             return $this -> _sendJsonResponse('活动不存在', null, false);
         }
+
+        $isCompleted = $rankRepo -> getAttribute('is_completed');
+        if(!$isCompleted) {
+            return $this -> _sendJsonResponse('您未完成次活动, 不能兑换', null, false);
+        }
+
         $isExchenaged = $rankRepo -> getAttribute('is_exchanged');
         if($isExchenaged) {
             return $this -> _sendJsonResponse('您已经领取过此活动的奖品', null, false);
