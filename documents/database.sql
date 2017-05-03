@@ -62,7 +62,7 @@ create table if not exists bizman_activity_template (
     act_prize_name varchar(32) null default null comment '奖品名称',
     act_prize_cnt int unsigned not null default 0 comment '活动奖品数量',
     act_prize_decorate varchar(16) null default null comment '奖品前部分修饰',
-    act_prize_unit varchar(4) null default null comment '奖品单位',
+    act_prize_unit varchar(64) null default null comment '奖品单位',
     act_prize_desc varchar(512) null default null comment '奖品描述',
     act_rule_decorate varchar(16) null default null comment '活动前缀修饰',
     act_rule_cnt int unsigned not null default 0 comment '活动规则数量',
