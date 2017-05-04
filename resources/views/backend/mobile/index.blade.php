@@ -18,16 +18,21 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <form class="form-horizontal form-label-left" novalidate>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> 首页广告图 <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input id="banner_img" class="form-control col-md-7 col-xs-12"  placeholder="http://www.51lianying.com/banner.jpg" required="required" type="file">
-                                    </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-2 col-sm-3 col-xs-12" for="name"> 首页广告图 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-2 col-xs-12">
+                                    <input type="file"  class="" id="js-banner" accept="image/*" />
                                 </div>
-                            </form>
+                            </div>
 
+                            @if($bannerUrl != '')
+                            <br/> <br/> <br/>
+                            <div class="col-md-12 block">
+                                <img id="js-banner-preview" src="{{$bannerUrl}}">
+                            </div>
+                            @endif
+                            <!---
                             <br/> <br/>
                             <div class="item form-group">
                                 @forelse($acts as $act)
@@ -41,11 +46,6 @@
                                                     <a href=""></a>
                                                     <a href=""></a>
                                                     <a href=""></a>
-                                                    <!--
-                                                        <a href="#"><i class="fa fa-link"></i></a>
-                                                        <a href="#"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#"><i class="fa fa-times"></i></a>
-                                                        -->
                                                 </div>
                                             </div>
                                         </div>
@@ -66,6 +66,7 @@
                                 </div>
                             </div>
                             @endif
+                            -->
 
                         </div>
                     </div>
@@ -75,4 +76,11 @@
     </div>
     <!-- /page content -->
 
+@endsection
+
+
+@section("js")
+<script src="/assets/lrz/lrz.bundle.js"></script>
+<script src="/assets/dropzone/dist/dropzone.js"></script>
+<script src="/js/pc/mobile/index.js"></script>
 @endsection

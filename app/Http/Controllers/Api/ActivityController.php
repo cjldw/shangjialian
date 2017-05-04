@@ -79,4 +79,33 @@ class ActivityController extends BaseController
 
         return $this -> _sendJsonResponse("请求成功", $resultSet);
     }
+
+
+    /**
+     * 根据活动能够id, 获取参与人数
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function getActRank(Request $request)
+    {
+        $this -> validate($request, [
+            'actId' => 'required',
+        ], [
+            'actId.required' => '活动id不能为空',
+        ]);
+
+        $session = $request -> getSession();
+        $userInfo = $session -> get('_userinfo');
+
+        $pageSize = $request -> input('pageSize');
+        $actId = $request -> input('actId');
+
+        $resultSet = (new ActivityRankService()) -> where([
+            'act_id' => $actId,
+            'openid' => $userInfo['openid']
+        ]) -> whereNotNull('phone') -> paginate($pageSize);
+
+        return $this -> _sendJsonResponse($resultSet);
+    }
 }

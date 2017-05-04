@@ -29,7 +29,14 @@ class WxController extends BaseController
         if($code) {
             $userInfo = WxUtils::getWxOpenId($code);
             if(DevEnvUtils::isDevelopEnv()) {
-                $userInfo['openid'] = 'abcdefIOk-wefladf-edgo1P';
+                $userInfo = [
+                    'id' => 1,
+                    'openid' => 'abcdefIOk-wefladf-edgo1P',
+                    'name' => 'super.luowen',
+                    'isAvailable' => true,
+                    'expireDays' => 10000,
+                    'phone' => '13222221111',
+                ];
             }
             /* just for test */
             if(isset($userInfo['openid'])) {

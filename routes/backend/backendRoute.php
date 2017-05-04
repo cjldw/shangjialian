@@ -59,6 +59,7 @@ Route::group(['prefix' => 'admin', 'namespace' => '\Backend', 'as' => 'Backend::
 
         Route::group(['prefix' => 'mobile', 'as' => 'Mobile::'], function() {
             Route::get('/', ['uses' => 'MobileController@index', 'as' => 'Index']);
+            Route::post('/', ['uses' => 'MobileController@changeBannerUrl', 'as' => 'ChangeBannerUrl']);
         });
 
     });
