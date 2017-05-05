@@ -42,24 +42,31 @@ class UserController extends BaseController
         $mobile = $request -> input('mobile');
         $password = $request -> input('password');
         $openid = $request -> input('openid');
-        $merchantRepo = (new MerchantService()) -> where(["phone" => $mobile, 'openid' => $openid]) -> first();
-        if($merchantRepo) {
-            if(md5($merchantRepo -> getAttribute("salt") . $password) === $merchantRepo -> getAttribute("password")) {
-                $merchantRepo -> setAttribute("login_cnt", $merchantRepo -> getAttribute("login_cnt") + 1);
-                $merchantRepo -> save();
-                //Auth::guard(config('auth.authType.mobile')) -> login($merchantRepo, true);
-                $session = $request -> getSession();
-                $session -> put("_userinfo", $merchantRepo -> toArray());
-                $session -> save();
-                return $this -> _sendJsonResponse("登入成功", [
-                    'name' => $merchantRepo -> getAttribute("name"),
-                    'mobile' => $merchantRepo -> getAttribute("phone"),
-                    'expiredDays' => $merchantRepo -> getExpiredDays(),
-                ]);
+        $merchantRepo = new MerchantService();
+        $merchantRepo = $merchantRepo -> where(["phone" => $mobile, 'openid' => $openid]) -> first();
+        if(!$merchantRepo) {
+            $merchantRepo = $merchantRepo -> where(['phone' => $mobile]) -> first();
+            if(!$merchantRepo) {
+                return $this -> _sendJsonResponse('用户不存在', null, false);
             }
+            return $this -> _sendJsonResponse('拒绝登录, 此帐号被其他微信绑定', null, false);
+        }
+
+        if(md5($merchantRepo -> getAttribute("salt") . $password) !== $merchantRepo -> getAttribute("password")) {
             return $this -> _sendJsonResponse('用户名或密码错误', null, false);
         }
-        return $this -> _sendJsonResponse('用户不存在', null, false);
+
+        $merchantRepo -> setAttribute("login_cnt", $merchantRepo -> getAttribute("login_cnt") + 1);
+        $merchantRepo -> save();
+        //Auth::guard(config('auth.authType.mobile')) -> login($merchantRepo, true);
+        $session = $request -> getSession();
+        $session -> put("_userinfo", $merchantRepo -> toArray());
+        $session -> save();
+        return $this -> _sendJsonResponse("登入成功", [
+            'name' => $merchantRepo -> getAttribute("name"),
+            'mobile' => $merchantRepo -> getAttribute("phone"),
+            'expiredDays' => $merchantRepo -> getExpiredDays(),
+        ]);
 
     }
 
