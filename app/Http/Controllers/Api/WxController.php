@@ -60,7 +60,12 @@ class WxController extends BaseController
      */
     public function jsToken(Request $request)
     {
-        $url = $request -> get("url", config('constants.frontendUrl'));
+        $this -> validate($request, [
+            'url' => 'required',
+        ], [
+            'url.required' => '微信分享签名url不能为空',
+        ]);
+        $url = $request -> input("url");
         $jsTokenConfig = WxJsUtils::getWxJsConfig($url);
         return $this -> _sendJsonResponse('请求成功', $jsTokenConfig);
     }
