@@ -61,6 +61,7 @@ class WxJsUtils
                 'checkJsApi',
                 'onMenuShareTimeline',
                 'onMenuShareAppMessage',
+                /*
                 'onMenuShareQQ',
                 'onMenuShareWeibo',
                 'onMenuShareQZone',
@@ -94,6 +95,7 @@ class WxJsUtils
                 'addCard',
                 'chooseCard',
                 'openCard'
+                */
             ]
         ];
     }
