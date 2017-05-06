@@ -53,7 +53,8 @@ class WxJsUtils
         $signatureString = sha1($string);
 
         return [
-            'debug' => DevEnvUtils::isDevelopEnv(),
+//            'debug' => DevEnvUtils::isDevelopEnv(),
+            'debug' => true,
             'appId' => WxUtils::getAppId(),
             'nonceStr' => $nonceStr,
             'timestamp' => $timestamp,
