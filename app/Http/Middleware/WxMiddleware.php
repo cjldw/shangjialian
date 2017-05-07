@@ -14,7 +14,6 @@ class WxMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @return mixed
      */
     public function handle($request, Closure $next)
     {
@@ -23,6 +22,7 @@ class WxMiddleware
         if($isWx || DevEnvUtils::isDevelopEnv()) {
             return $next($request);
         }
+        return $next($request);
 
         /* only allow one time for request */
         $userAgent = $request -> header('User-Agent');
