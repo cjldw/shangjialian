@@ -46,12 +46,11 @@ class ActivityController extends BaseController
         if($request -> ajax()) {
             $attributes = $request -> all();
             $activitySrv = (new ActivityService());
-            if(isset($attributes['act_start_time']) && $attributes['act_start_time'] == '') {
+            if(is_null($attributes['act_start_time'])) {
                 $attributes['act_start_time'] = date("Y-m-d");
             }
-
-            if(isset($attributes['act_end_time']) && $attributes['act_end_time'] == '') {
-                $attributes['act_end_time'] = date("Y-m-d");
+            if(is_null($attributes['act_end_time'])) {
+                $attributes['act_end_time'] = date("Y-m-d", strtotime("+1 month"));
             }
             $activitySrv -> fill($attributes) -> save();
             return $this -> _sendJsonResponse("创建成功",['insertId' => $activitySrv -> getAttribute("id")]);

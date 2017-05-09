@@ -20,15 +20,47 @@ class CommonActController extends BaseController
     public function index(Request $request)
     {
         if($request -> ajax()) {
-
             $this -> validate($request, [
-                'title' => 'required'
+                'title' => 'required',
+                'industry_id' => 'required',
+                'cover_img' => 'required',
+                'banner_img' => 'required',
+                'description' => 'required',
+                'act_rule_cnt' => 'required',
+                'act_rule_decorate' => 'required',
+                'act_rule_keywords' => 'required',
+                'act_rule_desc' => 'required',
+                'act_prize_decorate' => 'required',
+                'act_prize_cnt' => 'required',
+                'act_prize_unit' => 'required',
+                'act_prize_name' => 'required',
+                'act_prize_desc' => 'required',
+            ], [
+                'title.required' => '活动标题不能为空',
+                'industry_id.required' => '所属行业不能为空',
+                'cover_img.required' => '封面图片不能为空',
+                'banner_img.required' => '活动背景图片不能为空',
+                'description.required' => '活动描述不能为空',
+                'act_rule_cnt.required' => '请填写完整参与规则',
+                'act_rule_decorate.required' => '请填写完整参与规则',
+                'act_rule_keywords.required' => '请填写完整参与规则',
+                'act_rule_desc.required' => '请填写规则描述',
+                'act_prize_decorate.required' => '请填写完成奖品信息',
+                'act_prize_cnt.required' => '请填写奖品数量',
+                'act_prize_unit.required' => '请填写奖品单位',
+                'act_prize_name.required' => '请填写奖品名称',
+                'act_prize_desc.required' => '请填写奖品描述',
             ]);
 
             $attributes = $request -> all();
             $activitySrv = (new ActivityService());
+            if(is_null($attributes['act_start_time'])) {
+                $attributes['act_start_time'] = date("Y-m-d");
+            }
+            if(is_null($attributes['act_end_time'])) {
+                $attributes['act_end_time'] = date("Y-m-d", strtotime("+1 month"));
+            }
             $activitySrv -> fill($attributes) -> save();
-
             return $this -> _sendJsonResponse("创建成功",['insertId' => $activitySrv -> getAttribute("id")]);
         }
 
@@ -49,7 +81,6 @@ class CommonActController extends BaseController
         if(!$activityRepo) {
             return $this -> _sendJsonResponse('活动不存在', null, false);
         }
-
         $industryRepo = (new IndustryService()) -> all() -> toArray();
 
         return $this -> _sendViewResponse('modify', ['actRepo' => $activityRepo, 'industries' => $industryRepo]);
@@ -69,7 +100,47 @@ class CommonActController extends BaseController
         if(!$activityRepo) {
             return $this -> _sendJsonResponse('活动不存在', null, false);
         }
-        $activityRepo -> fill($request -> all()) -> save();
+
+        $this -> validate($request, [
+            'title' => 'required',
+            'industry_id' => 'required',
+            'cover_img' => 'required',
+            'banner_img' => 'required',
+            'description' => 'required',
+            'act_rule_cnt' => 'required',
+            'act_rule_decorate' => 'required',
+            'act_rule_keywords' => 'required',
+            'act_rule_desc' => 'required',
+            'act_prize_decorate' => 'required',
+            'act_prize_cnt' => 'required',
+            'act_prize_unit' => 'required',
+            'act_prize_name' => 'required',
+            'act_prize_desc' => 'required',
+        ], [
+            'title.required' => '活动标题不能为空',
+            'industry_id.required' => '所属行业不能为空',
+            'cover_img.required' => '封面图片不能为空',
+            'banner_img.required' => '活动背景图片不能为空',
+            'description.required' => '活动描述不能为空',
+            'act_rule_cnt.required' => '请填写完整参与规则',
+            'act_rule_decorate.required' => '请填写完整参与规则',
+            'act_rule_keywords.required' => '请填写完整参与规则',
+            'act_rule_desc.required' => '请填写规则描述',
+            'act_prize_decorate.required' => '请填写完成奖品信息',
+            'act_prize_cnt.required' => '请填写奖品数量',
+            'act_prize_unit.required' => '请填写奖品单位',
+            'act_prize_name.required' => '请填写奖品名称',
+            'act_prize_desc.required' => '请填写奖品描述',
+        ]);
+
+        $attributes =  $request -> all();
+        if(is_null($attributes['act_start_time'])) {
+            $attributes['act_start_time'] = date("Y-m-d");
+        }
+        if(is_null($attributes['act_end_time'])) {
+            $attributes['act_end_time'] = date("Y-m-d", strtotime("+1 month"));
+        }
+        $activityRepo -> fill($attributes) -> save();
         return $this -> _sendJsonResponse('修改成功', $activityRepo);
     }
 
