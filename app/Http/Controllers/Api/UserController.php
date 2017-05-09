@@ -45,6 +45,7 @@ class UserController extends BaseController
         $merchantRepo = new MerchantService();
         $merchantRepo = $merchantRepo -> where(["phone" => $mobile, 'openid' => $openid]) -> first();
         if(!$merchantRepo) {
+            $merchantRepo = new MerchantService();
             $merchantRepo = $merchantRepo -> where(['phone' => $mobile]) -> first();
             if(!$merchantRepo) {
                 return $this -> _sendJsonResponse('用户不存在', null, false);
