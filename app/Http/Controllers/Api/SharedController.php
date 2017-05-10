@@ -29,6 +29,7 @@ class SharedController extends BaseController
     public function getActRank(Request $request, $id)
     {
         $pageSize = $request -> input("pageSize");
+        $pageSize = 1000;
         $actRankRepo = new ActivityRankService();
         $resultSet = $actRankRepo -> where("act_id", "=", $id)
             -> orderBy("join_cnt", 'desc') -> orderBy("id", 'desc')
