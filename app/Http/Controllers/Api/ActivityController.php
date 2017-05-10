@@ -89,6 +89,8 @@ class ActivityController extends BaseController
      */
     public function getActRank(Request $request)
     {
+        $pageSize = $request -> input('pageSize');
+        $pageSize = 1000;
         $this -> validate($request, [
             'actId' => 'required',
         ], [
@@ -98,7 +100,6 @@ class ActivityController extends BaseController
         $session = $request -> getSession();
         $userInfo = $session -> get('_userinfo');
 
-        $pageSize = $request -> input('pageSize');
         $actId = $request -> input('actId');
 
         $resultSet = (new ActivityRankService()) -> where([
