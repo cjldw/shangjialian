@@ -133,7 +133,7 @@
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="number" type="text" name="title"
-                                           class="optional form-control col-md-7 col-xs-12" placeholder="活动标题">
+                                           class="optional form-control col-md-7 col-xs-12" placeholder="填写活动标题">
                                 </div>
                             </div>
 
@@ -172,7 +172,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 规则描述 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <textarea id="textarea" required="required" placeholder="" name="act_rule_desc" class="form-control col-md-7 col-xs-12"></textarea>
+                                    <textarea id="textarea" required="required" placeholder="填写活动规则" name="act_rule_desc" class="form-control col-md-7 col-xs-12"></textarea>
                                     <p>例如</p>
                                     <p> 1. 参与活动前，请详细阅读活动规则及相关条款。凡参与本次活动，则视为同意活动内容及免责声明条款。 </p>
                                     <p> 2. 如遇不可抗力因素，本次活动因故无法进行时，活动主办方在法律允许的范围内有权决定取消、终止、修改或暂停本活动。 </p>
@@ -200,7 +200,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 奖品名称 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" name="act_prize_name" class="form-control col-md-2 col-xs-12" placeholder="奖品名称"/>
+                                    <input type="text" name="act_prize_name" class="form-control col-md-2 col-xs-12" placeholder="填写奖品名称"/>
                                 </div>
                             </div>
 
@@ -208,7 +208,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 奖品描述 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <textarea id="textarea" required="required"
+                                    <textarea id="textarea" required="required" placeholder="填写事例奖品描述"
                                               name="act_prize_desc" class="form-control col-md-7 col-xs-12"></textarea>
                                 </div>
                             </div>
@@ -222,19 +222,17 @@
                             </div> -->
 
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方姓名 <span class="required">*</span>
-                                </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方姓名 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="occupation" type="text" name="organizer_name"
+                                    <input id="occupation" type="text" name="organizer_name" placeholder="可不填, 或填写商家恋主办方"
                                            class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
 
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方地址 <span class="required">*</span>
-                                </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方地址 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="occupation" type="text" name="organizer_address"
+                                    <input id="occupation" type="text" name="organizer_address" placeholder="可不填, 或填写商家恋地址"
                                            class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
@@ -242,43 +240,39 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation"> 主办方电话 <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="occupation" type="text" name="organizer_phone"
+                                    <input id="occupation" type="text" name="organizer_phone" placeholder="可不填, 或填写商家恋客服电话"
                                            class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
 
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">关于我们 <span class="required">*</span>
-                                </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">关于我们 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <textarea required="required"
+                                    <textarea required="required" placeholder="可不填, 或填写商家恋介绍"
                                               name="about_us" class="form-control col-md-7 col-xs-12"></textarea>
                                 </div>
                             </div>
 
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">视频地址 <span class="required">*</span>
-                                </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">视频地址 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="occupation" type="text" name="video_url"
+                                    <input id="occupation" type="text" name="video_url" placeholder="可不填, 填写请填写正确的url地址"
                                            class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
 
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">外链名称 <span class="required">*</span>
-                                </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">外链名称</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="occupation" type="text" name="link_name"
+                                    <input id="occupation" type="text" name="link_name" placeholder="可不填"
                                            class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
 
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">外链地址 <span class="required">*</span>
-                                </label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">外链地址 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="occupation" type="text" name="link_url"
+                                    <input id="occupation" type="text" name="link_url" placeholder="可不填, 或填写正确的url"
                                            class="optional form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
