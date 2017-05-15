@@ -116,9 +116,10 @@ class MineController extends BaseController
 
         $session = $request -> getSession();
         $userInfo = $session -> get('_userinfo');
+        $merchantId = isset($userInfo['id']) ? $userInfo['id'] : 0;
+
         $mobile = $request -> input('mobile');
         $rankRepo = (new ActivityRankService()) -> where([
-            'merchant_id' => isset($userInfo['id']) ? $userInfo['id'] : 0,
             'phone' => $mobile,
         ]) -> get();
         if($rankRepo -> isEmpty()) {
@@ -126,7 +127,8 @@ class MineController extends BaseController
         }
 
         $actIds = array_column($rankRepo -> toArray(), 'act_id');
-        $activityRepo = (new MerchantActsService()) -> whereIn('id', $actIds) -> get();
+        $activityRepo = (new MerchantActsService()) -> where('merchant_id', $merchantId)
+            -> whereIn('id', $actIds) -> get();
         return $this -> _sendJsonResponse('请求成功', $activityRepo);
     }
 
