@@ -120,7 +120,8 @@ class UserController extends BaseController
                     'name' => $name,
                     'phone' => $mobile,
                     'password' => md5($code.$password),
-                    'salt' => $code
+                    'salt' => $code,
+                    'created_at' => date('Y-m-d H:i:s'),
                 ]) -> save();
                 $expiredDays = $merchantRepo -> getExpiredDays();
                 $respData = [
